@@ -1,0 +1,86 @@
+/* Apigen theme tokens (light/dark) — semantic CSS variables only */
+/* NOTE: Spacing, radii, shadows, motion, icon sizes, container widths are placeholders — please approve in brand tokens. */
+
+:root {
+  /* Fonts (wired via Next fonts; these are CSS variables holding font-family stacks) */
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+
+  /* Semantic colors — Light mode (from docs/brand/brand-tokens.md) */
+  --bg: #FAFAFA;
+  --fg: #131515;
+  --card: #FFFFFF;
+  --popover: #FFFFFF;
+  --muted: #DEDAD8;
+  --border: #D5CDC7;
+  --ring: #AE5521; /* Copper */
+  --input: #D5CDC7;
+
+  --primary: #1F2726; /* Forest Charcoal */
+  --primary-foreground: #FAFAFA;
+  --secondary: #B2A7A3;
+  --secondary-foreground: #1F2726;
+  --accent: #AE5521; /* Copper */
+  --accent-foreground: #FAFAFA;
+
+  --success: #2E7D32;
+  --warning: #B26A00;
+  --error: #B9382C; /* Brick */
+  --info: #2F5DA0;
+
+  /* Placeholders for additional tokens (pending approval) */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 24px rgba(0,0,0,0.12);
+  --motion-fast: 150ms;
+  --motion-base: 250ms;
+  --motion-slow: 400ms;
+}
+
+.dark {
+  /* Semantic colors — Dark mode */
+  --bg: #131515; /* Ink (near-black) */
+  --fg: #DEDAD8;
+  --card: #1F2726;
+  --popover: #1F2726;
+  --muted: #5F5E5B;
+  --border: #4B4D49;
+  --ring: #CD9A71; /* Warm Tan for focus on dark */
+  --input: #4B4D49;
+
+  --primary: #B2A7A3; /* can switch to #CD9A71 in contexts needing more contrast */
+  --primary-foreground: #1F2726;
+  --secondary: #5F5E5B;
+  --secondary-foreground: #FAFAFA;
+  --accent: #CD9A71;
+  --accent-foreground: #1F2726;
+
+  --success: #6DC28E;
+  --warning: #E0B15B;
+  --error: #E1685B;
+  --info: #7AA7E8;
+}
+
+/* Convenience aliases for Tailwind CSS variables mapping (kept minimal). */
+@layer base {
+  :root {
+    --background: var(--bg);
+    --foreground: var(--fg);
+    --card-foreground: var(--fg);
+    --popover-foreground: var(--fg);
+    --primary-foreground: var(--primary-foreground);
+    --secondary-foreground: var(--secondary-foreground);
+    --accent-foreground: var(--accent-foreground);
+  }
+}
+
+

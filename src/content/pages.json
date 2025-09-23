@@ -1,0 +1,28 @@
+[
+  {
+    "slug": "/",
+    "title": "Home",
+    "seo": {
+      "title": "Home",
+      "description": "Premium quality dried cannabis exporter."
+    },
+    "blocks": [
+      { "type": "Dev.Placeholder", "props": { "title": "Hero placeholder" } }
+    ]
+  },
+  {
+    "slug": "/about",
+    "title": "About",
+    "blocks": [
+      { "type": "Dev.Placeholder", "props": { "title": "About header" } }
+    ]
+  },
+  { "slug": "/brands", "title": "Brands", "blocks": [ { "type": "Dev.Placeholder" } ] },
+  { "slug": "/for-doctors", "title": "For Doctors", "blocks": [ { "type": "Dev.Placeholder" } ] },
+  { "slug": "/for-pharmacists", "title": "For Pharmacists", "blocks": [ { "type": "Dev.Placeholder" } ] },
+  { "slug": "/for-patients", "title": "For Patients", "blocks": [ { "type": "Dev.Placeholder" } ] },
+  { "slug": "/news", "title": "News", "blocks": [ { "type": "Dev.Placeholder" } ] },
+  { "slug": "/contact", "title": "Contact", "blocks": [ { "type": "Dev.Placeholder" } ] }
+]
+
+
