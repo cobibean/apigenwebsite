@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# docs
+docs/client updates
+docs/chat-summaries.md
+docs/ComponentImportGuide.md
+docs/Overview_step-by-step.md
+docs/plans/PRD.md
+docs/plans/buildplan.md
+docs/questions.md
+docs/buildplan.md
+docs/plans/buildplan.md
+docs/plans/PRD.md
+docs/plans/buildplan.md
+docs/plans/buildplan.md
