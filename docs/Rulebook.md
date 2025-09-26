@@ -69,6 +69,25 @@ Purpose: keep this codebase plug-and-play for a future visual editor (Builder.io
 
 ---
 
+## Motion
+
+- **Compositor-only entrances.** Animate only `transform` and `opacity` for appear-on-scroll. Do not animate layout-affecting properties.
+- **Observer-driven triggers.** Use an intersection/viewport trigger for entrances; no scroll handlers or per-frame React updates.
+- **Tokenized defaults.** Motion values (duration, ease, distance, stagger, viewport amount/margin, appearOnce) are defined as design tokens and referenced by components.
+- **Reduced motion.** Respect `prefers-reduced-motion`: default fallback is opacity-only. 
+- **Global kill switch.** When the motion token indicates `none`, motion wrappers must render static output (no transforms, no opacity tweens).
+- **Variant semantics.** Under reduced motion: `fadeUp` drops translate; `scaleIn` drops scale (opacity-only).
+- **Hot paths stay out of React.** Do not pipe per-frame or scroll-driven values through React state/props; use motion values/WAAPI when continuous motion is introduced.
+- **Preview safety.** In editor/preview mode, motion is disabled via an injected flag from the route/adapter; sections do not read `window`.
+- **Renderer opt-outs.** `Header`, `Footer`, and Legal/Compliance blocks are never wrapped by motion (enforced by block type).
+- **Per-block opt-out.** Support `data-motion="off"` as an escape hatch (or a CMS `disabled` prop) to bypass motion without code changes.
+- **Stagger guidance.** Use the modern stagger pattern (delay children). Recommended range: 80–120ms; prefer 80ms for dense UI, 100–120ms for hero/logo walls.
+- **Modern API note.** Use Motion’s current API: `delayChildren: stagger(..)` supersedes `staggerChildren`; use modern imports.
+- **Layout transitions (future).** For reorders/filters, use FLIP/layout transitions; do not rely on React-driven layout changes mid-animation.
+- **Performance hygiene.** Use `will-change` sparingly and only during active animations; lazy-load heavy blocks; ensure sized media to avoid CLS.
+
+---
+
 ## Definition of Done (DoD)
 
 **Component DoD**  
