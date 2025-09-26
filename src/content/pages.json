@@ -7,7 +7,33 @@
       "description": "Premium quality dried cannabis exporter."
     },
     "blocks": [
-      { "type": "Dev.Placeholder", "props": { "title": "Hero placeholder" } }
+      { "type": "Hero", "props": { "eyebrow": "Apigen", "title": "Premium dried cannabis, exported consistently.", "copy": "Ethical, compliant, patient-first.", "imageUrl": "/vercel.svg", "imageAlt": "" } },
+      { "type": "LogoCloud", "props": { "title": "Trusted by", "logos": [ { "src": "/vercel.svg", "alt": "Vercel" }, { "src": "/next.svg", "alt": "Next.js" } ] } },
+      { "type": "FeatureGrid", "props": { "title": "What sets us apart", "features": [ { "title": "Consistency", "body": "Batch-to-batch quality and potency." }, { "title": "Compliance", "body": "Licenses and GMP-ready processes." }, { "title": "Care", "body": "Patient-first partnerships." } ], "columns": 3 } },
+      { "type": "Stats", "props": { "title": "By the numbers", "items": [ { "label": "SKUs", "value": "24" }, { "label": "Markets", "value": "6" }, { "label": "COAs", "value": "100%" } ] } },
+      { "type": "BrandGrid", "props": { "title": "Our brands", "brands": [ { "name": "Brand A", "logo": "/vercel.svg" }, { "name": "Brand B", "logo": "/next.svg" }, { "name": "Brand C", "logo": "/window.svg" } ] } },
+      {
+        "type": "Journey",
+        "props": {
+          "eyebrow": "Our Journey",
+          "title": "From seed to shipment",
+          "copy": "A consistent, compliant path to premium product.",
+          "ctaLabel": "Talk to sales",
+          "ctaHref": "/contact",
+          "items": [
+            { "title": "Cultivation", "href": "/contact" },
+            { "title": "Processing", "href": "/contact" },
+            { "title": "Quality", "href": "/contact" },
+            { "title": "Export", "href": "/contact" }
+          ]
+        },
+        "variant": "row-4"
+      },
+      { "type": "NewsList", "props": { "title": "News", "items": [ { "title": "Launch update", "date": "2025-09-01", "href": "/news" }, { "title": "Quality milestone", "date": "2025-08-15", "href": "/news" } ] } },
+      { "type": "DocList", "props": { "title": "Documents", "items": [ { "label": "COA template (PDF)", "href": "/docs/coa.pdf" }, { "label": "Quality policy (PDF)", "href": "/docs/quality.pdf" } ] } },
+      { "type": "CTA", "props": { "title": "Ready to talk?", "copy": "Let’s discuss your needs and timelines.", "label": "Get in touch", "href": "/contact" } },
+      { "type": "Disclaimer", "props": { "text": "For medical professionals and licensed partners. Not intended for the public." } },
+      { "type": "Footer", "props": { "copyright": "© Apigen", "links": [ { "label": "Privacy", "href": "/privacy" }, { "label": "Contact", "href": "/contact" } ] } }
     ]
   },
   {

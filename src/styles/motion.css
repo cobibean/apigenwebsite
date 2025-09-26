@@ -1,0 +1,15 @@
+/* Motion primitives — respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms !important;
+    --motion-base: 0ms !important;
+    --motion-slow: 0ms !important;
+  }
+}
+
+/* Utility classes (optional) */
+.will-fade {
+  will-change: opacity, transform;
+}
+
+

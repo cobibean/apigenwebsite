@@ -7,7 +7,7 @@ type Props = Omit<ImageProps, "src" | "alt"> & {
 
 export default function AppImage({ src, alt, width, height, sizes, ...rest }: Props) {
   const isAbsolute = /^https?:\/\//.test(src);
-  if (!alt) {
+  if (alt === undefined || alt === null) {
     throw new Error("AppImage requires alt text");
   }
   if (!width || !height) {

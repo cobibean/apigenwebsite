@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { slug?: string[] } }) 
   const preview = (await draftMode()).isEnabled;
   const page = await localContentSource.getPage(slug, { preview });
   if (!page) return notFound();
-  return <RenderBlocks blocks={page.blocks} />;
+  return <RenderBlocks blocks={page.blocks} preview={preview} />;
 }
 
 

@@ -6,10 +6,12 @@ import { getBlock } from "@/lib/registry";
 
 type Props = {
   blocks: Block[];
+  preview?: boolean;
 };
 
-export default function RenderBlocks({ blocks }: Props) {
+export default function RenderBlocks({ blocks, preview }: Props) {
   const prefersReducedMotion = useReducedMotion();
+  const disableMotion = preview || prefersReducedMotion;
   return (
     <LazyMotion features={domAnimation} strict>
       {blocks?.map((block, index) => {
@@ -22,8 +24,8 @@ export default function RenderBlocks({ blocks }: Props) {
               data-block={block.type}
               data-variant={variant || ""}
               aria-live="polite"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-              whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={disableMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={disableMotion ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               style={{
@@ -42,14 +44,14 @@ export default function RenderBlocks({ blocks }: Props) {
             key={index}
             data-block={block.type}
             data-variant={variant || ""}
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-            whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={disableMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={disableMotion ? {} : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
             {element}
             {Array.isArray(block.children) && block.children.length > 0 && (
-              <RenderBlocks blocks={block.children} />
+              <RenderBlocks blocks={block.children} preview={preview} />
             )}
           </m.div>
         );
