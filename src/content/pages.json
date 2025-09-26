@@ -32,23 +32,44 @@
       { "type": "NewsList", "props": { "title": "News", "items": [ { "title": "Launch update", "date": "2025-09-01", "href": "/news" }, { "title": "Quality milestone", "date": "2025-08-15", "href": "/news" } ] } },
       { "type": "DocList", "props": { "title": "Documents", "items": [ { "label": "COA template (PDF)", "href": "/docs/coa.pdf" }, { "label": "Quality policy (PDF)", "href": "/docs/quality.pdf" } ] } },
       { "type": "CTA", "props": { "title": "Ready to talk?", "copy": "Let’s discuss your needs and timelines.", "label": "Get in touch", "href": "/contact" } },
-      { "type": "Disclaimer", "props": { "text": "For medical professionals and licensed partners. Not intended for the public." } },
-      { "type": "Footer", "props": { "copyright": "© Apigen", "links": [ { "label": "Privacy", "href": "/privacy" }, { "label": "Contact", "href": "/contact" } ] } }
+      { "type": "Disclaimer", "props": { "text": "For medical professionals and licensed partners. Not intended for the public." } }
     ]
   },
   {
     "slug": "/about",
     "title": "About",
+    "seo": { "title": "About Apigen", "description": "Who we are and how we work." },
     "blocks": [
-      { "type": "Dev.Placeholder", "props": { "title": "About header" } }
+      { "type": "Hero", "props": { "eyebrow": "About", "title": "Patient-first, compliance-led.", "copy": "We export premium dried cannabis through consistent, ethical practices.", "imageAlt": "" } },
+      { "type": "FeatureGrid", "props": { "title": "Principles", "features": [ { "title": "Quality", "body": "GMP-ready protocols." }, { "title": "Consistency", "body": "Tight tolerances across batches." }, { "title": "Compliance", "body": "Licenses and traceability." } ], "columns": 3 } },
+      { "type": "CTA", "props": { "title": "Partner with us", "copy": "Let’s discuss your markets and timelines.", "label": "Contact", "href": "/contact" } }
     ]
   },
-  { "slug": "/brands", "title": "Brands", "blocks": [ { "type": "Dev.Placeholder" } ] },
-  { "slug": "/for-doctors", "title": "For Doctors", "blocks": [ { "type": "Dev.Placeholder" } ] },
-  { "slug": "/for-pharmacists", "title": "For Pharmacists", "blocks": [ { "type": "Dev.Placeholder" } ] },
-  { "slug": "/for-patients", "title": "For Patients", "blocks": [ { "type": "Dev.Placeholder" } ] },
-  { "slug": "/news", "title": "News", "blocks": [ { "type": "Dev.Placeholder" } ] },
-  { "slug": "/contact", "title": "Contact", "blocks": [ { "type": "Dev.Placeholder" } ] }
+  { "slug": "/brands", "title": "Brands", "blocks": [
+    { "type": "BrandGrid", "props": { "title": "Our brands", "brands": [ { "name": "Brand A", "logo": "/vercel.svg", "href": "/contact" }, { "name": "Brand B", "logo": "/next.svg", "href": "/contact" }, { "name": "Brand C", "logo": "/window.svg", "href": "/contact" } ] } },
+    { "type": "CTA", "props": { "title": "Looking for distribution?", "copy": "We’re expanding into new markets.", "label": "Get in touch", "href": "/contact" } }
+  ] },
+  { "slug": "/for-doctors", "title": "For Doctors", "blocks": [
+    { "type": "Hero", "props": { "eyebrow": "For Doctors", "title": "Consistent products for predictable outcomes.", "copy": "Certificates of Analysis available for every batch.", "imageAlt": "" } },
+    { "type": "DocList", "props": { "title": "Documents", "items": [ { "label": "COA template (PDF)", "href": "/docs/coa.pdf" }, { "label": "Quality policy (PDF)", "href": "/docs/quality.pdf" } ] } },
+    { "type": "CTA", "props": { "title": "Have prescribing questions?", "copy": "Our team can help.", "label": "Contact Medical", "href": "/contact" } }
+  ] },
+  { "slug": "/for-pharmacists", "title": "For Pharmacists", "blocks": [
+    { "type": "Hero", "props": { "eyebrow": "For Pharmacists", "title": "Reliable supply, clear labeling.", "copy": "Batch consistency and logistics you can trust.", "imageAlt": "" } },
+    { "type": "FeatureGrid", "props": { "title": "Support", "features": [ { "title": "Supply", "body": "Reliable deliveries." }, { "title": "Docs", "body": "Up-to-date paperwork." }, { "title": "Service", "body": "Responsive team." } ], "columns": 3 } },
+    { "type": "CTA", "props": { "title": "Need to place an order?", "copy": "We’ll coordinate timelines.", "label": "Contact Logistics", "href": "/contact" } }
+  ] },
+  { "slug": "/for-patients", "title": "For Patients", "blocks": [
+    { "type": "Hero", "props": { "eyebrow": "For Patients", "title": "Quality that puts patients first.", "copy": "Ask your doctor or pharmacist about Apigen products.", "imageAlt": "" } },
+    { "type": "CTA", "props": { "title": "Need assistance?", "copy": "We can help connect you with providers.", "label": "Contact", "href": "/contact" } }
+  ] },
+  { "slug": "/news", "title": "News", "blocks": [
+    { "type": "NewsList", "props": { "title": "Latest news", "items": [ { "title": "Launch update", "date": "2025-09-01", "href": "/news" }, { "title": "Quality milestone", "date": "2025-08-15", "href": "/news" } ] } }
+  ] },
+  { "slug": "/contact", "title": "Contact", "blocks": [
+    { "type": "Hero", "props": { "eyebrow": "Contact", "title": "Let’s talk.", "copy": "Tell us about your market and timelines.", "imageAlt": "" } },
+    { "type": "CTA", "props": { "title": "Ready to talk?", "copy": "Our team will get back within 1–2 business days.", "label": "Email us", "href": "mailto:hello@example.com" } }
+  ] }
 ]
 
 

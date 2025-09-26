@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: any) {
   const preview = (await draftMode()).isEnabled;
   const page = await localContentSource.getPage(slug, { preview });
   if (!page) return {};
-  return buildMetadata(page);
+  const slugPath = "/" + slug.join("/");
+  return buildMetadata(page, { slugPath, preview });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

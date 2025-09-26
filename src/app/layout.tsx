@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Open_Sans, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
+import Header from "@/components/navigation/Header";
+import Footer from "@/sections/Footer";
+import localContentSource from "@/providers/local";
+import { SITE_NAME, SITE_URL } from "@/config/site";
 import "./globals.css";
 
 // Load fonts and map to CSS variables defined in theme.css
@@ -9,19 +13,35 @@ const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], var
 const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: ["400"], variable: "--font-serif", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Apigen",
+  title: SITE_NAME,
   description: "Premium quality dried cannabis exporter. Consistent, ethical, patient-first.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const menu = await localContentSource.getMenu();
   return (
     <html lang="en">
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
-        {children}
+        <Header />
+        <main className="pt-28 md:pt-32">{children}</main>
+        <Footer links={menu} />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: SITE_NAME,
+              url: SITE_URL,
+              logo: `${SITE_URL}/brand/logo.png`,
+            }),
+          }}
+        />
       </body>
     </html>
   );
