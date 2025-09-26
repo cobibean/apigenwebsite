@@ -4,7 +4,7 @@ import Appear from "@/components/motion/Appear";
 import AppearStack from "@/components/motion/AppearStack";
 import AppLink from "@/components/AppLink";
 import AppImage from "@/components/AppImage";
-import { trackEvent } from "@/lib/utils";
+import styles from "./JourneyRow.module.css";
 
 export type JourneyItem = {
   title: string;
@@ -42,7 +42,7 @@ export default function JourneyRow({
 }: Props) {
   return (
     <section data-block="Journey" data-variant="row-4" className="mx-auto w-full max-w-6xl px-4 py-16">
-      <Appear as="div" preview={preview} className="mb-8">
+      <Appear preview={preview} className="mb-8">
         <div className="text-sm text-[var(--secondary-foreground)]">{eyebrow}</div>
         <h2 className="mt-2 text-3xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-sans)" }}>
           {title}
@@ -50,22 +50,41 @@ export default function JourneyRow({
         <p className="mt-2 max-w-2xl text-[var(--secondary-foreground)]">{copy}</p>
       </Appear>
 
-      <AppearStack as="div" preview={preview} className="grid grid-cols-1 gap-4 md:grid-cols-4">
+      <AppearStack preview={preview} className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {items.slice(0, 4).map((item, index) => (
           <AppLink
             key={index}
             href={item.href || "/contact"}
-            className="group relative block overflow-hidden rounded-md border"
-            data-item-index={index}
+            className={`group relative block border ${styles.card}`}
+            data-item-index={index + 1}
             aria-label={`${item.title} — Get in Touch`}
-            onMouseEnter={() => trackEvent({ name: "journey_card_hover", payload: { index, title: item.title } })}
-            onFocus={() => trackEvent({ name: "journey_card_hover", payload: { index, title: item.title } })}
-            onClick={() => trackEvent({ name: "journey_card_click", payload: { index, title: item.title, href: item.href || "/contact" } })}
+            onPointerEnter={(e) => {
+              const target = e.currentTarget as HTMLElement;
+              const rect = target.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              const fromLeft = x < rect.width - x && x < y && x < rect.height - y;
+              const fromRight = rect.width - x < x && rect.width - x < y && rect.width - x < rect.height - y;
+              const fromTop = y < x && y < rect.width - x && y < rect.height - y;
+              const dir = fromLeft ? "left" : fromRight ? "right" : fromTop ? "top" : "bottom";
+              target.setAttribute("data-dir", dir);
+              target.setAttribute("data-hovered", "true");
+            }}
+            onPointerLeave={(e) => {
+              const target = e.currentTarget as HTMLElement;
+              target.setAttribute("data-hovered", "false");
+            }}
+            onFocus={(e) => {
+              const target = e.currentTarget as HTMLElement;
+              target.setAttribute("data-dir", "bottom");
+              target.setAttribute("data-hovered", "true");
+            }}
+            onBlur={(e) => {
+              const target = e.currentTarget as HTMLElement;
+              target.setAttribute("data-hovered", "false");
+            }}
           >
-            <div
-              className="relative w-full"
-              style={{ aspectRatio: "3 / 2" }}
-            >
+            <div className={styles.media}>
               {item.imageUrl ? (
                 <AppImage
                   src={item.imageUrl}
@@ -86,17 +105,11 @@ export default function JourneyRow({
                   }}
                 />
               )}
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, color-mix(in oklab, black 60%, transparent) 0%, transparent 60%)",
-                }}
-              />
+              <div className={`${styles.overlay} fromBottom`} />
               <div className="absolute inset-x-0 bottom-0 p-4 text-white">
                 <h3 className="text-lg font-medium">{item.title}</h3>
                 {item.description && (
-                  <p className="mt-1 text-sm opacity-90">{item.description}</p>
+                  <p className={`mt-1 text-sm opacity-90 ${styles.desc}`}>{item.description}</p>
                 )}
               </div>
             </div>
@@ -104,11 +117,10 @@ export default function JourneyRow({
         ))}
       </AppearStack>
 
-      <Appear as="div" preview={preview} className="mt-8">
+      <Appear preview={preview} className="mt-8">
         <AppLink
           href={ctaHref}
           className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-4 py-2 text-[var(--accent-foreground)] shadow-sm transition-colors hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
-          onClick={() => trackEvent({ name: "journey_cta_click", payload: { location: "journey_footer", label: ctaLabel, href: ctaHref } })}
         >
           {ctaLabel}
         </AppLink>

@@ -3,7 +3,6 @@ import React from "react";
 import { m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 
 type Props = {
-  as?: keyof JSX.IntrinsicElements;
   children: React.ReactNode;
   className?: string;
   delay?: number;
@@ -13,7 +12,6 @@ type Props = {
 };
 
 export default function Appear({
-  as = "div",
   children,
   className,
   delay = 0,
@@ -21,20 +19,20 @@ export default function Appear({
   y = 16,
   preview,
 }: Props) {
-  const Tag: any = m[as as any] ?? m.div;
   const prefersReducedMotion = useReducedMotion();
-  const disable = preview || prefersReducedMotion;
+  const reduced = !!prefersReducedMotion;
+  const disabled = !!preview;
   return (
     <LazyMotion features={domAnimation} strict>
-      <Tag
+      <m.div
         className={className}
-        initial={disable ? false : { opacity: 0, y }}
-        whileInView={disable ? {} : { opacity: 1, y: 0 }}
+        initial={disabled ? false : reduced ? { opacity: 0 } : { opacity: 0, y }}
+        whileInView={disabled ? {} : reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
         transition={{ duration, delay, ease: "easeOut" }}
       >
         {children}
-      </Tag>
+      </m.div>
     </LazyMotion>
   );
 }

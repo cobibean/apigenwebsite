@@ -21,7 +21,7 @@ export function renderRichText(provider: Provider, data: RichTextNode) {
     default:
       // Safe fallback for Local JSON (e.g., array of paragraphs)
       if (Array.isArray(data)) {
-        return (data as any[]).map((p, i) => <p key={i}>{String(p)}</p>);
+        return (data as unknown as Array<unknown>).map((p, i) => <p key={i}>{String(p)}</p>);
       }
       return null;
   }

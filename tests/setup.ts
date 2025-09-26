@@ -2,8 +2,8 @@ import "@testing-library/jest-dom/vitest";
 
 // Polyfill matchMedia for useReducedMotion
 if (!window.matchMedia) {
-  // @ts-ignore
-  window.matchMedia = () => ({
+  // Casting shim for jsdom
+  (window as unknown as { matchMedia: () => MediaQueryList }).matchMedia = () => ({
     matches: false,
     media: "",
     onchange: null,
@@ -17,7 +17,8 @@ if (!window.matchMedia) {
 
 // Polyfill IntersectionObserver used by framer-motion viewport
 if (!("IntersectionObserver" in window)) {
-  // @ts-ignore
+  // Casting shim for jsdom
+  // @ts-expect-error jsdom shim
   window.IntersectionObserver = class {
     constructor() {}
     observe() {}

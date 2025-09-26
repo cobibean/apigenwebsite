@@ -6,7 +6,8 @@ import { buildMetadata } from "@/lib/seo";
 
 export const revalidate = 60; // ISR default for live
 
-export async function generateMetadata({ params }: { params: { slug?: string[] } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function generateMetadata({ params }: any) {
   const slug = params.slug ?? [];
   const preview = (await draftMode()).isEnabled;
   const page = await localContentSource.getPage(slug, { preview });
@@ -14,8 +15,9 @@ export async function generateMetadata({ params }: { params: { slug?: string[] }
   return buildMetadata(page);
 }
 
-export default async function Page({ params }: { params: { slug?: string[] } }) {
-  const slug = params.slug ?? [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function Page({ params }: any) {
+  const slug = params?.slug ?? [];
   const preview = (await draftMode()).isEnabled;
   const page = await localContentSource.getPage(slug, { preview });
   if (!page) return notFound();

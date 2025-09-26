@@ -45,19 +45,16 @@ registerBlock("Dev.Placeholder", ({ children, ...props }) => {
 });
 
 // Journey section
-registerBlock("Journey", (props) => {
-  return <JourneyRow {...(props as any)} />;
-});
-
-registerBlock("Hero", (props) => <Hero {...(props as any)} />);
-registerBlock("LogoCloud", (props) => <LogoCloud {...(props as any)} />);
-registerBlock("FeatureGrid", (props) => <FeatureGrid {...(props as any)} />);
-registerBlock("Stats", (props) => <Stats {...(props as any)} />);
-registerBlock("BrandGrid", (props) => <BrandGrid {...(props as any)} />);
-registerBlock("CTA", (props) => <CTA {...(props as any)} />);
-registerBlock("NewsList", (props) => <NewsList {...(props as any)} />);
-registerBlock("DocList", (props) => <DocList {...(props as any)} />);
-registerBlock("Disclaimer", (props) => <Disclaimer {...(props as any)} />);
-registerBlock("Footer", (props) => <Footer {...(props as any)} />);
+registerBlock("Journey", (props) => <JourneyRow {...(props as Record<string, unknown>)} />);
+registerBlock("Hero", (props) => <Hero {...(props as Record<string, unknown>)} />);
+registerBlock("LogoCloud", (props) => <LogoCloud {...(props as Record<string, unknown>)} />);
+registerBlock("FeatureGrid", (props) => <FeatureGrid {...(props as Record<string, unknown>)} />);
+registerBlock("Stats", (props) => <Stats {...(props as Record<string, unknown>)} />);
+registerBlock("BrandGrid", (props) => <BrandGrid {...(props as Record<string, unknown>)} />);
+registerBlock("CTA", (props) => <CTA {...(props as Record<string, unknown>)} />);
+registerBlock("NewsList", (props) => <NewsList {...(props as Record<string, unknown>)} />);
+registerBlock("DocList", (props) => <DocList {...(props as Record<string, unknown>)} />);
+registerBlock("Disclaimer", (props) => <Disclaimer {...(props as Record<string, unknown>)} />);
+registerBlock("Footer", (props) => <Footer {...(props as Record<string, unknown>)} />);
 
 

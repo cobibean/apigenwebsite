@@ -7,8 +7,8 @@ describe("RenderBlocks smoke", () => {
     const blocks = [
       { type: "Dev.Placeholder", props: { title: "Hero placeholder" } },
       { type: "Unknown.Block", props: { foo: "bar" } },
-    ];
-    render(<RenderBlocks blocks={blocks as any} preview={true} />);
+    ] as unknown as Array<{ type: string; props?: Record<string, unknown> }>;
+    render(<RenderBlocks blocks={blocks} preview={true} />);
 
     // The Dev.Placeholder renders a <pre> with props JSON
     expect(screen.getByText(/Hero placeholder/)).toBeInTheDocument();

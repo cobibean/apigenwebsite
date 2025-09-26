@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import path from "path";
 
 export default defineConfig({
-  css: { postcss: null },
+  css: { postcss: undefined as unknown as string },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),

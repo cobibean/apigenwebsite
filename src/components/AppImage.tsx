@@ -6,7 +6,6 @@ type Props = Omit<ImageProps, "src" | "alt"> & {
 };
 
 export default function AppImage({ src, alt, width, height, sizes, ...rest }: Props) {
-  const isAbsolute = /^https?:\/\//.test(src);
   if (alt === undefined || alt === null) {
     throw new Error("AppImage requires alt text");
   }
@@ -17,7 +16,9 @@ export default function AppImage({ src, alt, width, height, sizes, ...rest }: Pr
     }
   }
   // For absolute URLs, just pass through; Next/Image supports remote patterns via config if needed.
-  return <Image src={src} alt={alt} width={width as any} height={height as any} sizes={sizes} {...(rest as any)} />;
+  return (
+    <Image src={src} alt={alt} width={width} height={height} sizes={sizes} {...rest} />
+  );
 }
 
 
