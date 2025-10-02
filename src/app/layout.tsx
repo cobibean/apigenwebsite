@@ -27,7 +27,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
         <Header />
-        <main className="pt-28 md:pt-32">{children}</main>
+        <main className="pt-0">{children}</main>
         <Footer links={menu} />
         <script
           type="application/ld+json"

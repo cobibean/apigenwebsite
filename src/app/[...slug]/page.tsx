@@ -8,7 +8,8 @@ export const revalidate = 60; // ISR default for live
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function generateMetadata({ params }: any) {
-  const slug = params.slug ?? [];
+  const p = await params;
+  const slug = p?.slug ?? [];
   const preview = (await draftMode()).isEnabled;
   const page = await localContentSource.getPage(slug, { preview });
   if (!page) return {};
@@ -18,7 +19,8 @@ export async function generateMetadata({ params }: any) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function Page({ params }: any) {
-  const slug = params?.slug ?? [];
+  const p = await params;
+  const slug = p?.slug ?? [];
   const preview = (await draftMode()).isEnabled;
   const page = await localContentSource.getPage(slug, { preview });
   if (!page) return notFound();

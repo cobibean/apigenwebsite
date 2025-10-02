@@ -7,10 +7,7 @@ const config: StorybookConfig = {
     options: {},
   },
   stories: ["../src/**/*.stories.@(ts|tsx)"],
-  addons: [
-    "@storybook/addon-essentials",
-    "@storybook/addon-a11y",
-  ],
+  addons: ["@storybook/addon-a11y", "@storybook/addon-docs"],
   viteFinal: async (config) => {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
@@ -19,6 +16,12 @@ const config: StorybookConfig = {
       "next/image": path.resolve(__dirname, "./next-image-stub.tsx"),
       "next/link": path.resolve(__dirname, "./next-link-stub.tsx"),
     };
+    // Use automatic JSX runtime to avoid needing global React in SB
+    config.esbuild = {
+      ...(config as any).esbuild,
+      jsx: "automatic",
+      jsxImportSource: "react",
+    } as any;
     return config;
   },
 };

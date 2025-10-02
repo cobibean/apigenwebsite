@@ -65,6 +65,7 @@ alwaysApply: true
   - In sections/**: import from CMS/editor link components (e.g., @storyblok/*, @builder.io/*, @plasmicapp/*) → fail.
 - Components missing sensible defaults for public props.
 - Components that render without alt/dimensions for images.
+ - Visual components without a corresponding `.stories.tsx` in these dirs: `src/sections/**`, `src/components/navigation/**`, `src/components/ui/**`.
 
 # Required Files/Concepts (Warn if missing)
 
@@ -75,7 +76,7 @@ alwaysApply: true
 - Local JSON adapter (development default)
 - `/api/preview` route for draft mode
 - SEO utility that reads from `PageData`
-- Storybook stories for each section (min/typical/max props)
+- Storybook stories for each visual component/section (min/typical/max; add reduced‑motion where relevant). Visual dirs: `src/sections/**`, `src/components/navigation/**`, `src/components/ui/**`
 - One renderer test using a sample page JSON
 
 # Quick Page Review Checklist

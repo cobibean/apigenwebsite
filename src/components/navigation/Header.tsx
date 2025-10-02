@@ -5,50 +5,76 @@ import { Logo } from "@/components/navigation/Logo";
 import { NavLink } from "@/components/navigation/NavLink";
 import { MobileDrawer } from "@/components/navigation/MobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
-import { NAV_LINKS, PRIMARY_CTA } from "@/config/nav.config";
 import AppLink from "@/components/AppLink";
 
 type HeaderProps = {
   links?: { label: string; href: string }[];
   cta?: { label: string; href: string };
   logoText?: string;
+  logoImageSrc?: string;
+  showLogoImage?: boolean;
+  activeHref?: string;
   transparentUntilScroll?: boolean;
+  glassOpacity?: number;
+  glassDistort?: boolean;
 };
 
 export default function Header({
-  links = NAV_LINKS,
-  cta = PRIMARY_CTA,
-  logoText = "APIGEN",
+  links = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Brands", href: "/brands" },
+    { label: "Contact", href: "/contact" },
+  ],
+  cta = { label: "Get in touch", href: "/contact" },
+  logoText = "",
+  logoImageSrc = "/hero/logo%20+%20text.png",
+  showLogoImage = true,
+  activeHref,
+  glassOpacity = 0.01,
+  glassDistort = false,
 }: HeaderProps) {
   const scrolled = useScrolled(8);
   const [open, setOpen] = useState(false);
 
   return (
-    <header role="banner" className="fixed top-3 inset-x-0 z-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <GlassEffect className={(scrolled ? " shadow-lg ring-1 ring-black/5 " : "") + " transition-all "}>
-          <nav className={(scrolled ? "h-16" : "h-20") + " flex items-center justify-between gap-4 px-4"} aria-label="Primary">
-            <Logo text={logoText} />
-            <div className="hidden md:flex items-center gap-6">
-              {links.map((l) => (
-                <NavLink key={l.href} href={l.href} label={l.label} />)
-              )}
+    <header role="banner" className="fixed top-0 inset-x-0 z-50 pt-3 supports-[height:100svh]:pt-3">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
+        <GlassEffect backgroundOpacity={glassOpacity} distort={glassDistort} className={(scrolled ? " shadow-lg ring-1 ring-black/5 " : "") + " transition-all "}>
+          <nav className={"relative h-16 md:h-20 grid grid-cols-[auto_1fr_auto] items-center gap-5 px-4 md:px-5"} aria-label="Primary">
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:block">
+                <Logo text={logoText} imageSrc={logoImageSrc} showImage={showLogoImage} />
+              </span>
+              <span className="sm:hidden block">
+                <Logo text="" imageSrc="/hero/transparentlogo.png" showImage={true} />
+              </span>
             </div>
-            <div className="hidden md:block">
-              <AppLink href={cta.href} className="rounded-xl px-4 py-2 text-sm font-semibold bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500">
+            <span className="sm:hidden pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold">APIGEN</span>
+            <div className="hidden md:flex items-center justify-center self-stretch gap-6">
+              {links.map((l) => (
+                <NavLink key={l.href} href={l.href} label={l.label} active={activeHref === l.href} />
+              ))}
+            </div>
+            <div className="hidden md:flex h-full items-center">
+              <AppLink href={cta.href} className="inline-flex items-center justify-center rounded-xl px-3.5 py-1.5 text-sm md:text-base font-semibold bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500">
                 {cta.label}
               </AppLink>
             </div>
-            <div className="md:hidden">
+            <div className="md:hidden justify-self-end">
               <button
                 type="button"
                 aria-label="Open menu"
                 aria-expanded={open}
                 aria-controls="mobile-drawer"
-                className="rounded-md border px-3 py-2 text-sm"
+                className="rounded-md border p-2 text-sm inline-flex items-center justify-center"
                 onClick={() => setOpen(true)}
               >
-                Menu
+                <span className="relative block w-5 h-3">
+                  <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-current"></span>
+                  <span aria-hidden className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-0.5 bg-current"></span>
+                  <span aria-hidden className="absolute inset-x-0 bottom-0 h-0.5 bg-current"></span>
+                </span>
               </button>
             </div>
           </nav>

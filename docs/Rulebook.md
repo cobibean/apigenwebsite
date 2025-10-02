@@ -54,7 +54,9 @@ Purpose: keep this codebase plug-and-play for a future visual editor (Builder.io
    - Use `data-block`/`data-variant` attributes; one tiny event helper.
 
 13) **Testing & Storybook**  
-   - Storybook for each section (min/typical/max props).  
+   - Storybook coverage is required for all visual, user‑facing components and sections (e.g., `src/sections/**`, `src/components/navigation/**`, `src/components/ui/**`).  
+   - Each Storybook entry includes at least three stories: Minimal (fewest props), Typical, and Max (all options). Add a reduced‑motion snapshot when relevant.  
+   - Pure utilities/hooks/types are exempt.  
    - Snapshot/renderer test for `RenderBlocks` with sample page JSON.
 
 14) **Build & Envs**  
