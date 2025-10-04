@@ -11,6 +11,7 @@ import NewsList from "@/sections/NewsList";
 import DocList from "@/sections/DocList";
 import Disclaimer from "@/sections/Disclaimer";
 import Footer from "@/sections/Footer";
+import MissionSection_1 from "@/sections/MissionSection_1";
 
 // Type for a block component: receives props and optional children blocks
 export type BlockComponent = (props: Record<string, unknown> & { children?: Block[] }) => React.ReactNode;
@@ -56,5 +57,6 @@ registerBlock("NewsList", (props) => <NewsList {...(props as Record<string, unkn
 registerBlock("DocList", (props) => <DocList {...(props as Record<string, unknown>)} />);
 registerBlock("Disclaimer", (props) => <Disclaimer {...(props as Record<string, unknown>)} />);
 registerBlock("Footer", (props) => <Footer {...(props as Record<string, unknown>)} />);
+registerBlock("MissionSection_1", (props) => <MissionSection_1 {...(props as Record<string, unknown>)} />);
 
 
