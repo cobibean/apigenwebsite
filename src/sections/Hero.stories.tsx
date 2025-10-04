@@ -14,4 +14,19 @@ export const Minimal: Story = { args: {} };
 export const Typical: Story = { args: { eyebrow: "Apigen", title: "Premium quality", copy: "Ethical, compliant, patient-first." } };
 export const Max: Story = { args: { imageUrl: "/vercel.svg", imageAlt: "" } };
 
+export const WithPairButtons: Story = {
+  args: {
+    ctaLabel: "FOR DOCTORS",
+    secondaryCtas: [
+      { label: "FOR PHARMACISTS", href: "/pharmacists", variant: "brown" },
+    ],
+  },
+};
+
+export const WithSubtitle: Story = {
+  args: {
+    subtitle: "PREMIUM QUALITY DRIED CANNABIS EXPORTER",
+  },
+};
+
 

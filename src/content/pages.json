@@ -7,7 +7,7 @@
       "description": "Premium quality dried cannabis exporter."
     },
     "blocks": [
-      { "type": "Hero", "props": { "eyebrow": "Apigen", "title": "Premium dried cannabis, exported consistently.", "copy": "Ethical, compliant, patient-first.", "imageUrl": "/vercel.svg", "imageAlt": "" } },
+      { "type": "Hero", "props": { "eyebrow": "Apigen", "subtitle": "PREMIUM QUALITY DRIED CANNABIS EXPORTER", "title": "Premium dried cannabis, exported consistently.", "copy": "Ethical, compliant, patient-first.", "wordmarkMaxWidth": "80%", "contentOffsetY": "12px", "subtitleGap": "54px", "ctaGap": "32px", "imageUrl": "/vercel.svg", "imageAlt": "" } },
       { "type": "LogoCloud", "props": { "title": "Trusted by", "logos": [ { "src": "/vercel.svg", "alt": "Vercel" }, { "src": "/next.svg", "alt": "Next.js" } ] } },
       { "type": "FeatureGrid", "props": { "title": "What sets us apart", "features": [ { "title": "Consistency", "body": "Batch-to-batch quality and potency." }, { "title": "Compliance", "body": "Licenses and GMP-ready processes." }, { "title": "Care", "body": "Patient-first partnerships." } ], "columns": 3 } },
       { "type": "Stats", "props": { "title": "By the numbers", "items": [ { "label": "SKUs", "value": "24" }, { "label": "Markets", "value": "6" }, { "label": "COAs", "value": "100%" } ] } },

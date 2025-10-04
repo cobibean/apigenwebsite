@@ -44,6 +44,27 @@
   --motion-fast: 150ms;
   --motion-base: 250ms;
   --motion-slow: 400ms;
+
+  /* Button semantic tokens (light) */
+  /* Brown (Doctors) */
+  --btn-brown: #7A5A36; /* warm brown */
+  --btn-brown-foreground: #FFFFFF;
+  --btn-brown-border: rgba(0,0,0,0.15);
+  /* Link brown hover to brand accent for strong contrast */
+  --btn-brown-hover: var(--accent);
+
+  /* Olive (Pharmacists) */
+  --btn-olive: #5E624C; /* muted olive */
+  --btn-olive-foreground: #FFFFFF;
+  --btn-olive-border: rgba(0,0,0,0.18);
+  /* Olive hover should go copper */
+  --btn-olive-hover: var(--accent);
+
+  /* Neutral/Black (Login) */
+  --btn-neutral: #121212;
+  --btn-neutral-foreground: #FFFFFF;
+  --btn-neutral-border: rgba(255,255,255,0.18);
+  --btn-neutral-hover: #000000;
 }
 
 .dark {
@@ -68,6 +89,22 @@
   --warning: #E0B15B;
   --error: #E1685B;
   --info: #7AA7E8;
+
+  /* Button semantic tokens (dark) */
+  --btn-brown: #6F5436;
+  --btn-brown-foreground: #FFFFFF;
+  --btn-brown-border: rgba(255,255,255,0.12);
+  --btn-brown-hover: var(--accent);
+
+  --btn-olive: #545943;
+  --btn-olive-foreground: #FFFFFF;
+  --btn-olive-border: rgba(255,255,255,0.12);
+  --btn-olive-hover: var(--accent);
+
+  --btn-neutral: #0E0E0E;
+  --btn-neutral-foreground: #FFFFFF;
+  --btn-neutral-border: rgba(255,255,255,0.18);
+  --btn-neutral-hover: #000000;
 }
 
 /* Convenience aliases for Tailwind CSS variables mapping (kept minimal). */

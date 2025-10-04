@@ -207,6 +207,6 @@ Test the following scenarios in DevTools:
 
 ## Related Documentation
 
-📘 **[UI Architecture Guide](./UI-Architecture-Guide.md)** — Complete reference for container/wrapper hierarchy patterns, centering strategies, and common pitfalls across the entire site
+📘 **[UI Layout & Spacing Guide](./UI-Layout-and-Spacing-Guide.md)** — Container/wrapper hierarchy, centering strategies, spacing knobs
 
 

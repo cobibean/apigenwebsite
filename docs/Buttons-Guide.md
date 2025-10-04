@@ -17,6 +17,32 @@ Example (current header CTA)
 </AppLink>
 ```
 
+### Standard brand behavior (editor‑ready)
+
+- Resting: olive green (`--btn-olive`).
+- Hover: copper (`--accent` via `--btn-olive-hover`).
+- Use the `olive` variant for all CTAs (header + sections). Variants map to CSS variables in `src/styles/theme.css`, so editors can retheme without code changes.
+
+### Import anywhere
+
+Add to any section or component:
+
+```tsx
+import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
+
+export function Example() {
+  return (
+    <AppLink href="/contact" className={buttonClass({ variant: "olive", size: "lg" })}>
+      Get in touch
+    </AppLink>
+  );
+}
+```
+
+- Works on `button` elements too: `className={buttonClass({ variant: "neutral" })}`.
+- Keep sections prop-driven; pass labels/hrefs via props.
+
 Global vs individual adjustments
 - Global: extract a shared style into `lib/utils.ts` or a simple `components/ui/Button.tsx` and use everywhere.
   - Example style: `const primaryBtn = "inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold bg-neutral-900 text-white hover:bg-neutral-800"`.
@@ -39,5 +65,32 @@ The quick knobs
 - Motion: keep subtle; respect reduced motion.
 
 That’s it. When you bring the 21st.dev code, I’ll wire it as a drop-in.
+
+## New helper: `buttonClass`
+
+Usage:
+
+```tsx
+import { buttonClass } from "@/lib/utils";
+
+<AppLink href="/contact" className={buttonClass({ variant: "olive", size: "lg" })}>
+  Get in touch
+</AppLink>
+```
+
+- `variant`: `"olive" | "brown" | "neutral"`
+- `size`: `"md" | "lg"`
+- Focus ring uses `--ring`. Colors come from `src/styles/theme.css` button tokens.
+
+Examples for paired CTAs (Hero):
+
+```tsx
+<div className="flex gap-5">
+  <AppLink className={buttonClass({ variant: "olive", size: "lg" })} href="#">FOR DOCTORS</AppLink>
+  <AppLink className={buttonClass({ variant: "brown", size: "lg" })} href="#">FOR PHARMACISTS</AppLink>
+  {/* Or use neutral for Login */}
+  <AppLink className={buttonClass({ variant: "neutral", size: "md" })} href="#">LOGIN</AppLink>
+  </div>
+```
 
 

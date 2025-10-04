@@ -13,4 +13,8 @@ export const Minimal: Story = { args: {} };
 export const Typical: Story = { args: {} };
 export const Max: Story = { args: { title: "Ready to talk?", copy: "Let's discuss.", label: "Contact", href: "/contact" } };
 
+export const Olive: Story = { args: { variant: "olive" } };
+export const Brown: Story = { args: { variant: "brown" } };
+export const Neutral: Story = { args: { variant: "neutral" } };
+
 

@@ -6,6 +6,7 @@ import { NavLink } from "@/components/navigation/NavLink";
 import { MobileDrawer } from "@/components/navigation/MobileDrawer";
 import { useScrolled } from "@/hooks/useScrolled";
 import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
 
 type HeaderProps = {
   links?: { label: string; href: string }[];
@@ -57,7 +58,7 @@ export default function Header({
               ))}
             </div>
             <div className="hidden md:flex h-full items-center">
-              <AppLink href={cta.href} className="inline-flex items-center justify-center rounded-xl px-3.5 py-1.5 text-sm md:text-base font-semibold bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-emerald-600 dark:hover:bg-emerald-500">
+              <AppLink href={cta.href} className={buttonClass({ variant: "olive", size: "md" })}>
                 {cta.label}
               </AppLink>
             </div>

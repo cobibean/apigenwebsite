@@ -2,12 +2,14 @@
 import React from "react";
 import Appear from "@/components/motion/Appear";
 import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
 
 type Props = {
   title?: string;
   copy?: string;
   label?: string;
   href?: string;
+  variant?: "brown" | "olive" | "neutral";
   preview?: boolean;
 };
 
@@ -16,6 +18,7 @@ export default function CTA({
   copy = "Let’s discuss your needs and timelines.",
   label = "Get in touch",
   href = "/contact",
+  variant = "olive",
   preview,
 }: Props) {
   return (
@@ -24,7 +27,7 @@ export default function CTA({
         <h2 className="text-2xl font-semibold" style={{ fontFamily: "var(--font-sans)" }}>{title}</h2>
         <p className="mt-2 max-w-2xl text-[var(--secondary-foreground)]">{copy}</p>
         <div className="mt-6">
-          <AppLink href={href} className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-4 py-2 text-[var(--accent-foreground)] shadow-sm transition-colors hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]">
+          <AppLink href={href} className={buttonClass({ variant, size: "lg" })}>
             {label}
           </AppLink>
         </div>
