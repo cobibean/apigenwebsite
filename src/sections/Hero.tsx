@@ -41,7 +41,7 @@ export default function Hero({
   imageAlt = "",
   videoSrc = "/hero/herovid1.mp4",
   posterSrc,
-  textImageUrl = "/hero/APIGEN hero text.png",
+  textImageUrl = "/hero/herotext/APIGEN_hero_text_COPPER.svg",
   preview,
 }: Props) {
   const [useVideo, setUseVideo] = useState(true);
@@ -114,5 +114,4 @@ export default function Hero({
     </section>
   );
 }
-
 
