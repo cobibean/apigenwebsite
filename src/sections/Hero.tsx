@@ -4,6 +4,7 @@ import Appear from "@/components/motion/Appear";
 import AppLink from "@/components/AppLink";
 import AppImage from "@/components/AppImage";
 import { buttonClass } from "@/lib/utils";
+import HeroWordmarkAnimated from "./HeroWordmarkAnimated";
 
 type Props = {
   eyebrow?: string;
@@ -90,7 +91,11 @@ export default function Hero({
               </div>
             )}
             {textImageUrl ? (
-              <AppImage src={textImageUrl} alt="Apigen hero text" width={1600} height={350} className="w-full h-auto mx-auto" style={{ maxWidth: wordmarkMaxWidth }} />
+              textImageUrl.endsWith(".svg") ? (
+                <HeroWordmarkAnimated src={textImageUrl} alt="Apigen hero text" className="w-full h-auto mx-auto" style={{ maxWidth: wordmarkMaxWidth }} />
+              ) : (
+                <AppImage src={textImageUrl} alt="Apigen hero text" width={1600} height={350} className="w-full h-auto mx-auto" style={{ maxWidth: wordmarkMaxWidth }} />
+              )
             ) : (
               <>
                 <div className="text-sm text-[var(--secondary-foreground)]">{eyebrow}</div>
@@ -114,4 +119,3 @@ export default function Hero({
     </section>
   );
 }
-
