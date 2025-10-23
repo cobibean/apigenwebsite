@@ -42,7 +42,8 @@ export default function Header({
     <header role="banner" className="fixed top-0 inset-x-0 z-50 pt-3 supports-[height:100svh]:pt-3">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         <GlassEffect backgroundOpacity={glassOpacity} distort={glassDistort} className={(scrolled ? " shadow-lg ring-1 ring-black/5 " : "") + " transition-all "}>
-          <nav className={"relative h-16 md:h-20 grid grid-cols-[auto_1fr_auto] items-center gap-5 px-4 md:px-5"} aria-label="Primary">
+          <nav className={"relative h-16 md:h-20 grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-5 px-4 md:px-5"} aria-label="Primary">
+            {/* Logo - Left side */}
             <div className="flex items-center gap-3">
               <span className="hidden sm:block">
                 <Logo text={logoText} imageSrc={logoImageSrc} showImage={showLogoImage} />
@@ -51,18 +52,26 @@ export default function Header({
                 <Logo text="" imageSrc="/hero/transparentlogo.png" showImage={true} />
               </span>
             </div>
-            <span className="sm:hidden pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold">APIGEN</span>
-            <div className="hidden md:flex items-center justify-center self-stretch gap-6">
+            
+            {/* Mobile APIGEN text - Center */}
+            <span className="md:hidden pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold">APIGEN</span>
+            
+            {/* Desktop Navigation - Center column (true centered) */}
+            <div className="hidden md:flex items-center gap-6 justify-self-center">
               {links.map((l) => (
                 <NavLink key={l.href} href={l.href} label={l.label} active={activeHref === l.href} />
               ))}
             </div>
-            <div className="hidden md:flex h-full items-center">
+            
+            {/* Desktop CTA - Right side */}
+            <div className="hidden md:flex h-full items-center justify-self-end">
               <AppLink href={cta.href} className={buttonClass({ variant: "olive", size: "md" })}>
                 {cta.label}
               </AppLink>
             </div>
-            <div className="md:hidden justify-self-end">
+            
+            {/* Mobile Hamburger - Right side */}
+            <div className="md:hidden justify-self-end col-start-3">
               <button
                 type="button"
                 aria-label="Open menu"
@@ -87,5 +96,3 @@ export default function Header({
     </header>
   );
 }
-
-
