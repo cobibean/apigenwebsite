@@ -41,10 +41,12 @@
     "title": "About",
     "seo": { "title": "About Apigen - Rooted in Tradition, Growing the Future", "description": "Discover our century-old agricultural heritage and expertise in premium cannabis cultivation. From legacy growers to modern pioneers." },
     "blocks": [
+      { "type": "Hero", "props": { "variant": "background-only", "videoSrc": "/hero/herovid1.mp4", "posterSrc": "/hero/APIGEN hero text.png" } },
       {
         "type": "AboutStory",
         "props": {
           "title": "Our Story",
+          "transparent": true,
           "cards": [
             {
               "title": "Generations of Farming Heritage",

@@ -6,11 +6,12 @@ interface AboutStoryCard {
 interface AboutStoryProps {
   title: string;
   cards: AboutStoryCard[];
+  transparent?: boolean;
 }
 
-export default function AboutStory({ title, cards }: AboutStoryProps) {
+export default function AboutStory({ title, cards, transparent = false }: AboutStoryProps) {
   return (
-    <section className="relative bg-[var(--bg)] py-8 sm:py-10 md:py-12">
+    <section className={`relative py-8 sm:py-10 md:py-12 ${transparent ? '' : 'bg-[var(--bg)]'}`}>
       <div className="pointer-events-none absolute left-[5%] top-[12%] h-32 w-32 rounded-full bg-[radial-gradient(circle_at_center,_rgba(174,85,33,0.25)_0%,_rgba(250,250,250,0)_70%)] blur-2xl md:left-[8%]"
         aria-hidden="true"
       />

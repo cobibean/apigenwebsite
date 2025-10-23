@@ -22,7 +22,7 @@ export default function CTA({
   preview,
 }: Props) {
   return (
-    <section data-block="CTA" data-variant="default" className="mx-auto w-full max-w-6xl px-4 py-16">
+    <section data-block="CTA" data-variant="default" className="mx-auto w-full max-w-6xl px-4 py-16 bg-transparent">
       <Appear preview={preview}>
         <h2 className="text-2xl font-semibold" style={{ fontFamily: "var(--font-sans)" }}>{title}</h2>
         <p className="mt-2 max-w-2xl text-[var(--secondary-foreground)]">{copy}</p>

@@ -20,7 +20,7 @@ const defaults: Brand[] = [
 
 export default function BrandGrid({ title = "Our brands", brands = defaults, preview }: Props) {
   return (
-    <section data-block="BrandGrid" data-variant="cards" className="mx-auto w-full max-w-6xl px-4 py-12">
+    <section data-block="BrandGrid" data-variant="cards" className="mx-auto w-full max-w-6xl px-4 py-12 bg-transparent">
       <h2 className="mb-6 text-2xl font-semibold" style={{ fontFamily: "var(--font-sans)" }}>{title}</h2>
       <AppearStack preview={preview} className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {brands.map((b, i) => (

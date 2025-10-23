@@ -24,7 +24,7 @@ type Props = {
   posterSrc?: string;
   textImageUrl?: string;
   preview?: boolean;
-  variant?: "fullscreen" | "section";
+  variant?: "fullscreen" | "section" | "background-only";
 };
 
 export default function Hero({
@@ -47,6 +47,10 @@ export default function Hero({
   preview,
   variant = "fullscreen",
 }: Props) {
+  // Debug logging
+  if (variant === "background-only") {
+    console.log("Hero background-only props:", { videoSrc, posterSrc, variant });
+  }
   const [useVideo, setUseVideo] = useState(true);
   const poster = useMemo(() => posterSrc || imageUrl || "/hero/APIGEN hero text.png", [posterSrc, imageUrl]);
 
@@ -105,6 +109,36 @@ export default function Hero({
     );
   }
 
+  if (variant === "background-only") {
+    return (
+      <>
+        {/* Fixed background layer - covers entire page */}
+        <div className="fixed inset-0 -z-10 w-full h-full">
+          {useVideo ? (
+            <video
+              key={videoSrc}
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={poster}
+              onError={() => setUseVideo(false)}
+            >
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+          ) : (
+            <AppImage src={poster} alt={imageAlt || ""} fill sizes="100vw" className="object-cover object-center" />
+          )}
+        </div>
+        
+        {/* Video overlay - positioned above the video */}
+        {/* <div className="fixed inset-0 -z-5 bg-gradient-to-t from-white/20 to-transparent pointer-events-none" /> */}
+      </>
+    );
+  }
+
   // Default fullscreen variant
   return (
     <section data-block="Hero" data-variant="video" className="relative w-full overflow-hidden">
@@ -130,7 +164,7 @@ export default function Hero({
       </div>
       
       {/* Video overlay - positioned above the video */}
-      <div className="fixed inset-0 -z-5 bg-gradient-to-t from-white/20 to-transparent pointer-events-none" />
+      {/* <div className="fixed inset-0 -z-5 bg-gradient-to-t from-white/20 to-transparent pointer-events-none" /> */}
 
       {/* Content overlay - uses flex centering without viewport units */}
       <div className="relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-8 sm:py-10 md:py-12">
