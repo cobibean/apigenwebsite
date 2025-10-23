@@ -7,15 +7,15 @@
 
 ## Experiment Options
 
-### Option 1: Very Light White Overlay ✅ CURRENT
+### Option 1: Very Light White Overlay
 - **Code**: `<div className="absolute inset-0 bg-white/10 pointer-events-none" />`
 - **Effect**: 10% white overlay, video shows through subtly
-- **Status**: IMPLEMENTED
+- **Status**: NOT SATISFACTORY - Video not visible at all
 
-### Option 2: Light Gradient Overlay
+### Option 2: Light Gradient Overlay ✅ CURRENT
 - **Code**: `<div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none" />`
 - **Effect**: Subtle white gradient from bottom to top
-- **Status**: PENDING
+- **Status**: IMPLEMENTED
 
 ### Option 3: No Overlay (Raw Video)
 - **Code**: Remove overlay div entirely
