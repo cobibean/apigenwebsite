@@ -16,7 +16,7 @@ Purpose: one guide for container hierarchy, centering, responsive widths, motion
 - Section: `relative w-full overflow-hidden` (no extra offset classes).
 - Background: `fixed inset-0 -z-10 w-full h-full`.
 - Media: `absolute inset-0 w-full h-full object-cover`.
-- Content wrapper: `relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-10 md:py-12`.
+- Content wrapper: `relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-8 sm:py-10 md:py-12`.
 - Inner cluster: `w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center`.
 - CTA row keeps `margin-top` controlled via the `ctaGap` prop so the top/bottom whitespace stays balanced.
 
@@ -53,4 +53,3 @@ Defaults live in `src/sections/Hero.tsx`; JSON values override.
 
 ### Quick checklist
 - Centering intact? Responsive widths? Visible focus? Buttons ≥44px?
-

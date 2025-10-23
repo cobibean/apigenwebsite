@@ -29,4 +29,16 @@ export const WithSubtitle: Story = {
   },
 };
 
+export const SectionVariant: Story = {
+  args: {
+    eyebrow: "About Apigen",
+    title: "Rooted in Tradition, Growing the Future",
+    copy: "For over a century, we've carried forward our deep-rooted agricultural heritage.",
+    variant: "section"
+  },
+  parameters: {
+    layout: "padded",
+  },
+};
+
 

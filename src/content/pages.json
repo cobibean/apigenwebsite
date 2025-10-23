@@ -7,7 +7,7 @@
       "description": "Premium quality dried cannabis exporter."
     },
     "blocks": [
-      { "type": "Hero", "props": { "eyebrow": "Apigen", "subtitle": "PREMIUM QUALITY DRIED CANNABIS EXPORTER", "title": "Premium dried cannabis, exported consistently.", "copy": "Ethical, compliant, patient-first.", "wordmarkMaxWidth": "80%", "contentOffsetY": "12px", "subtitleGap": "54px", "ctaGap": "32px", "imageUrl": "/vercel.svg", "imageAlt": "" } },
+      { "type": "Hero", "props": { "eyebrow": "Apigen", "subtitle": "PREMIUM QUALITY DRIED CANNABIS EXPORTER", "title": "Premium dried cannabis, exported consistently.", "copy": "Ethical, compliant, patient-first.", "wordmarkMaxWidth": "80%", "contentOffsetY": "0px", "subtitleGap": "48px", "ctaGap": "32px", "imageUrl": "/vercel.svg", "imageAlt": "" } },
       { "type": "MissionSection_1", "props": { "eyebrow": "Our Mission", "taglinePrimary": "TO SET A NEW INDUSTRY\nSTANDARD WITH", "taglineSecondary": "PREMIUM MEDICINAL\nCANNABIS FLOWER", "lead": "We're not just providing exceptional medication. We're pioneers of quality, transparency, and patient-centric treatments.", "body": "Uncompromising pharmaceutical-grade quality is not just a goal for us — it's embedded in our DNA and the standards we set for ourselves and for the industry. Our commitment goes beyond profits — we’re for doing what’s right by the plant, our patients, and the planet.", "cta": { "label": "About Apigen", "href": "/about" } } },
       { "type": "LogoCloud", "props": { "title": "Trusted by", "logos": [ { "src": "/vercel.svg", "alt": "Vercel" }, { "src": "/next.svg", "alt": "Next.js" } ] } },
       { "type": "FeatureGrid", "props": { "title": "What sets us apart", "features": [ { "title": "Consistency", "body": "Batch-to-batch quality and potency." }, { "title": "Compliance", "body": "Licenses and GMP-ready processes." }, { "title": "Care", "body": "Patient-first partnerships." } ], "columns": 3 } },
@@ -39,11 +39,65 @@
   {
     "slug": "/about",
     "title": "About",
-    "seo": { "title": "About Apigen", "description": "Who we are and how we work." },
+    "seo": { "title": "About Apigen - Rooted in Tradition, Growing the Future", "description": "Discover our century-old agricultural heritage and expertise in premium cannabis cultivation. From legacy growers to modern pioneers." },
     "blocks": [
-      { "type": "Hero", "props": { "eyebrow": "About", "title": "Patient-first, compliance-led.", "copy": "We export premium dried cannabis through consistent, ethical practices.", "imageAlt": "" } },
-      { "type": "FeatureGrid", "props": { "title": "Principles", "features": [ { "title": "Quality", "body": "GMP-ready protocols." }, { "title": "Consistency", "body": "Tight tolerances across batches." }, { "title": "Compliance", "body": "Licenses and traceability." } ], "columns": 3 } },
-      { "type": "CTA", "props": { "title": "Partner with us", "copy": "Let’s discuss your markets and timelines.", "label": "Contact", "href": "/contact" } }
+      {
+        "type": "AboutStory",
+        "props": {
+          "title": "Our Story",
+          "cards": [
+            {
+              "title": "Generations of Farming Heritage",
+              "content": "Our story begins generations ago, in the lush farmlands of India, where our families cultivated the land with dedication, resilience, and an unwavering commitment to quality. For over a century, we've carried forward this deep-rooted agricultural heritage."
+            },
+            {
+              "title": "Pioneering Cannabis Cultivation",
+              "content": "As the world of cannabis evolved, so did we. In the early '90s, long before legalization, our master grower refined the craft of cannabis cultivation in the grey market, honing techniques that would later define the premium cannabis industry."
+            },
+            {
+              "title": "Decades of Experience & Innovation",
+              "content": "Decades of hands-on experience, trial, and innovation have given us an unmatched understanding of the plant—from legacy to legal. Today, we bring together the best of both worlds: the wisdom of traditional farming and the expertise of cannabis cultivation at the highest level."
+            },
+            {
+              "title": "Setting New Standards",
+              "content": "With a team of industry veterans, we blend corporate precision with a deep passion for the plant, pushing the boundaries of quality, innovation, and sustainability. From legacy growers to modern pioneers, we are here to set new standards in cannabis, always staying true to our roots while shaping the future."
+            }
+          ]
+        }
+      },
+      {
+        "type": "Team",
+        "props": {
+          "title": "Meet Our Team",
+          "members": [
+            {
+              "name": "Sunny",
+              "role": "Founder & CEO",
+              "imageUrl": "/images/team/sunny.jpg",
+              "bio": "Leading Apigen's vision for premium cannabis cultivation and global expansion."
+            },
+            {
+              "name": "Aman",
+              "role": "Co-Founder & COO",
+              "imageUrl": "/images/team/aman.jpg",
+              "bio": "Overseeing operations and ensuring quality standards across all processes."
+            },
+            {
+              "name": "Raj Patel",
+              "role": "Head of Operations",
+              "imageUrl": "/images/team/raj.jpg",
+              "bio": "Managing day-to-day operations and supply chain logistics."
+            },
+            {
+              "name": "Arjun Singh",
+              "role": "Quality Assurance Director",
+              "imageUrl": "/images/team/arjun.jpg",
+              "bio": "Ensuring pharmaceutical-grade quality and compliance standards."
+            }
+          ]
+        }
+      },
+      { "type": "CTA", "props": { "title": "Join Our Journey", "copy": "Partner with us to bring premium cannabis to new markets.", "label": "Get in touch", "href": "/contact" } }
     ]
   },
   { "slug": "/brands", "title": "Brands", "blocks": [
@@ -72,5 +126,3 @@
     { "type": "CTA", "props": { "title": "Ready to talk?", "copy": "Our team will get back within 1–2 business days.", "label": "Email us", "href": "mailto:hello@example.com" } }
   ] }
 ]
-
-
