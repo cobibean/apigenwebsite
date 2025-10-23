@@ -58,7 +58,7 @@ export default function Hero({
   }, []);
 
   return (
-    <section data-block="Hero" data-variant="video" className="relative w-full h-[100vh] overflow-hidden">
+    <section data-block="Hero" data-variant="video" className="relative w-full overflow-hidden">
       {/* Fixed background layer - prevents viewport relayout issues */}
       <div className="fixed inset-0 -z-10 w-full h-full">
         {useVideo ? (
@@ -82,11 +82,11 @@ export default function Hero({
       </div>
 
       {/* Content overlay - uses flex centering without viewport units */}
-      <div className="relative h-full w-full flex items-center justify-center px-4">
+      <div className="relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-10 md:py-12">
         <Appear preview={preview} className="w-full flex justify-center">
-          <div className="w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] xl:max-w-[1100px] text-center" style={{ transform: `translateY(${contentOffsetY})` }}>
+          <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center" style={{ transform: `translateY(${contentOffsetY})` }}>
             {subtitle && (
-              <div className="mt-2 text-center text-[28px] leading-none tracking-[-0.05em] uppercase" style={{ fontFamily: "var(--font-mono)", marginBottom: subtitleGap }}>
+              <div className="mt-2 text-center text-[clamp(1.25rem,4vw,1.75rem)] sm:text-[clamp(1.5rem,3vw,2rem)] leading-none tracking-[-0.05em] uppercase" style={{ fontFamily: "var(--font-mono)", marginBottom: subtitleGap }}>
                 {subtitle}
               </div>
             )}
@@ -103,7 +103,7 @@ export default function Hero({
                 <p className="mt-3 max-w-2xl mx-auto text-[var(--secondary-foreground)]">{copy}</p>
               </>
             )}
-            <div className="flex justify-center gap-5" style={{ marginTop: ctaGap }}>
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-5" style={{ marginTop: ctaGap }}>
               <AppLink href={ctaHref} className={buttonClass({ variant: "olive", size: "lg" })}>
                 {ctaLabel}
               </AppLink>

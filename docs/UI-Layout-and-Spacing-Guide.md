@@ -6,12 +6,19 @@ Purpose: one guide for container hierarchy, centering, responsive widths, motion
 - Fonts/vars in `src/styles/theme.css`; globals in `src/app/globals.css`.
 - Root enforces `box-sizing: border-box`, `overflow-x:hidden`, `width:100%`.
 
+### Navbar offset utilities
+- Defined in `src/styles/theme.css`.
+- Layout already applies `.navbar-offset` to `<main>`, pushing page content below the floating header (76px mobile, 92px ≥md). **Do not** add `.navbar-offset` again inside pages or sections.
+- Use `.navbar-flush` only when a section must align with the very top of the viewport (outside `<main>` or when replacing the header).
+- `.section-spacing` restores comfortable top padding for sections that follow a flush hero.
+
 ### Hero anatomy (video/image background)
-- Section: `relative w-full h-[100vh] overflow-hidden`
-- Background: `fixed inset-0 -z-10 w-full h-full`
-- Media: `absolute inset-0 w-full h-full object-cover`
-- Content: `relative h-full w-full flex items-center justify-center px-4`
-- Inner: `w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] xl:max-w-[1100px] text-center`
+- Section: `relative w-full overflow-hidden` (no extra offset classes).
+- Background: `fixed inset-0 -z-10 w-full h-full`.
+- Media: `absolute inset-0 w-full h-full object-cover`.
+- Content wrapper: `relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-10 md:py-12`.
+- Inner cluster: `w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center`.
+- CTA row keeps `margin-top` controlled via the `ctaGap` prop so the top/bottom whitespace stays balanced.
 
 ### Editor‑friendly props (set in `src/content/pages.json`)
 - `wordmarkMaxWidth` — max width for wordmark image (e.g., "62%", "900px").
@@ -38,6 +45,7 @@ Defaults live in `src/sections/Hero.tsx`; JSON values override.
 ### Common pitfalls
 - White gutter from `svw` + padding → use `w-full` + percentage max‑width.
 - Left drift from margins on flex child → put spacing on parent.
+- Double applying navbar offset (e.g., `.navbar-offset` on both `<main>` and a hero) causes large top gaps. Rely on the layout’s offset unless working in Storybook/sandbox where the header is absent—there you can apply `.navbar-offset` once manually.
 
 ### Editor readiness
 - All visual knobs are props set via page JSON; adapters (Storyblok/Builder) can map fields 1:1.
@@ -45,5 +53,4 @@ Defaults live in `src/sections/Hero.tsx`; JSON values override.
 
 ### Quick checklist
 - Centering intact? Responsive widths? Visible focus? Buttons ≥44px?
-
 

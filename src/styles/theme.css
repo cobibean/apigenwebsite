@@ -2,13 +2,18 @@
 /* NOTE: Spacing, radii, shadows, motion, icon sizes, container widths are placeholders — please approve in brand tokens. */
 
 :root {
-  /* Fonts (wired via Next fonts; these are CSS variables holding font-family stacks) */
-  --font-sans: "Open Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+  /* Fonts — mission section uses mono (eyebrow), sans (taglines), body (paragraph) */
+  /* These hold fallback stacks; Next fonts override via CSS vars on <body>. */
+  --font-mission-eyebrow: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+  --font-mission-headline: "Open Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mission-body: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+
+  --font-sans: var(--font-mission-headline);
+  --font-body: var(--font-mission-body);
+  --font-mono: var(--font-mission-eyebrow);
   --font-serif: "Instrument Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times,
     serif;
 
@@ -67,6 +72,41 @@
   --btn-neutral-hover: #000000;
 }
 
+/* Navbar offset utilities - matches Header component spacing */
+.navbar-offset {
+  /* Mobile: Header pt-3 (12px) + nav h-16 (64px) = 76px from viewport top */
+  padding-top: 76px;
+}
+
+@media (min-width: 768px) {
+  .navbar-offset {
+    /* Desktop: Header pt-3 (12px) + nav h-20 (80px) = 92px from viewport top */
+    padding-top: 92px;
+  }
+}
+
+/* For sections that need additional spacing beyond navbar offset */
+.section-spacing {
+  padding-top: 5rem; /* 80px - matches removed pt-20 */
+}
+
+@media (min-width: 640px) {
+  .section-spacing {
+    padding-top: 6rem; /* 96px - matches removed sm:pt-24 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-top: 4rem; /* 64px - matches removed lg:pt-16 */
+  }
+}
+
+/* For hero sections that start immediately below navbar (no extra spacing) */
+.navbar-flush {
+  padding-top: 0;
+}
+
 .dark {
   /* Semantic colors — Dark mode */
   --bg: #131515; /* Ink (near-black) */
@@ -119,5 +159,4 @@
     --accent-foreground: var(--accent-foreground);
   }
 }
-
 

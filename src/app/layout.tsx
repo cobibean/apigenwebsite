@@ -29,7 +29,7 @@ export default async function RootLayout({
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
         <ScrollRestorationFix />
         <Header />
-        <main className="pt-0">{children}</main>
+        <main className="navbar-offset">{children}</main>
         <Footer links={menu} />
         <script
           type="application/ld+json"
