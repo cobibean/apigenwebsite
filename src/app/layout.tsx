@@ -5,6 +5,7 @@ import Footer from "@/sections/Footer";
 import localContentSource from "@/providers/local";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import "./globals.css";
+import ScrollRestorationFix from "@/helpers/client/ScrollRestorationFix";
 
 // Load fonts and map to CSS variables defined in theme.css
 const openSans = Open_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-sans", display: "swap" });
@@ -26,6 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
+        <ScrollRestorationFix />
         <Header />
         <main className="pt-0">{children}</main>
         <Footer links={menu} />
