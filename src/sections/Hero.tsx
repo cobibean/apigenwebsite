@@ -127,8 +127,10 @@ export default function Hero({
         ) : (
           <AppImage src={poster} alt={imageAlt || ""} fill sizes="100vw" className="object-cover object-center" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none" />
       </div>
+      
+      {/* Video overlay - positioned above the video */}
+      <div className="fixed inset-0 -z-5 bg-gradient-to-t from-white/20 to-transparent pointer-events-none" />
 
       {/* Content overlay - uses flex centering without viewport units */}
       <div className="relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-8 sm:py-10 md:py-12">
