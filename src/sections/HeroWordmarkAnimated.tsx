@@ -46,6 +46,7 @@ export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", cl
           shape.classList.add(styles.strokePath, styles.animate);
           let len = 0;
           try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             len = (shape as any).getTotalLength?.() ?? 0;
           } catch {
             len = 0;

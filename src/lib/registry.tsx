@@ -60,7 +60,9 @@ registerBlock("DocList", (props) => <DocList {...(props as Record<string, unknow
 registerBlock("Disclaimer", (props) => <Disclaimer {...(props as Record<string, unknown>)} />);
 registerBlock("Footer", (props) => <Footer {...(props as Record<string, unknown>)} />);
 registerBlock("MissionSection_1", (props) => <MissionSection_1 {...(props as Record<string, unknown>)} />);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 registerBlock("AboutStory", (props) => <AboutStory {...(props as any)} />);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 registerBlock("Team", (props) => <Team {...(props as any)} />);
 
 
