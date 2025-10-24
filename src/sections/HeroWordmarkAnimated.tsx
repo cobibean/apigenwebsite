@@ -46,8 +46,7 @@ export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", cl
           shape.classList.add(styles.strokePath, styles.animate);
           let len = 0;
           try {
-            // @ts-expect-error getTotalLength exists on SVG shapes
-            len = shape.getTotalLength?.() ?? 0;
+            len = (shape as any).getTotalLength?.() ?? 0;
           } catch {
             len = 0;
           }

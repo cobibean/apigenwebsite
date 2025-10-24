@@ -35,3 +35,4 @@ This site renders pages via a block registry and a `ContentSource` adapter. To s
 - Home/About render solely from provider blocks
 - Images include alt + dimensions; links use `AppLink`
 - Preview route serves draft content when enabled
+
