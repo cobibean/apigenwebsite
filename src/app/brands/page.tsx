@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import AppImage from "@/components/AppImage";
+import Card from "@/components/Card";
+import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
 
 type Brand = {
   id: string;
@@ -67,13 +70,13 @@ function BrandsHero({ brand }: { brand: Brand }) {
   return (
     <section className="relative isolate overflow-hidden">
       <div
-        className="pointer-events-none absolute left-1/2 top-[-25%] h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,_rgba(174,85,33,0.2)_0%,_rgba(250,250,250,0)_70%)] blur-3xl md:top-[-35%] md:h-[680px] md:w-[680px]"
+        className="pointer-events-none absolute left-1/2 top-[-25%] h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--accent)_20%,transparent)_0%,_transparent_70%)] blur-3xl md:top-[-35%] md:h-[680px] md:w-[680px]"
         aria-hidden="true"
       />
-      <div className="pointer-events-none absolute right-[-12%] top-[45%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_rgba(31,39,38,0.18)_0%,_rgba(250,250,250,0)_75%)] blur-3xl md:right-[-6%]"
+      <div className="pointer-events-none absolute right-[-12%] top-[45%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--primary)_18%,transparent)_0%,_transparent_75%)] blur-3xl md:right-[-6%]"
         aria-hidden="true"
       />
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-center gap-10 px-6 pb-14 sm:gap-12 sm:pb-16 lg:grid lg:min-h-[calc(100vh-140px)] lg:grid-cols-[minmax(0,_1.15fr)_minmax(0,_0.85fr)] lg:items-center lg:gap-16 lg:pb-16">
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-center gap-10 px-6 pb-10 sm:gap-12 sm:pb-12 lg:grid lg:min-h-[calc(100vh-140px)] lg:grid-cols-[minmax(0,_1.15fr)_minmax(0,_0.85fr)] lg:items-center lg:gap-16 lg:pb-12">
         <div className="space-y-6 sm:space-y-8">
           <span className="sr-only">{brand.name}</span>
           <h1
@@ -94,17 +97,17 @@ function BrandsHero({ brand }: { brand: Brand }) {
           </div>
         </div>
         <div className="relative mt-6 flex items-center justify-center lg:mt-0">
-          <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_rgba(174,85,33,0.25)_0%,_rgba(174,85,33,0)_60%)] blur-2xl" aria-hidden="true" />
-          <div className="relative flex w-full max-w-[320px] flex-col items-center justify-center rounded-[32px] border border-[var(--border)] bg-[var(--card)] p-8 shadow-[0px_24px_52px_rgba(19,21,21,0.12)] backdrop-blur-xl sm:max-w-[380px] sm:p-10">
+          <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,var(--accent)_25%,transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
+          <div className="relative flex w-full max-w-[320px] flex-col items-center justify-center rounded-[32px] border border-[var(--border)] bg-[var(--card)] p-8 shadow-[0px_24px_52px_color-mix(in_oklab,var(--fg)_12%,transparent)] backdrop-blur-xl sm:max-w-[380px] sm:p-10">
             <AppImage
               src={brand.logo}
               alt={`${brand.name} wordmark`}
               width={1024}
               height={1024}
               priority
-              className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_rgba(19,21,21,0.18)] sm:max-w-[260px]"
+              className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_color-mix(in_oklab,var(--fg)_18%,transparent)] sm:max-w-[260px]"
             />
-            <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_rgba(174,85,33,0),_rgba(174,85,33,0.6),_rgba(174,85,33,0))]" aria-hidden="true" />
+            <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,var(--accent)_60%,transparent),_transparent)]" aria-hidden="true" />
           </div>
         </div>
       </div>
@@ -115,28 +118,33 @@ function BrandsHero({ brand }: { brand: Brand }) {
 function BrandDetails({ brand }: { brand: Brand }) {
   return (
     <section className="relative border-t border-[var(--muted)] bg-[var(--bg)]">
-      <div className="pointer-events-none absolute left-[5%] top-[12%] h-32 w-32 rounded-full bg-[radial-gradient(circle_at_center,_rgba(174,85,33,0.25)_0%,_rgba(250,250,250,0)_70%)] blur-2xl md:left-[8%]"
+      <div className="pointer-events-none absolute left-[5%] top-[12%] h-32 w-32 rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--accent)_25%,transparent)_0%,_transparent_70%)] blur-2xl md:left-[8%]"
         aria-hidden="true"
       />
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-14 px-6 py-20 sm:py-24 lg:grid lg:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)] lg:gap-16">
-        <article className="relative overflow-hidden rounded-[32px] border border-[var(--border)] bg-[var(--card)] p-8 shadow-[0px_30px_60px_rgba(19,21,21,0.08)] sm:p-10">
-          <div className="absolute inset-x-10 top-10 h-px bg-[linear-gradient(to_right,_rgba(174,85,33,0),_rgba(174,85,33,0.45),_rgba(174,85,33,0))]" aria-hidden="true" />
-          <div className="relative space-y-6 text-lg leading-relaxed text-[var(--primary)] sm:text-xl">
-            {brand.body.map((paragraph, index) => (
-              <p key={index} style={{ fontFamily: "var(--font-body)" }}>
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </article>
-        <aside className="flex flex-col gap-10">
-          <div className="rounded-[28px] border border-[var(--border)] bg-[var(--card)] p-7 shadow-[0px_24px_48px_rgba(19,21,21,0.08)] sm:p-8">
-            <h2 className="text-sm uppercase tracking-[0.35em] text-[var(--secondary-foreground)]" style={{ fontFamily: "var(--font-mono)" }}>
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-14 sm:py-16 lg:grid lg:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)] lg:gap-12">
+        {/* Three highlight cards on the left */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+          {brand.highlights.map((highlight) => (
+            <Card
+              key={highlight.title}
+              title={highlight.title}
+              description={highlight.description}
+              radius="md"
+              padding="md"
+              gradientDirection="br"
+            />
+          ))}
+        </div>
+
+        {/* Data card on the right */}
+        <div className="flex flex-col gap-6">
+          <div className="rounded-[28px] border border-[var(--border)] bg-[var(--card)] px-7 pt-7 pb-6 shadow-[0px_24px_48px_color-mix(in_oklab,var(--fg)_8%,transparent)] sm:px-8 sm:pt-8 sm:pb-7">
+            <h2 className="text-center text-sm uppercase tracking-[0.35em] text-[var(--secondary-foreground)]" style={{ fontFamily: "var(--font-mono)" }}>
               Brand at a glance
             </h2>
             <dl className="mt-6 space-y-5">
               {brand.attributes.map((attribute) => (
-                <div key={attribute.label} className="flex flex-col gap-1">
+                <div key={attribute.label} className="flex flex-col gap-1 text-center">
                   <dt className="text-xs uppercase tracking-[0.3em] text-[var(--secondary)]" style={{ fontFamily: "var(--font-mono)" }}>
                     {attribute.label}
                   </dt>
@@ -147,25 +155,14 @@ function BrandDetails({ brand }: { brand: Brand }) {
               ))}
             </dl>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {brand.highlights.map((highlight) => (
-              <div
-                key={highlight.title}
-                className="group relative overflow-hidden rounded-[24px] border border-[var(--border)] bg-[var(--card)] p-6 shadow-[0px_20px_40px_rgba(19,21,21,0.06)] transition duration-300 hover:border-[var(--accent)] hover:shadow-[0px_28px_56px_rgba(19,21,21,0.12)]"
-              >
-                <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(174,85,33,0.12)_0%,_rgba(174,85,33,0)_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
-                <div className="relative space-y-3">
-                  <h3 className="text-base font-semibold text-[var(--primary)]" style={{ fontFamily: "var(--font-sans)" }}>
-                    {highlight.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-[var(--secondary)]" style={{ fontFamily: "var(--font-body)" }}>
-                    {highlight.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+          
+          {/* CTA Button */}
+          <div className="flex justify-center mt-12">
+            <AppLink href="/contact" className={buttonClass({ variant: "olive", size: "lg" })}>
+              Get in Touch
+            </AppLink>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
   );

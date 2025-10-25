@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
 
 export function MobileDrawer({
   open,
@@ -23,13 +24,13 @@ export function MobileDrawer({
       onClick={() => onOpenChange(false)}
     >
       <div
-        className="absolute right-0 top-0 h-full w-80 bg-white p-6 dark:bg-neutral-950"
+        className="absolute right-0 top-0 h-full w-80 bg-[var(--card)] text-[var(--primary)] p-6 dark:text-[var(--fg)]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           aria-label="Close menu"
-          className="mb-4 rounded-md border px-3 py-2 text-sm"
+          className="mb-4 rounded-md border border-[var(--border)] px-3 py-2 text-sm"
           onClick={() => onOpenChange(false)}
         >
           Close
@@ -42,11 +43,7 @@ export function MobileDrawer({
           ))}
         </nav>
         <div className="mt-6">
-          <AppLink
-            href={cta.href}
-            className="inline-flex w-full items-center justify-center rounded-xl bg-neutral-900 px-4 py-2 text-sm font-semibold text-white dark:bg-emerald-600"
-            onClick={() => onOpenChange(false)}
-          >
+          <AppLink href={cta.href} className={buttonClass({ variant: "olive", size: "md" })} onClick={() => onOpenChange(false)}>
             {cta.label}
           </AppLink>
         </div>
@@ -54,5 +51,4 @@ export function MobileDrawer({
     </div>
   );
 }
-
 

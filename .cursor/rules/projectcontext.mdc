@@ -1,6 +1,6 @@
 ---
-description: Minimal, always-on rules + context for the Apigen site so the Cursor agent stays goal‑aligned and editor‑ready.
-globs: ["app//*.{ts,tsx}", "src//.{ts,tsx}", "sections/**/.{ts,tsx}", "providers//*.{ts,tsx}", "lib//.{ts,tsx}", "content/**/.json", "public/**/*"]
+description: Minimal, always-on rules + context for the Apigen site so the Cursor agent stays goal‑aligned.
+globs: []
 alwaysApply: true
 ---
 
@@ -8,34 +8,8 @@ alwaysApply: true
 
 * **Client**: Sunny @ **Apigen**
 * **What we’re building**: A fast, accessible marketing site in **Next.js (App Router)** with **Tailwind + shadcn/ui (Radix)** and **Lucide**.
-* **Audience**: Prospects, partners, professionals (doctor/pharmacist/patient style pages), and (optional) investors.
-* **Outcome**: Ship a polished v1 that mirrors the reference IA (Home, About, Brands/Products, News, Contact; optional: Investors, For‑Doctors, For‑Pharmacists, For‑Patients) and can be plugged into a visual editor later **without rewrites**.
+* **Outcome**: Ship a polished v1 that mirrors the reference IA (Home, About, Brands/Products, News, Contact.
 
-# Future Handoff (Visual Editors)
-
-* The codebase must be **editor‑ready** for **Builder.io** or **Storyblok**.
-* Keep a **thin, swappable adapter** so Local JSON → Builder/Storyblok is a drop‑in change.
-* Do **not** import CMS/editor SDKs inside visual sections. All provider code lives in `providers/*` adapters.
-
-# Architecture (non‑negotiables)
-
-* **Prop‑driven sections only**: no data fetching, router/window access, or global app context in `sections/*`.
-* **Blocks + Registry**: pages render from `Block[]` where `Block = { type: string; props?: Record<string, any>; children?: Block[] }`. Maintain `lib/registry.ts` mapping `type → Component`.
-* **ContentSource interface** (adapter contract):
-
-  ```ts
-  export interface ContentSource {
-    getPage(slug: string[], opts?: { preview?: boolean }): Promise<PageData | null>;
-    getMenu(): Promise<Array<{ label: string; href: string }>>;
-  }
-  export interface PageData {
-    title: string;
-    seo?: { title?: string; description?: string; ogImage?: string };
-    blocks: Block[];
-  }
-  ```
-* **Routing**: `app/[...slug]/page.tsx` resolves pages via current adapter; 404 on null.
-* **Preview & ISR**: `/api/preview` toggles draft mode (no cache). Live pages use ISR by default.
 
 # Tech Defaults
 
@@ -46,32 +20,6 @@ alwaysApply: true
 * **A11y/Perf**: semantic landmarks; visible focus; ≥4.5:1 contrast; sized images; Lighthouse ≥90 on Home + one heavy page.
 * **Analytics**: `data-block` and `data-variant` attributes; tiny event helper.
 
-# Files That Should Exist (warn if missing)
-
-* `components/RenderBlocks.tsx`
-* `lib/registry.ts`
-* `lib/content-source.ts`
-* `components/AppLink.tsx`, `components/AppImage.tsx`
-* `providers/local.ts` (Local JSON adapter)
-* `app/[...slug]/page.tsx`
-* `app/api/preview/route.ts`
-* `content/pages.json` (bootstraps Home/About/etc.)
-* `lib/seo.ts`, `styles/theme.css`
-
-# Danger Patterns (fail the check)
-
-* In `sections/**`: any `fetch(`, `axios(`, `useSWR(`, `useRouter(`, `useSearchParams(`, `window.`, `document.`, `useContext(` for app/global state.
-* Importing Builder/Storyblok/Plasmic (or any CMS/editor SDK) inside `sections/**`.
-* Rendering images without `alt` and explicit dimensions (or proper Next/Image props).
-* Bypassing `AppLink`/`AppImage` in sections.
-
-# Acceptance Heuristics
-
-* A page renders **solely** from blocks + registry via the adapter.
-* Sections are pure, prop‑driven, and Storybook‑friendly (defaults provided).
-* Preview works; ISR active; SEO populated or defaulted.
-* Contact form posts to an API route and shows a success state.
-
 # Prompting Reminders (for the agent)
 
 * Prefer **simple, composable sections** with clear props (`title`, `eyebrow`, `copy`, `items`, `cta` …). Provide defaults so the component renders without external data.
@@ -79,9 +27,7 @@ alwaysApply: true
 * Keep **rich‑text** rendering behind a helper; don’t hardwire a provider.
 * When unsure, choose the solution that keeps the **adapter boundary** clean and the **section API** stable.
 
-# Comms & Cadence
 
-* Daily EOD note for the client: *shipped → next → risks*. Keep PRs small and incremental.
 
 # Project Goal (one‑liner)
 

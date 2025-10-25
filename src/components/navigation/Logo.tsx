@@ -15,13 +15,13 @@ export function Logo({
   return (
     <AppLink href="/" aria-label="Apigen home" className="inline-flex flex-col items-start leading-tight">
       {showImage ? (
-        <span className="block h-8 md:h-10 w-auto overflow-hidden">
+        <span className="block h-10 md:h-12 w-auto overflow-hidden">
           <AppImage
             src={imageSrc}
             alt="Apigen logo with wordmark"
             width={200}
             height={80}
-            sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 200px"
+            sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 220px"
             className="h-full w-auto object-contain"
           />
         </span>

@@ -8,7 +8,7 @@
     },
     "blocks": [
       { "type": "Hero", "props": { "eyebrow": "Apigen", "subtitle": "PREMIUM QUALITY DRIED CANNABIS EXPORTER", "title": "Premium dried cannabis, exported consistently.", "copy": "Ethical, compliant, patient-first.", "wordmarkMaxWidth": "80%", "contentOffsetY": "0px", "subtitleGap": "48px", "ctaGap": "32px", "imageUrl": "/vercel.svg", "imageAlt": "" } },
-      { "type": "MissionSection_1", "props": { "eyebrow": "Our Mission", "taglinePrimary": "TO SET A NEW INDUSTRY\nSTANDARD WITH", "taglineSecondary": "PREMIUM MEDICINAL\nCANNABIS FLOWER", "lead": "We're not just providing exceptional medication. We're pioneers of quality, transparency, and patient-centric treatments.", "body": "Uncompromising pharmaceutical-grade quality is not just a goal for us — it's embedded in our DNA and the standards we set for ourselves and for the industry. Our commitment goes beyond profits — we’re for doing what’s right by the plant, our patients, and the planet.", "cta": { "label": "About Apigen", "href": "/about" } } },
+      { "type": "MissionSection_1", "props": { "eyebrow": "Our Mission", "taglinePrimary": "TO GROW CANNABIS\nWITH PURPOSE —", "taglineSecondary": "CRAFTED FOR PATIENTS,\nCELEBRATED BY CONSUMERS.", "lead": "At Apigen, we believe true quality begins long before the harvest. It's rooted in genetic integrity, cultivated through disciplined science, and refined with uncompromising care.", "body": "We exist to bridge the gap between the medical and retail worlds, where pharmaceutical precision meets the artistry of Canadian craft cultivation. Our goal is simple yet ambitious: to produce cannabis that patients and consumers can trust and celebrate.\n\nApigen stands for quality, transparency, and integrity.", "cta": { "label": "About Apigen", "href": "/about" } } },
       { "type": "LogoCloud", "props": { "title": "Trusted by", "logos": [ { "src": "/vercel.svg", "alt": "Vercel" }, { "src": "/next.svg", "alt": "Next.js" } ] } },
       { "type": "FeatureGrid", "props": { "title": "What sets us apart", "features": [ { "title": "Consistency", "body": "Batch-to-batch quality and potency." }, { "title": "Compliance", "body": "Licenses and GMP-ready processes." }, { "title": "Care", "body": "Patient-first partnerships." } ], "columns": 3 } },
       { "type": "Stats", "props": { "title": "By the numbers", "items": [ { "label": "SKUs", "value": "24" }, { "label": "Markets", "value": "6" }, { "label": "COAs", "value": "100%" } ] } },
@@ -22,10 +22,10 @@
           "ctaLabel": "Talk to sales",
           "ctaHref": "/contact",
           "items": [
-            { "title": "Cultivation", "href": "/contact" },
-            { "title": "Processing", "href": "/contact" },
-            { "title": "Quality", "href": "/contact" },
-            { "title": "Export", "href": "/contact" }
+            { "title": "Cultivation", "description": "Premium genetics and expert growing practices from seed to harvest.", "href": "/contact" },
+            { "title": "Processing", "description": "State-of-the-art post-harvest processing and quality control.", "href": "/contact" },
+            { "title": "Quality", "description": "Rigorous testing and pharmaceutical-grade standards throughout.", "href": "/contact" },
+            { "title": "Export", "description": "Compliant global logistics and reliable delivery to partners worldwide.", "href": "/contact" }
           ]
         },
         "variant": "row-4"

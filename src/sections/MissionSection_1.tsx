@@ -30,7 +30,7 @@ export default function MissionSection_1({
   preview,
 }: MissionSectionProps) {
   // Force light-on-dark text to match reference regardless of global theme
-  const textClass = "[color:var(--fg-on-olive,#EEECE8)]";
+  const textClass = "[color:var(--fg-on-olive)]";
   const subTextClass = "[color:color-mix(in_oklab,white_78%,transparent)]";
   const mutedHeadlineClass = "[color:var(--accent)]";
 
@@ -40,7 +40,7 @@ export default function MissionSection_1({
       data-variant="1"
       // Solid olive background; keep simple to sit above the hero video layer
       className="w-full"
-      style={{ background: "var(--bg-olive, #545943)" }}
+      style={{ background: "var(--surface-olive)" }}
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-stretch">
         {/* LEFT: Eyebrow + Tagline */}
@@ -96,5 +96,4 @@ export default function MissionSection_1({
     </section>
   );
 }
-
 

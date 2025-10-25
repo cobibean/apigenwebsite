@@ -3,6 +3,7 @@ import { Inter, Open_Sans, IBM_Plex_Mono, Instrument_Serif } from "next/font/goo
 import Header from "@/components/navigation/Header";
 import Footer from "@/sections/Footer";
 import localContentSource from "@/providers/local";
+import { ContactModalProvider } from "@/providers/ContactModalProvider";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import "./globals.css";
 import ScrollRestorationFix from "@/helpers/client/ScrollRestorationFix";
@@ -27,10 +28,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
-        <ScrollRestorationFix />
-        <Header />
-        <main className="navbar-offset">{children}</main>
-        <Footer links={menu} />
+        <ContactModalProvider>
+          <ScrollRestorationFix />
+          <Header />
+          <main className="navbar-offset">{children}</main>
+          <Footer links={menu} />
+        </ContactModalProvider>
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger

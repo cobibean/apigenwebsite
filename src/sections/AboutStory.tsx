@@ -1,3 +1,5 @@
+import Card from "@/components/Card";
+
 interface AboutStoryCard {
   title: string;
   content: string;
@@ -24,20 +26,14 @@ export default function AboutStory({ title, cards }: AboutStoryProps) {
         </div>
         <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
           {cards.map((card, index) => (
-            <div
+            <Card
               key={index}
-              className="group relative overflow-hidden rounded-[20px] border border-[var(--border)] bg-[var(--card)] p-4 shadow-[0px_16px_32px_rgba(19,21,21,0.06)] transition duration-300 hover:border-[var(--accent)] hover:shadow-[0px_24px_48px_rgba(19,21,21,0.12)] sm:p-5"
-            >
-              <div className="absolute inset-0 bg-[linear-gradient(315deg,_rgba(174,85,33,0.12)_0%,_rgba(174,85,33,0)_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
-              <div className="relative space-y-2">
-                <h3 className="text-base font-semibold text-[var(--primary)] sm:text-lg" style={{ fontFamily: "var(--font-sans)" }}>
-                  {card.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[var(--secondary)] sm:text-base" style={{ fontFamily: "var(--font-body)" }}>
-                  {card.content}
-                </p>
-              </div>
-            </div>
+              title={card.title}
+              description={card.content}
+              radius="sm"
+              padding="sm"
+              gradientDirection="tl"
+            />
           ))}
         </div>
       </div>

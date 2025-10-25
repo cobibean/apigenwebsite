@@ -8,13 +8,12 @@ export function NavLink({ href, label, active = false }: { href: string; label: 
       href={href}
       aria-current={active ? "page" : undefined}
       className={
-        "inline-flex h-full items-center text-base md:text-lg font-medium text-neutral-900/90 dark:text-neutral-100/90 hover:text-emerald-700 dark:hover:text-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] " +
-        (active ? " underline decoration-emerald-600 decoration-2 underline-offset-4" : "")
+        "inline-flex h-full items-center text-base md:text-lg font-medium text-[var(--primary)] dark:text-[var(--fg)] hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] " +
+        (active ? " underline decoration-[var(--accent)] decoration-2 underline-offset-4" : "")
       }
     >
       {label}
     </AppLink>
   );
 }
-
 

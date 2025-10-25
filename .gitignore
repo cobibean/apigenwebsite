@@ -41,7 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # docs
-docs/client updates
 docs/chat-summaries.md
 docs/ComponentImportGuide.md
 docs/Overview_step-by-step.md

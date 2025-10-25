@@ -7,7 +7,7 @@
   display: block;
   width: 100%;
   height: auto;
-  color: #ae5521; /* copper */
+  color: var(--accent); /* copper token */
 }
 
 .strokePath {
@@ -43,4 +43,3 @@
     fill-opacity: 1 !important;
   }
 }
-
