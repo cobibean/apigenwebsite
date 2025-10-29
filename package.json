@@ -8,6 +8,7 @@
     "build:webpack": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run --reporter=verbose",
     "test:watch": "vitest"
   },

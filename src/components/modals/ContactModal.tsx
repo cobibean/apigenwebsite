@@ -119,7 +119,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
               Thank you!
             </h3>
             <p className="text-[var(--secondary)]" style={{ fontFamily: "var(--font-body)" }}>
-              We'll be in touch soon.
+              We&apos;ll be in touch soon.
             </p>
           </div>
         </DialogContent>
@@ -135,7 +135,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
             Get in Touch
           </DialogTitle>
           <DialogDescription className="text-sm" style={{ fontFamily: "var(--font-body)" }}>
-            Tell us about your needs and we'll get back to you within 1–2 business days.
+            Tell us about your needs and we&apos;ll get back to you within 1–2 business days.
           </DialogDescription>
         </DialogHeader>
         
@@ -224,7 +224,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
               onChange={handleChange}
               rows={3}
               className={inputClass}
-              placeholder="Tell us about your market, timeline, and what you're looking for..."
+              placeholder="Tell us about your market, timeline, and what you&apos;re looking for..."
               disabled={status === "submitting"}
             />
             {errors.message && <p className={errorClass}>{errors.message}</p>}
@@ -252,4 +252,3 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
     </Dialog>
   );
 }
-

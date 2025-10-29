@@ -1,3 +1,5 @@
+import AppImage from "@/components/AppImage";
+
 interface TeamMember {
   name: string;
   role: string;
@@ -31,9 +33,11 @@ export default function Team({ title, members }: TeamProps) {
           {members.map((member, index) => (
             <div key={index} className="group text-center">
               <div className="relative mb-6 mx-auto w-48 h-48 rounded-full overflow-hidden border-4 border-[var(--border)] group-hover:border-[var(--accent)] transition-colors duration-300 shadow-[0px_16px_32px_rgba(19,21,21,0.06)] group-hover:shadow-[0px_24px_48px_rgba(19,21,21,0.12)]">
-                <img 
-                  src={member.imageUrl} 
+                <AppImage
+                  src={member.imageUrl}
                   alt={`${member.name} - ${member.role}`}
+                  width={192}
+                  height={192}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 {/* Hover overlay */}

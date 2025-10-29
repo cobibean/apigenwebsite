@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Open_Sans, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import Header from "@/components/navigation/Header";
 import Footer from "@/sections/Footer";
-import localContentSource from "@/providers/local";
 import { ContactModalProvider } from "@/providers/ContactModalProvider";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import "./globals.css";
@@ -19,24 +18,29 @@ export const metadata: Metadata = {
   description: "Premium quality dried cannabis exporter. Consistent, ethical, patient-first.",
 };
 
-export default async function RootLayout({
+const NAV_LINKS: Array<{ label: string; href: string }> = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Brands", href: "/brands" },
+  { label: "Contact", href: "/contact" },
+];
+
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const menu = await localContentSource.getMenu();
   return (
     <html lang="en">
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
         <ContactModalProvider>
           <ScrollRestorationFix />
-          <Header />
+          <Header links={NAV_LINKS} />
           <main className="navbar-offset">{children}</main>
-          <Footer links={menu} />
+          <Footer links={NAV_LINKS} />
         </ContactModalProvider>
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",

@@ -42,58 +42,59 @@ export default function MissionSection_1({
       className="w-full"
       style={{ background: "var(--surface-olive)" }}
     >
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-24 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-stretch">
-        {/* LEFT: Eyebrow + Tagline */}
-        <Appear preview={preview}>
-          <div>
-            <div className={`text-sm ${subTextClass}`} style={{ fontFamily: "var(--font-mono)" }}>
-              {eyebrow}
-            </div>
-            <h2
-              className={`mt-5 uppercase ${textClass}`}
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontWeight: 800,
-                letterSpacing: "-0.01em",
-                lineHeight: 0.86,
-                fontSize: "clamp(26px, 4.8vw, 60px)",
-                whiteSpace: "pre-line",
-              }}
-            >
-              {taglinePrimary}
-            </h2>
-            <div
-              className={`uppercase mt-3 ${mutedHeadlineClass}`}
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontWeight: 800,
-                letterSpacing: "-0.01em",
-                lineHeight: 0.86,
-                fontSize: "clamp(26px, 4.8vw, 60px)",
-                whiteSpace: "pre-line",
-              }}
-            >
-              {taglineSecondary}
-            </div>
-          </div>
-        </Appear>
-
-        {/* RIGHT: Lead + Body + CTA */}
-        <Appear preview={preview}>
-          <div className="h-full flex flex-col md:mt-14">
-            <AppearStack preview={preview} className="space-y-4">
-              <p className={`text-base md:text-lg font-semibold ${textClass}`}>{lead}</p>
-              <p className={`text-base md:text-lg leading-relaxed ${subTextClass}`}>{body}</p>
-              <div className="pt-2 mt-auto">
-                <AppLink href={cta?.href || "/about"} className={buttonClass({ variant: "olive", size: "lg" })}>
-                  {cta?.label || "About Apigen"}
-                </AppLink>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* LEFT: Eyebrow + Tagline */}
+          <Appear preview={preview}>
+            <div>
+              <div className={`text-sm ${subTextClass}`} style={{ fontFamily: "var(--font-mono)" }}>
+                {eyebrow}
               </div>
-            </AppearStack>
-          </div>
-        </Appear>
+              <h2
+                className={`mt-5 uppercase ${textClass}`}
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.01em",
+                  lineHeight: 0.86,
+                  fontSize: "clamp(26px, 4.8vw, 60px)",
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {taglinePrimary}
+              </h2>
+              <div
+                className={`uppercase mt-3 ${mutedHeadlineClass}`}
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.01em",
+                  lineHeight: 0.86,
+                  fontSize: "clamp(26px, 4.8vw, 60px)",
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {taglineSecondary}
+              </div>
+            </div>
+          </Appear>
+
+          {/* RIGHT: Lead + Body + CTA */}
+          <Appear preview={preview}>
+            <div className="h-full flex flex-col md:mt-6">
+              <AppearStack preview={preview} className="space-y-4">
+                <p className={`text-base md:text-lg font-semibold ${textClass}`}>{lead}</p>
+                <p className={`text-base md:text-lg leading-relaxed ${subTextClass}`}>{body}</p>
+                <div className="pt-2 mt-auto">
+                  <AppLink href={cta?.href || "/about"} className={buttonClass({ variant: "olive", size: "lg" })}>
+                    {cta?.label || "About Apigen"}
+                  </AppLink>
+                </div>
+              </AppearStack>
+            </div>
+          </Appear>
+        </div>
       </div>
     </section>
   );
 }
-

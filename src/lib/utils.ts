@@ -13,7 +13,6 @@ export type AnalyticsEvent = {
 
 export function trackEvent(event: AnalyticsEvent) {
   if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
     console.debug("[analytics]", event.name, event.payload || {})
   }
 }

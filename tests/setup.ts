@@ -25,7 +25,6 @@ if (!("IntersectionObserver" in window)) {
     unobserve() {}
     disconnect() {}
     takeRecords() { return []; }
-  } as any;
+  } as unknown as typeof IntersectionObserver;
 }
-
 

@@ -26,8 +26,12 @@ export function Logo({
           />
         </span>
       ) : null}
+      {!showImage && text ? (
+        <span className="text-lg font-semibold tracking-[0.3em]" style={{ fontFamily: "var(--font-mono)" }}>
+          {text}
+        </span>
+      ) : null}
     </AppLink>
   );
 }
-
 

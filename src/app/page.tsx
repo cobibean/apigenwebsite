@@ -1,18 +1,30 @@
-import { draftMode } from "next/headers";
-import localContentSource from "@/providers/local";
-import RenderBlocks from "@/components/RenderBlocks";
 import type { Metadata } from "next";
-import { buildMetadata } from "@/lib/seo";
+import Hero from "@/sections/Hero";
+import MissionSection_1 from "@/sections/MissionSection_1";
+import AboutStory from "@/sections/AboutStory";
+import BrandGrid from "@/sections/BrandGrid";
+import CTA from "@/sections/CTA";
 
-export default async function Home() {
-  const preview = (await draftMode()).isEnabled;
-  const page = await localContentSource.getPage([], { preview });
-  return <RenderBlocks blocks={page?.blocks || []} />;
-}
+export const metadata: Metadata = {
+  title: "Apigen | Premium dried cannabis exporter",
+  description: "Premium dried cannabis, exported consistently. Ethical, compliant, patient-first.",
+};
 
-export async function generateMetadata(): Promise<Metadata> {
-  const preview = (await draftMode()).isEnabled;
-  const page = await localContentSource.getPage([], { preview });
-  if (!page) return {};
-  return buildMetadata(page, { slugPath: "/", preview });
+export default function Home() {
+  return (
+    <>
+      <Hero
+        eyebrow="Apigen"
+        subtitle="PREMIUM QUALITY DRIED CANNABIS EXPORTER"
+        title="Premium dried cannabis, exported consistently."
+        copy="Ethical, compliant, patient-first."
+        ctaLabel="Get in touch"
+        ctaHref="/contact"
+      />
+      <MissionSection_1 />
+      <AboutStory />
+      <BrandGrid />
+      <CTA />
+    </>
+  );
 }

@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import type { PageData } from "@/lib/content-source";
 import { DEFAULTS } from "@/lib/seoDefaults";
 import { SITE_URL, isProductionEnv } from "@/config/site";
 
-export function buildMetadata(page: PageData, opts?: { slugPath?: string; preview?: boolean }): Metadata {
+type SeoPageInput = {
+  title?: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    ogImage?: string;
+  };
+};
+
+export function buildMetadata(page: SeoPageInput, opts?: { slugPath?: string; preview?: boolean }): Metadata {
   const title = page.seo?.title || page.title || DEFAULTS.title;
   const description = page.seo?.description || DEFAULTS.description;
   const template = DEFAULTS.titleTemplate?.replace("%s", title) || title;
@@ -69,5 +77,4 @@ function buildRobots({ preview }: { preview: boolean }) {
     follow: true,
   } as const;
 }
-
 

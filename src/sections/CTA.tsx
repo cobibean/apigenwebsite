@@ -22,18 +22,23 @@ export default function CTA({
   preview,
 }: Props) {
   return (
-    <section data-block="CTA" data-variant="default" className="mx-auto w-full max-w-6xl px-4 py-16">
-      <Appear preview={preview}>
-        <h2 className="text-2xl font-semibold" style={{ fontFamily: "var(--font-sans)" }}>{title}</h2>
-        <p className="mt-2 max-w-2xl text-[var(--secondary-foreground)]">{copy}</p>
-        <div className="mt-6">
-          <AppLink href={href} className={buttonClass({ variant, size: "lg" })}>
-            {label}
-          </AppLink>
-        </div>
-      </Appear>
+    <section data-block="CTA" data-variant="default" className="bg-[var(--surface)]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <Appear preview={preview}>
+          <div className="mx-auto max-w-3xl text-center space-y-4">
+            <h2 className="text-2xl font-semibold text-[var(--primary)] md:text-3xl" style={{ fontFamily: "var(--font-sans)" }}>
+              {title}
+            </h2>
+            <p className="text-base md:text-lg text-[var(--secondary-foreground)]">{copy}</p>
+            <div className="pt-2">
+              <AppLink href={href} className={buttonClass({ variant, size: "lg" })}>
+                {label}
+              </AppLink>
+            </div>
+          </div>
+        </Appear>
+      </div>
     </section>
   );
 }
-
 

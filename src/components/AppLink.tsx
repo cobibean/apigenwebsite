@@ -53,10 +53,8 @@ export default function AppLink({
     );
   }
 
-  // Avoid duplicating href by omitting it from rest
-  const { href: _omit, ...safeRest } = rest as Record<string, unknown>;
   return (
-    <Link href={href} prefetch={prefetch} className={className} {...(safeRest as Omit<ComponentProps<typeof Link>, "href">)}>
+    <Link href={href} prefetch={prefetch} className={className} {...(rest as Omit<ComponentProps<typeof Link>, "href">)}>
       {children}
     </Link>
   );
