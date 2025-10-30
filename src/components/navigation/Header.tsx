@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import GlassEffect from "@/components/ui/liquid-glass";
 import { Logo } from "@/components/navigation/Logo";
 import { NavLink } from "@/components/navigation/NavLink";
-import { MobileDrawer } from "@/components/navigation/MobileDrawer";
+import { MobileSidebar } from "@/components/navigation/MobileSidebar";
 import { useScrolled } from "@/hooks/useScrolled";
 import AppLink from "@/components/AppLink";
 import { buttonClass } from "@/lib/utils";
@@ -37,6 +37,12 @@ export default function Header({
 }: HeaderProps) {
   const scrolled = useScrolled(8);
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarId = "mobile-sidebar-panel";
+
+  const handleOpenChange = (next: boolean) => {
+    setOpen(next);
+  };
 
   return (
     <header role="banner" className="fixed top-0 inset-x-0 z-50 pt-3 supports-[height:100svh]:pt-3">
@@ -74,10 +80,11 @@ export default function Header({
             <div className="md:hidden justify-self-end col-start-3">
               <button
                 type="button"
+                ref={menuButtonRef}
                 aria-label="Open menu"
                 aria-expanded={open}
-                aria-controls="mobile-drawer"
-                className="rounded-md border p-2 text-sm inline-flex items-center justify-center"
+                aria-controls={sidebarId}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-[color-mix(in_oklab,var(--bg)_85%,var(--surface)_15%)] text-[var(--primary)] shadow-sm transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
                 onClick={() => setOpen(true)}
               >
                 <span className="relative block w-5 h-3">
@@ -91,7 +98,15 @@ export default function Header({
         </GlassEffect>
       </div>
       <div id="mobile-drawer">
-        <MobileDrawer open={open} onOpenChange={setOpen} links={links} cta={cta} />
+        <MobileSidebar
+          open={open}
+          onOpenChange={handleOpenChange}
+          links={links}
+          cta={cta}
+          activeHref={activeHref}
+          panelId={sidebarId}
+          returnFocusRef={menuButtonRef}
+        />
       </div>
     </header>
   );
