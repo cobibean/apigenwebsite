@@ -4,6 +4,8 @@ import React, { useEffect, useRef } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Root as VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import AppLink from "@/components/AppLink";
+import AppImage from "@/components/AppImage";
+import { useContactModal } from "@/providers/ContactModalProvider";
 import { cn } from "@/lib/utils";
 
 type MobileSidebarProps = {
@@ -27,6 +29,7 @@ export function MobileSidebar({
 }: MobileSidebarProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const prevOpenRef = useRef(open);
+  const { openContactModal } = useContactModal();
 
   useEffect(() => {
     if (prevOpenRef.current && !open && returnFocusRef?.current) {
@@ -92,10 +95,10 @@ export function MobileSidebar({
           ref={contentRef}
           aria-labelledby="mobile-nav-title"
           className={cn(
-            "fixed top-4 right-4 bottom-4 z-50 ml-auto max-w-[320px]",
-            "w-[min(20rem,88vw)]",
+            "fixed inset-x-4 top-4 right-4 z-50 ml-auto max-w-[320px]",
+            "h-auto max-h-[85vh] w-[min(20rem,88vw)] overflow-y-auto",
             "bg-[linear-gradient(180deg,rgba(19,21,21,0.40)_0%,rgba(19,21,21,0.15)_100%)] backdrop-blur-md",
-            "rounded-3xl border border-[rgba(213,205,199,0.25)]",
+            "rounded-3xl border border-[rgba(213,205,199,0.18)]",
             "p-4 flex flex-col gap-4",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
@@ -108,12 +111,17 @@ export function MobileSidebar({
           </VisuallyHidden>
           <div className="flex h-full flex-col gap-4">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-semibold uppercase tracking-[0.24em] text-[#DEDAD8]" style={{ fontFamily: "var(--font-mono)" }}>
-                Apigen
-              </span>
+              <AppImage
+                src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
+                alt="Apigen wordmark"
+                width={120}
+                height={28}
+                className="h-6 w-auto"
+                priority
+              />
               <DialogPrimitive.Close
                 aria-label="Close menu"
-                className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[rgba(222,218,216,0.35)] bg-[rgba(19,21,21,0.35)] text-[#DEDAD8] backdrop-blur-sm transition hover:bg-[rgba(19,21,21,0.55)]"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(222,218,216,0.35)] bg-[rgba(19,21,21,0.35)] text-[#DEDAD8] backdrop-blur-sm transition hover:bg-[rgba(19,21,21,0.55)]"
               >
                 <span className="sr-only">Close</span>
                 <svg width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -136,8 +144,8 @@ export function MobileSidebar({
                     className={cn(
                       "w-full rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition",
                       "bg-[rgba(222,218,216,0.35)] border border-[rgba(213,205,199,0.25)]",
-                      "text-[#131515] hover:bg-[rgba(222,218,216,0.5)]",
-                      isActive ? "ring-1 ring-[var(--accent)]/50" : undefined
+                      "text-[#FAFAFA] hover:bg-[rgba(222,218,216,0.5)]",
+                      isActive ? "bg-[var(--accent,#AE5521)] text-[var(--accent-foreground,#FAFAFA)]" : undefined
                     )}
                     onClick={() => onOpenChange(false)}
                   >
@@ -147,9 +155,8 @@ export function MobileSidebar({
               })}
             </nav>
             <div className="pt-2">
-              <AppLink
-                href={cta.href}
-                openModal
+              <button
+                type="button"
                 className={cn(
                   "w-full rounded-2xl px-3 py-2.5 text-sm font-semibold tracking-[0.06em] text-center",
                   "bg-[#AE5521] text-[#FAFAFA]",
@@ -157,12 +164,15 @@ export function MobileSidebar({
                   "shadow-[0_6px_26px_rgba(174,85,33,0.35)]",
                   "transition hover:bg-[#9A4A1D]"
                 )}
-                onClick={() => onOpenChange(false)}
+                onClick={() => {
+                  openContactModal();
+                  onOpenChange(false);
+                }}
               >
                 {cta.label}
-              </AppLink>
+              </button>
             </div>
-            <footer className="mt-auto pt-3 text-[11px] text-[#DEDAD8]/60" style={{ fontFamily: "var(--font-mono)" }}>
+            <footer className="mt-2 pt-3 text-[11px] text-[#DEDAD8]/60" style={{ fontFamily: "var(--font-mono)" }}>
               © {new Date().getFullYear()} Apigen. All rights reserved.
             </footer>
           </div>

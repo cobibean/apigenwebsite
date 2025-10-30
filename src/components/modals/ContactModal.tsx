@@ -108,7 +108,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
   if (status === "success") {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[480px]">
+        <DialogContent className="w-full max-w-[min(92vw,360px)] sm:max-w-[480px]">
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="mb-4 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
               <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,7 +129,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[520px] max-h-[92vh] overflow-y-auto">
+      <DialogContent className="w-full max-w-[min(92vw,380px)] sm:max-w-[520px] max-h-[92vh] overflow-y-auto">
         <DialogHeader className="space-y-1.5">
           <DialogTitle className="text-xl sm:text-2xl" style={{ fontFamily: "var(--font-sans)" }}>
             Get in Touch

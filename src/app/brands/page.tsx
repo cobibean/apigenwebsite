@@ -57,7 +57,13 @@ export default function BrandsPage() {
   const [primaryBrand, ...otherBrands] = brands;
 
   return (
-    <div className="relative isolate overflow-hidden bg-[var(--bg)] text-[var(--fg)]">
+    <div className="hero-bleed relative isolate min-h-screen overflow-hidden bg-[var(--bg)] text-[var(--fg)]">
+      {/* Viewport-fixed background washes to bleed under header and across sections */}
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <div className="absolute left-[-25%] top-[-20%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--primary)_22%,transparent)_0%,_transparent_70%)] blur-3xl" />
+        <div className="absolute left-1/2 top-[-10%] h-[720px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--accent)_18%,transparent)_0%,_transparent_75%)] blur-3xl" />
+        <div className="absolute right-[-15%] bottom-[-12%] h-[560px] w-[560px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--primary)_16%,transparent)_0%,_transparent_80%)] blur-3xl" />
+      </div>
       {primaryBrand ? <BrandsHero brand={primaryBrand} /> : null}
       {[primaryBrand, ...otherBrands].filter(Boolean).map((brand) => (
         <BrandDetails key={brand!.id} brand={brand!} />
@@ -68,18 +74,7 @@ export default function BrandsPage() {
 
 function BrandsHero({ brand }: { brand: Brand }) {
   return (
-    <section className="section-spacing relative isolate overflow-hidden">
-      <div
-        className="pointer-events-none absolute left-[-20%] top-[-35%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_top_left,_color-mix(in_oklab,var(--primary)_35%,transparent)_0%,_transparent_72%)] blur-3xl md:left-[-12%]"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute left-1/2 top-[-25%] h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--accent)_20%,transparent)_0%,_transparent_70%)] blur-3xl md:top-[-35%] md:h-[680px] md:w-[680px]"
-        aria-hidden="true"
-      />
-      <div className="pointer-events-none absolute right-[-12%] top-[45%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--primary)_18%,transparent)_0%,_transparent_75%)] blur-3xl md:right-[-6%]"
-        aria-hidden="true"
-      />
+    <section className="hero-bleed relative isolate overflow-hidden">
       <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-center gap-10 px-6 pb-10 sm:gap-12 sm:pb-12 lg:grid lg:min-h-[calc(100vh-140px)] lg:grid-cols-[minmax(0,_1.15fr)_minmax(0,_0.85fr)] lg:items-center lg:gap-16 lg:pb-12">
         <div className="space-y-6 sm:space-y-8">
           <span className="sr-only">{brand.name}</span>
