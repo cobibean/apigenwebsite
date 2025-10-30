@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Hero from "@/sections/Hero";
 import MissionSection_1 from "@/sections/MissionSection_1";
 import AboutStory from "@/sections/AboutStory";
-import BrandGrid from "@/sections/BrandGrid";
+import Brands2 from "@/sections/Brands2";
+import { brands as defaultBrands } from "@/data/brands";
 import CTA from "@/sections/CTA";
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function Home() {
       />
       <MissionSection_1 />
       <AboutStory />
-      <BrandGrid />
+      <Brands2 brands={defaultBrands} />
       <CTA />
     </>
   );

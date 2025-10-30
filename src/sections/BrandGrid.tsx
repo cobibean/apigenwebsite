@@ -1,4 +1,6 @@
 "use client";
+// DEPRECATED: Prefer `src/sections/Brands2.tsx` which mirrors the /brands page.
+// Keeping this lightweight grid for potential future reuse.
 import React from "react";
 import AppImage from "@/components/AppImage";
 import AppLink from "@/components/AppLink";

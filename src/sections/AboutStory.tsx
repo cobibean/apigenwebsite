@@ -1,6 +1,10 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
 import Card from "@/components/Card";
+import AppearStack from "@/components/motion/AppearStack";
 import HeroWordmarkAnimated from "@/sections/HeroWordmarkAnimated";
 import { Root as VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useInView } from "framer-motion";
 
 type AboutStoryCard = {
   title: string;
@@ -10,6 +14,7 @@ type AboutStoryCard = {
 type AboutStoryProps = {
   title?: string;
   cards?: AboutStoryCard[];
+  preview?: boolean;
 };
 
 const DEFAULT_TITLE = "Our Story";
@@ -32,11 +37,20 @@ const DEFAULT_CARDS: AboutStoryCard[] = [
   {
     title: "Setting New Standards",
     content:
-      "With a team of industry veterans, we blend corporate precision with a deep passion for the plant, pushing the boundaries of quality, innovation, and sustainability. From legacy growers to modern pioneers, we are here to set new standards in cannabis, always staying true to our roots while shaping the future.",
+      "With a team of industry veterans, we blend corporate precision with a deep passion for the plant, pushing the boundaries of quality and sustainability. From legacy growers to modern pioneers. Always staying true to our roots while shaping the future.",
   },
 ];
 
-export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARDS }: AboutStoryProps) {
+export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARDS, preview }: AboutStoryProps) {
+  const cardsRef = useRef<HTMLDivElement | null>(null);
+  const cardsInView = useInView(cardsRef, { once: true, margin: "-10% 0px -10% 0px" });
+  const [shouldAnimateWordmark, setShouldAnimateWordmark] = useState(false);
+
+  useEffect(() => {
+    if (cardsInView) {
+      setShouldAnimateWordmark(true);
+    }
+  }, [cardsInView]);
   return (
     <section className="relative bg-[var(--bg)]">
       <div
@@ -52,34 +66,59 @@ export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARD
           >
             {title === DEFAULT_TITLE ? (
               <>
-                The{" "}
+                {"The "}
                 <span className="inline-block align-baseline leading-none" style={{ verticalAlign: "baseline" }}>
-                  <HeroWordmarkAnimated
-                    src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
-                    alt="Apigen"
-                    className="inline-block align-baseline h-[1.15em] w-auto"
-                    style={{ display: "inline-block", verticalAlign: "baseline", marginBottom: "-0.05em" }}
-                  />
+                  {shouldAnimateWordmark ? (
+                    <HeroWordmarkAnimated
+                      key="animated"
+                      src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
+                      alt="Apigen"
+                      className="inline-block align-baseline h-[1.15em] w-auto"
+                      style={{
+                        display: "inline-block",
+                        verticalAlign: "baseline",
+                        transform: "translateY(0.18em)",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="inline-block align-baseline h-[1.15em] w-auto"
+                      style={{
+                        display: "inline-block",
+                        verticalAlign: "baseline",
+                        transform: "translateY(0.18em)",
+                      }}
+                    />
+                  )}
                   <VisuallyHidden>Apigen</VisuallyHidden>
-                </span>{" "}
-                Story
+                </span>
+                {" Story"}
               </>
             ) : (
               title
             )}
           </h1>
         </div>
-        <div className="mt-10 grid grid-cols-1 gap-6 md:gap-12 md:grid-cols-2">
-          {cards.map((card) => (
-            <Card
-              key={card.title}
-              title={card.title}
-              description={card.content}
-              radius="sm"
-              padding="sm"
-              gradientDirection="tl"
-            />
-          ))}
+        <div ref={cardsRef}>
+          <AppearStack
+            preview={preview}
+            className="mt-10 grid grid-cols-1 gap-6 md:gap-12 md:grid-cols-2"
+            gap={0.12}
+          >
+            {cards.map((card) => (
+              <Card
+                key={card.title}
+                title={card.title}
+                description={card.content}
+                radius="sm"
+                padding="sm"
+                gradientDirection="tl"
+              />
+            ))}
+          </AppearStack>
         </div>
       </div>
     </section>

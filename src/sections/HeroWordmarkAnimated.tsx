@@ -7,9 +7,16 @@ type Props = {
   alt?: string;
   className?: string;
   style?: CSSProperties;
+  fallbackSrc?: string;
 };
 
-export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", className, style }: Props) {
+export default function HeroWordmarkAnimated({
+  src,
+  alt = "Apigen hero text",
+  className,
+  style,
+  fallbackSrc,
+}: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
   
   // Determine if inline mode based on props
@@ -101,8 +108,20 @@ export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", cl
   
   return (
     <div className={className} style={style} aria-label={alt} role="img">
-      <div ref={ref} className={`${styles.root} ${isInline ? styles.rootInline : ""}`} />
+      <div ref={ref} className={`${styles.root} ${isInline ? styles.rootInline : ""}`}>
+        <img
+          src={fallbackSrc ?? src}
+          alt=""
+          aria-hidden="true"
+          style={{
+            display: isInline ? "inline-block" : "block",
+            width: isInline ? "auto" : "100%",
+            height: "100%",
+            verticalAlign: "baseline",
+            margin: 0,
+          }}
+        />
+      </div>
     </div>
   );
 }
-

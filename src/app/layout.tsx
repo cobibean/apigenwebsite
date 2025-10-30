@@ -6,6 +6,7 @@ import { ContactModalProvider } from "@/providers/ContactModalProvider";
 import { SITE_NAME, SITE_URL } from "@/config/site";
 import "./globals.css";
 import ScrollRestorationFix from "@/helpers/client/ScrollRestorationFix";
+import AgeGate from "@/components/AgeGate";
 
 // Load fonts and map to CSS variables defined in theme.css
 const openSans = Open_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-sans", display: "swap" });
@@ -16,6 +17,15 @@ const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: ["400"], 
 export const metadata: Metadata = {
   title: SITE_NAME,
   description: "Premium quality dried cannabis exporter. Consistent, ethical, patient-first.",
+  icons: {
+    icon: [
+      { url: "/hero/logo-header.png", type: "image/png", sizes: "512x512" },
+      { url: "/hero/logo-header.png", type: "image/png", sizes: "192x192" },
+      { url: "/hero/logo-header.png", type: "image/png", sizes: "32x32" },
+    ],
+    shortcut: "/hero/logo-header.png",
+    apple: "/hero/logo-header.png",
+  },
 };
 
 const NAV_LINKS: Array<{ label: string; href: string }> = [
@@ -35,6 +45,7 @@ export default function RootLayout({
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
         <ContactModalProvider>
           <ScrollRestorationFix />
+          <AgeGate />
           <Header links={NAV_LINKS} />
           <main className="navbar-offset">{children}</main>
           <Footer links={NAV_LINKS} />
