@@ -31,6 +31,7 @@ export const metadata: Metadata = {
 const NAV_LINKS: Array<{ label: string; href: string }> = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Products", href: "/products" },
   { label: "Brands", href: "/brands" },
   { label: "Contact", href: "/contact" },
 ];
