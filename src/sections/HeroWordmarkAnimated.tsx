@@ -11,6 +11,9 @@ type Props = {
 
 export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", className, style }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
+  
+  // Determine if inline mode based on props
+  const isInline = className?.includes("inline-block") || style?.display === "inline-block";
 
   useEffect(() => {
     let cancelled = false;
@@ -30,6 +33,18 @@ export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", cl
         svg.setAttribute("role", "img");
         svg.setAttribute("aria-label", alt);
         svg.classList.add(styles.svgRoot);
+        // Apply inline styles if in inline mode
+        if (isInline) {
+          svg.classList.add(styles.svgRootInline);
+          // Ensure SVG respects parent height constraint but allows overflow
+          svg.style.height = "100%";
+          svg.style.width = "auto";
+          svg.style.overflow = "visible";
+          // Ensure parent container allows overflow
+          if (ref.current) {
+            ref.current.style.overflow = "visible";
+          }
+        }
 
         const shapes = svg.querySelectorAll<SVGGeometryElement>(
           "path, rect, circle, ellipse, polyline, polygon, line"
@@ -82,11 +97,11 @@ export default function HeroWordmarkAnimated({ src, alt = "Apigen hero text", cl
     return () => {
       cancelled = true;
     };
-  }, [src, alt]);
-
+  }, [src, alt, isInline]);
+  
   return (
     <div className={className} style={style} aria-label={alt} role="img">
-      <div ref={ref} className={styles.root} />
+      <div ref={ref} className={`${styles.root} ${isInline ? styles.rootInline : ""}`} />
     </div>
   );
 }

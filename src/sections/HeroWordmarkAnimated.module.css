@@ -3,11 +3,26 @@
   width: 100%;
 }
 
+.rootInline {
+  display: inline-block !important;
+  width: auto !important;
+  height: 100%;
+  overflow: visible;
+}
+
 .svgRoot {
   display: block;
   width: 100%;
   height: auto;
   color: var(--accent); /* copper token */
+}
+
+.svgRootInline {
+  display: inline-block !important;
+  width: auto !important;
+  height: 100% !important;
+  max-height: 100%;
+  overflow: visible;
 }
 
 .strokePath {
