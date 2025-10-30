@@ -68,7 +68,11 @@ export default function BrandsPage() {
 
 function BrandsHero({ brand }: { brand: Brand }) {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="section-spacing relative isolate overflow-hidden">
+      <div
+        className="pointer-events-none absolute left-[-20%] top-[-35%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_top_left,_color-mix(in_oklab,var(--primary)_35%,transparent)_0%,_transparent_72%)] blur-3xl md:left-[-12%]"
+        aria-hidden="true"
+      />
       <div
         className="pointer-events-none absolute left-1/2 top-[-25%] h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--accent)_20%,transparent)_0%,_transparent_70%)] blur-3xl md:top-[-35%] md:h-[680px] md:w-[680px]"
         aria-hidden="true"
