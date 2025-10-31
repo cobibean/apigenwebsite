@@ -111,6 +111,7 @@ export function MobileSidebar({
             background:
               "linear-gradient(145deg, color-mix(in_oklab, #3bc1a0 78%, transparent) 0%, color-mix(in_oklab, #0f3b33 92%, transparent) 55%, #031d1a 100%)",
             fontFamily: "var(--font-sans)",
+            backdropFilter: "blur(24px)",
           }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0)_65%)] pointer-events-none rounded-[32px]" />
