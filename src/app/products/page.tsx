@@ -5,7 +5,7 @@ import { products } from "@/data/products";
 export const metadata: Metadata = {
   title: "Products | Apigen",
   description:
-    "Discover Apigen's reserve dried cannabis strains: Caddilac Rainbow and Dantes Inferno. Premium cultivars crafted in British Columbia for discerning wholesale partners.",
+    "Discover Apigen's reserve dried cannabis strains: Cadillac Rainbow and Dantes Inferno. Premium cultivars crafted in British Columbia for discerning wholesale partners.",
 };
 
 export default function ProductsPage() {

@@ -26,7 +26,6 @@ export default function HeroWordmarkAnimated({
     let cancelled = false;
     const el = ref.current;
     if (!el) return;
-    el.innerHTML = "";
 
     // Fetch the SVG markup and inline it for stroke animation control
     fetch(src)
@@ -51,6 +50,14 @@ export default function HeroWordmarkAnimated({
           if (ref.current) {
             ref.current.style.overflow = "visible";
           }
+        }
+
+        // Align SVG with any provided inline offset so there is no flash
+        const computedStyle = window.getComputedStyle(el);
+        const offset = computedStyle.getPropertyValue("--wordmark-inline-offset")?.trim();
+        if (offset) {
+          svg.style.transform = `translateY(${offset})`;
+          svg.style.verticalAlign = "baseline";
         }
 
         const shapes = svg.querySelectorAll<SVGGeometryElement>(
@@ -119,6 +126,7 @@ export default function HeroWordmarkAnimated({
             height: "100%",
             verticalAlign: "baseline",
             margin: 0,
+            transform: style?.transform ?? "translateY(var(--wordmark-inline-offset, 0))",
           }}
         />
       </div>

@@ -6,7 +6,7 @@ This directory contains product images organized by strain.
 
 ```
 /products/
-├── caddilac-rainbow/
+├── cadillac-rainbow/
 │   ├── hero.jpg          (primary hero image, ~800x800 or larger)
 │   ├── detail-1.jpg      (supporting detail shot, macro/trichomes)
 │   └── detail-2.jpg      (supporting detail shot, structure/trim)
@@ -26,9 +26,9 @@ This directory contains product images organized by strain.
 ## Naming Convention
 
 Keep filenames lowercase and use hyphens for readability. The `/products/page.tsx` references these paths:
-- `/products/caddilac-rainbow/hero.jpg`
-- `/products/caddilac-rainbow/detail-1.jpg`
-- `/products/caddilac-rainbow/detail-2.jpg`
+- `/products/cadillac-rainbow/hero.jpg`
+- `/products/cadillac-rainbow/detail-1.jpg`
+- `/products/cadillac-rainbow/detail-2.jpg`
 - `/products/dantes-inferno/hero.jpg`
 - `/products/dantes-inferno/detail-1.jpg`
 - `/products/dantes-inferno/detail-2.jpg`
@@ -36,9 +36,9 @@ Keep filenames lowercase and use hyphens for readability. The `/products/page.ts
 ## Image Descriptions (Alt Text)
 
 The ProductShowcase component uses these pre-written alt texts:
-- **Caddilac Rainbow hero**: "Caddilac Rainbow cannabis flower featuring candied citrus peel, pine resin, and white pepper notes"
-- **Caddilac Rainbow detail-1**: "Close-up macro shot of Caddilac Rainbow trichomes showing limonene-rich profile"
-- **Caddilac Rainbow detail-2**: "Caddilac Rainbow dense flower structure highlighting hand-trim and cure quality"
+- **Cadillac Rainbow hero**: "Cadillac Rainbow cannabis flower featuring candied citrus peel, pine resin, and white pepper notes"
+- **Cadillac Rainbow detail-1**: "Close-up macro shot of Cadillac Rainbow trichomes showing limonene-rich profile"
+- **Cadillac Rainbow detail-2**: "Cadillac Rainbow dense flower structure highlighting hand-trim and cure quality"
 
 - **Dantes Inferno hero**: "Dantes Inferno cannabis flower showcasing dark stone fruit, cocoa husk, and anise characteristics"
 - **Dantes Inferno detail-1**: "Macro detail of Dantes Inferno caryophyllene-rich flower structure"

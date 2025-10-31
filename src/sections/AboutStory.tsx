@@ -67,17 +67,18 @@ export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARD
             {title === DEFAULT_TITLE ? (
               <>
                 {"The "}
-                <span className="inline-block align-baseline leading-none" style={{ verticalAlign: "baseline" }}>
+                <span className="inline-flex h-[1.04em] items-end leading-none align-baseline px-[0.18em] sm:px-[0.24em]">
                   {shouldAnimateWordmark ? (
                     <HeroWordmarkAnimated
                       key="animated"
                       src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
                       alt="Apigen"
-                      className="inline-block align-baseline h-[1.15em] w-auto"
+                      className="inline-block align-baseline h-full w-auto"
                       style={{
                         display: "inline-block",
                         verticalAlign: "baseline",
-                        transform: "translateY(0.18em)",
+                        transform: "translateY(var(--wordmark-inline-offset))",
+                        ["--wordmark-inline-offset" as const]: "clamp(-0.08em, -0.07em + 0.008vw, -0.04em)",
                       }}
                     />
                   ) : (
@@ -85,11 +86,12 @@ export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARD
                       src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
                       alt=""
                       aria-hidden="true"
-                      className="inline-block align-baseline h-[1.15em] w-auto"
+                      className="inline-block align-baseline h-full w-auto"
                       style={{
                         display: "inline-block",
                         verticalAlign: "baseline",
-                        transform: "translateY(0.18em)",
+                        transform: "translateY(var(--wordmark-inline-offset))",
+                        ["--wordmark-inline-offset" as const]: "clamp(-0.08em, -0.07em + 0.008vw, -0.04em)",
                       }}
                     />
                   )}

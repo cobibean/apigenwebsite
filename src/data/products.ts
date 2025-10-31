@@ -26,8 +26,8 @@ export type Strain = {
 
 export const products: Strain[] = [
   {
-    id: "caddilac-rainbow",
-    title: "Caddilac Rainbow",
+    id: "cadillac-rainbow",
+    title: "Cadillac Rainbow",
     eyebrow: "Reserve Dried Flower",
     provenance: "Mission, British Columbia",
     tasting: {
@@ -52,18 +52,18 @@ export const products: Strain[] = [
     trim: "Hand-trimmed",
     images: [
       {
-        src: "/products/caddilac-rainbow/hero.jpg",
+        src: "/products/cadillac-rainbow/hero.jpg",
         alt:
-          "Caddilac Rainbow cannabis flower featuring candied citrus peel, pine resin, and white pepper notes",
+          "Cadillac Rainbow cannabis flower featuring candied citrus peel, pine resin, and white pepper notes",
         priority: true,
       },
       {
-        src: "/products/caddilac-rainbow/detail-1.jpg",
-        alt: "Close-up macro shot of Caddilac Rainbow trichomes showing limonene-rich profile",
+        src: "/products/cadillac-rainbow/detail-1.jpg",
+        alt: "Close-up macro shot of Cadillac Rainbow trichomes showing limonene-rich profile",
       },
       {
-        src: "/products/caddilac-rainbow/detail-2.jpg",
-        alt: "Caddilac Rainbow dense flower structure highlighting hand-trim and cure quality",
+        src: "/products/cadillac-rainbow/detail-2.jpg",
+        alt: "Cadillac Rainbow dense flower structure highlighting hand-trim and cure quality",
       },
     ],
     availability: "US, Canada, UK. We also acquire for other markets on request.",
