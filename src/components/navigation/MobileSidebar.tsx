@@ -83,8 +83,9 @@ export function MobileSidebar({
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            "fixed inset-0 z-40 bg-neutral-950/70",
-            "backdrop-blur-sm backdrop-brightness-90 backdrop-saturate-75",
+            "fixed inset-0 z-40",
+            "bg-[color-mix(in_oklab,var(--bg)_50%,#061614)]/30",
+            "backdrop-blur-sm",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
             "md:hidden"
@@ -95,21 +96,28 @@ export function MobileSidebar({
           ref={contentRef}
           aria-labelledby="mobile-nav-title"
           className={cn(
-            "fixed inset-x-4 top-4 right-4 z-50 ml-auto max-w-[320px]",
-            "h-auto max-h-[85vh] w-[min(20rem,88vw)] overflow-y-auto",
-            "bg-[linear-gradient(180deg,rgba(19,21,21,0.40)_0%,rgba(19,21,21,0.15)_100%)] backdrop-blur-md",
-            "rounded-3xl border border-[rgba(213,205,199,0.18)]",
-            "p-4 flex flex-col gap-4",
+            "fixed left-[50%] top-[50%] z-50 w-full max-w-sm translate-x-[-50%] translate-y-[-50%]",
+            "h-auto max-h-[85vh] overflow-y-auto",
+            "rounded-[32px] border border-white/14",
+            "p-6 flex flex-col gap-6",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
-            "data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
-            "duration-200 outline-none",
+            "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
+            "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
+            "data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:slide-out-to-top-[48%]",
+            "duration-200 outline-none shadow-[0_32px_80px_rgba(8,19,17,0.32)]",
             "md:hidden"
           )}
+          style={{
+            background:
+              "linear-gradient(145deg, color-mix(in_oklab, #3bc1a0 78%, transparent) 0%, color-mix(in_oklab, #0f3b33 92%, transparent) 55%, #031d1a 100%)",
+            fontFamily: "var(--font-sans)",
+          }}
         >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0)_65%)] pointer-events-none rounded-[32px]" />
           <VisuallyHidden asChild>
             <DialogPrimitive.Title id="mobile-nav-title">Mobile navigation</DialogPrimitive.Title>
           </VisuallyHidden>
-          <div className="flex h-full flex-col gap-4">
+          <div className="relative z-10 flex h-full flex-col gap-6">
             <div className="flex items-center justify-between gap-3">
               <AppImage
                 src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
