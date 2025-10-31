@@ -67,7 +67,7 @@ export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARD
             {title === DEFAULT_TITLE ? (
               <>
                 {"The "}
-                <span className="inline-flex h-[1.04em] items-end leading-none align-baseline px-[0.18em] sm:px-[0.24em]">
+                <span className="inline-flex h-[1.02em] items-end leading-none align-baseline px-[0.18em] sm:px-[0.24em]">
                   {shouldAnimateWordmark ? (
                     <HeroWordmarkAnimated
                       key="animated"
@@ -78,7 +78,7 @@ export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARD
                         display: "inline-block",
                         verticalAlign: "baseline",
                         transform: "translateY(var(--wordmark-inline-offset))",
-                        ["--wordmark-inline-offset" as const]: "clamp(-0.08em, -0.07em + 0.008vw, -0.04em)",
+                        ["--wordmark-inline-offset" as const]: "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
                       }}
                     />
                   ) : (
@@ -91,7 +91,7 @@ export default function AboutStory({ title = DEFAULT_TITLE, cards = DEFAULT_CARD
                         display: "inline-block",
                         verticalAlign: "baseline",
                         transform: "translateY(var(--wordmark-inline-offset))",
-                        ["--wordmark-inline-offset" as const]: "clamp(-0.08em, -0.07em + 0.008vw, -0.04em)",
+                        ["--wordmark-inline-offset" as const]: "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
                       }}
                     />
                   )}
