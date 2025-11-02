@@ -38,7 +38,7 @@ export const products: Strain[] = [
     growersNote:
       "Selected from a broad sift for dense structure and a vivid limonene signature; slow-cured for a satin, even burn.",
     chemistry: {
-      thcPctRange: [24, 28],
+      thcPctRange: [26, 30],
       thcLatestPct: 26.2,
       thcMgG: 262,
       cbdPct: 0.8,
@@ -82,7 +82,7 @@ export const products: Strain[] = [
     growersNote:
       "Chosen for its layered caryophyllene profile and structure that carries flavor through the cure; balanced for a clean, steady burn.",
     chemistry: {
-      thcPctRange: [25, 29],
+      thcPctRange: [26, 30],
       thcLatestPct: 27.1,
       thcMgG: 271,
       cbdPct: 0.7,
@@ -96,13 +96,13 @@ export const products: Strain[] = [
     trim: "Hand-trimmed",
     images: [
       {
-        src: "/products/dantes-inferno/hero.jpg",
+        src: "/products/dantes-inferno/Dante1.jpeg",
         alt:
           "Dantes Inferno cannabis flower showcasing dark stone fruit, cocoa husk, and anise characteristics",
-        priority: false,
+        priority: true,
       },
       {
-        src: "/products/dantes-inferno/detail-1.jpg",
+        src: "/products/dantes-inferno/dantewhiteplain.jpeg",
         alt: "Macro detail of Dantes Inferno caryophyllene-rich flower structure",
       },
       {

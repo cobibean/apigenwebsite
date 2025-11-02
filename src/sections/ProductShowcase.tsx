@@ -39,14 +39,14 @@ export default function ProductShowcase({
         aria-hidden="true"
       />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6 pb-16 md:pb-24">
         <Appear preview={preview}>
           <div className="mx-auto max-w-7xl">
             {/* Header block */}
-            <div className="mb-12 md:mb-16">
+            <div className={`mb-8 md:mb-10 ${!alternate ? "text-right" : ""}`}>
               {strain.eyebrow && (
                 <p
-                  className="text-xs uppercase tracking-[0.3em] text-secondary mb-2"
+                  className="text-xs uppercase tracking-[0.3em] text-secondary mb-1"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   {strain.eyebrow}
@@ -60,7 +60,7 @@ export default function ProductShowcase({
               </h2>
               {strain.provenance && (
                 <p
-                  className="text-sm text-secondary mt-2"
+                  className="text-sm text-secondary mt-1"
                   style={{ fontFamily: "var(--font-body)" }}
                 >
                   {strain.provenance}
@@ -70,38 +70,40 @@ export default function ProductShowcase({
 
             {/* Main content grid */}
             <div
-              className={`grid gap-8 md:gap-12 lg:gap-16 md:grid-cols-[1fr_1.1fr] lg:grid-cols-[1fr_1.2fr] ${
+              className={`grid gap-6 md:gap-8 lg:gap-10 md:grid-cols-[1fr_1.1fr] lg:grid-cols-[1fr_1.2fr] ${
                 alternate ? "" : "md:grid-cols-[1.1fr_1fr] lg:grid-cols-[1.2fr_1fr]"
               }`}
             >
               {/* Hero Image Column */}
               <div className={alternate ? "order-1" : "order-2 md:order-2"}>
-                <div className="relative overflow-hidden rounded-[28px] border border-border bg-card shadow-lg">
+                <div className={`relative overflow-hidden rounded-[28px] border border-border bg-card shadow-lg aspect-[5/4] ${
+                  alternate ? "" : "md:max-h-[500px] lg:max-h-[540px]"
+                }`}>
                   {heroImage && (
                     <AppImage
                       src={heroImage.src}
                       alt={heroImage.alt}
                       width={800}
-                      height={800}
+                      height={640}
                       priority={heroImage.priority}
-                      className="w-full h-auto object-cover aspect-square"
+                      className="w-full h-full object-cover"
                     />
                   )}
                 </div>
               </div>
 
               {/* Content Column */}
-              <div className={`flex flex-col gap-8 ${alternate ? "order-2" : "order-1"}`}>
+              <div className={`flex flex-col gap-6 -mt-20 md:-mt-24 ${alternate ? "order-2" : "order-1"}`}>
                 {/* Tasting Notes */}
                 {strain.tasting && (
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <h3
                       className="text-lg font-semibold text-primary"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
                       Tasting Notes
                     </h3>
-                    <div className="grid gap-5 md:grid-cols-3">
+                    <div className="grid gap-3 md:grid-cols-3">
                       {/* Nose */}
                       <div className="flex flex-col gap-2">
                         <dt
@@ -173,16 +175,16 @@ export default function ProductShowcase({
 
                 {/* Chemistry */}
                 {strain.chemistry && (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h4
                       className="text-sm font-semibold text-primary"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
-                      Chemistry (Latest Batch)
+                      Chemistry
                     </h4>
 
                     {/* THC / CBD */}
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-3 md:grid-cols-2">
                       {strain.chemistry.thcPctRange && (
                         <div>
                           <dt
@@ -196,15 +198,6 @@ export default function ProductShowcase({
                             style={{ fontFamily: "var(--font-body)" }}
                           >
                             {strain.chemistry.thcPctRange[0]}–{strain.chemistry.thcPctRange[1]}%
-                            {strain.chemistry.thcLatestPct && (
-                              <>
-                                {" "}
-                                <span className="text-secondary">
-                                  (latest {strain.chemistry.thcLatestPct}%
-                                  {strain.chemistry.thcMgG && ` / ${strain.chemistry.thcMgG} mg·g`})
-                                </span>
-                              </>
-                            )}
                           </dd>
                         </div>
                       )}
@@ -260,24 +253,6 @@ export default function ProductShowcase({
                   </div>
                 )}
 
-                {/* Cure & Trim */}
-                {(strain.cure || strain.trim) && (
-                  <div className="space-y-2">
-                    <h4
-                      className="text-sm font-semibold text-primary"
-                      style={{ fontFamily: "var(--font-sans)" }}
-                    >
-                      Cure &amp; Trim
-                    </h4>
-                    <div
-                      className="text-sm text-foreground space-y-1"
-                      style={{ fontFamily: "var(--font-body)" }}
-                    >
-                      {strain.cure && <p>{strain.cure}</p>}
-                      {strain.trim && <p>{strain.trim}</p>}
-                    </div>
-                  </div>
-                )}
 
                 {/* Availability */}
                 {strain.availability && (
