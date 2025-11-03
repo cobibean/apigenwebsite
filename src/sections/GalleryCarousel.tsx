@@ -124,7 +124,7 @@ export default function GalleryCarousel({
               {images.length > 1 && (
                 <>
                   <button
-                    onClick={prevImage}
+                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
                     className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
                     aria-label="Previous image"
                   >
@@ -133,7 +133,7 @@ export default function GalleryCarousel({
                     </svg>
                   </button>
                   <button
-                    onClick={nextImage}
+                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
                     className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
                     aria-label="Next image"
                   >
@@ -161,7 +161,7 @@ export default function GalleryCarousel({
                 {images.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => goToImage(index)}
+                    onClick={(e) => { e.stopPropagation(); goToImage(index); }}
                     className={`w-3 h-3 rounded-full transition-all duration-200 ${
                       index === currentIndex
                         ? "bg-primary scale-125"
@@ -180,7 +180,7 @@ export default function GalleryCarousel({
                   {images.map((image, index) => (
                     <button
                       key={index}
-                      onClick={() => goToImage(index)}
+                      onClick={(e) => { e.stopPropagation(); goToImage(index); }}
                       className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                         index === currentIndex
                           ? "border-primary scale-105"
