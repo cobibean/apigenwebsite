@@ -92,7 +92,7 @@ export default function GalleryCarousel({
           </div>
 
           {/* Carousel Container */}
-          <div className="relative max-w-5xl mx-auto">
+          <div className="relative max-w-3xl mx-auto">
             {/* Main Image Display */}
             <div 
               onClick={handleImageClick}

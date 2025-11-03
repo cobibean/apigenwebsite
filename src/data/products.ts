@@ -66,7 +66,6 @@ export const products: Strain[] = [
         alt: "Cadillac Rainbow dense flower structure highlighting hand-trim and cure quality",
       },
     ],
-    availability: "US, Canada, UK. We also acquire for other markets on request.",
     coaUrl: undefined,
   },
   {

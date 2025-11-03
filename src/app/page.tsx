@@ -4,7 +4,7 @@ import MissionSection_1 from "@/sections/MissionSection_1";
 import AboutStory from "@/sections/AboutStory";
 import Brands2 from "@/sections/Brands2";
 import { brands as defaultBrands } from "@/data/brands";
-import HeroBrandCard from "@/sections/HeroBrandCard";
+import ProductShowcase from "@/sections/ProductShowcase";
 import { products } from "@/data/products";
 import GalleryCarousel from "@/sections/GalleryCarousel";
 import { galleryImages } from "@/data/gallery";
@@ -30,12 +30,17 @@ export default function Home() {
       <AboutStory />
       <Brands2 brands={defaultBrands} />
 
-      {/* Brand Showcase Cards */}
+      {/* Product Showcase Cards */}
       {products.map((strain, idx) => (
-        <HeroBrandCard
+        <ProductShowcase
           key={strain.id}
           strain={strain}
-          imageOnLeft={idx % 2 === 0} // Alternate image placement
+          layoutDirection={idx % 2 === 0 ? "left" : "right"}
+          hideSupporting={true}
+          sectionBgColor="olive"
+          contentTextColor="white"
+          headerBorderColor="copper"
+          cardBorderColor="copper"
         />
       ))}
 

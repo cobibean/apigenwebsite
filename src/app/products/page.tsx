@@ -22,7 +22,11 @@ export default function ProductsPage() {
 
       {/* Product showcase sections */}
       {products.map((strain, idx) => (
-        <ProductShowcase key={strain.id} strain={strain} index={idx} />
+        <ProductShowcase 
+          key={strain.id} 
+          strain={strain} 
+          layoutDirection={idx % 2 === 0 ? "left" : "right"}
+        />
       ))}
 
       {/* Gallery Carousel */}
