@@ -25,7 +25,14 @@ export default function Home() {
 
   return (
     <>
-      <Hero content={homeContent.hero} />
+      <Hero
+        content={homeContent.hero}
+        subtitleGap="var(--spacing-xl)"
+        subtitleHorizontalPadding="var(--content-padding-sm)"
+        subtitleMaxWidth="600px"
+        subtitleOffsetX="1rem)"
+        subtitleStyle="button"
+      />
       <MissionSection_1 content={homeContent.mission} />
       <AboutStory content={aboutContent} />
       <Brands2 brands={defaultBrands} />

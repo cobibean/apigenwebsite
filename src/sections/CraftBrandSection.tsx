@@ -5,6 +5,29 @@ import Card from "@/components/Card";
 import { buttonClass } from "@/lib/utils";
 import type { Brand } from "@/data/brands";
 
+/*
+ * ARCHIVED: Original Canada Craft Card Implementation (Pre-Video)
+ *
+ * This was the original implementation before adding CCFOREST1.mp4 video.
+ * Canada Craft card displayed the brand logo with drop shadow effect.
+ *
+ * Original code (from git commit before video implementation):
+ * ```tsx
+ * ) : (
+ *   <AppImage
+ *     src={brand.logo}
+ *     alt={`${brand.name} wordmark`}
+ *     width={1024}
+ *     height={1024}
+ *     priority
+ *     className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_rgba(0_0_0_/_0.18)] md:max-w-[260px]"
+ *   />
+ * )}
+ * ```
+ *
+ * To revert: Replace the video implementation with the above AppImage component.
+ */
+
 interface CraftBrandSectionProps {
   brand: Brand;
   preview?: boolean;
@@ -41,32 +64,32 @@ export default function CraftBrandSection({ brand, preview }: CraftBrandSectionP
 
         <div className="relative mt-6 flex items-center justify-center lg:mt-0">
           <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,rgb(174_85_33_/_0.25),transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
-          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-xl backdrop-blur-xl md:max-w-[380px] md:p-10 transition-colors duration-300 ${
-            brand.id === 'mission' 
-              ? 'bg-[#0d0c0c] border-[#0d0c0c] hover:bg-white group' 
+          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-xl backdrop-blur-xl md:max-w-[380px] md:p-10 ${
+            brand.id === 'mission'
+              ? 'bg-[#0d0c0c] border-[#0d0c0c]'
               : 'border-border bg-card'
           }`}>
-            <div className="relative w-full max-w-[200px] md:max-w-[260px]">
-              {brand.id === 'mission' ? (
-                <>
-                  <AppImage
-                    src="/brands/mission_black_bg.jpeg"
-                    alt={`${brand.name} wordmark`}
-                    width={1024}
-                    height={1024}
-                    priority
-                    className="w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
-                  />
-                  <AppImage
-                    src="/brands/mission_no_bg.jpeg"
-                    alt={`${brand.name} wordmark`}
-                    width={1024}
-                    height={1024}
-                    priority
-                    className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  />
-                </>
-              ) : (
+            {brand.id === 'mission' ? (
+              <>
+                <AppImage
+                  src="/brands/mission_black_bg.jpeg"
+                  alt={`${brand.name} wordmark`}
+                  width={1024}
+                  height={1024}
+                  priority
+                  className="w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
+                />
+                <AppImage
+                  src="/brands/mission_no_bg.jpeg"
+                  alt={`${brand.name} wordmark`}
+                  width={1024}
+                  height={1024}
+                  priority
+                  className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+              </>
+            ) : (
+              <div className="pt-8">
                 <AppImage
                   src={brand.logo}
                   alt={`${brand.name} wordmark`}
@@ -75,8 +98,8 @@ export default function CraftBrandSection({ brand, preview }: CraftBrandSectionP
                   priority
                   className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_rgba(0_0_0_/_0.18)] md:max-w-[260px]"
                 />
-              )}
-            </div>
+              </div>
+            )}
             {brand.id !== 'mission' && (
               <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,rgb(174_85_33_/_0.6),transparent),_transparent)]" aria-hidden="true" />
             )}

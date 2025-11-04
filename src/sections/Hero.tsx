@@ -13,6 +13,10 @@ type Props = {
   wordmarkMaxWidth?: string; // e.g., "900px" or "65%"; controls textImage scaling
   contentOffsetY?: string; // e.g., "12px" or "1rem"; positive moves cluster down
   subtitleGap?: string; // bottom margin under subtitle
+  subtitleHorizontalPadding?: string; // left/right padding around subtitle
+  subtitleMaxWidth?: string; // max width constraint for subtitle
+  subtitleOffsetX?: string; // horizontal offset from center (e.g., "-1rem" or "0.5rem")
+  subtitleStyle?: "text" | "button"; // style the subtitle as text or button
   ctaGap?: string; // top margin above CTA row
   imageUrl?: string;
   imageAlt?: string;
@@ -29,6 +33,10 @@ export default function Hero({
   wordmarkMaxWidth = "70%",
   contentOffsetY = "0px",
   subtitleGap = "1.5rem", // 24px default
+  subtitleHorizontalPadding = "0px",
+  subtitleMaxWidth = "min(88%,380px)",
+  subtitleOffsetX = "0px",
+  subtitleStyle = "text",
   ctaGap = "2rem", // 32px default (matches mt-8 approx)
   imageUrl,
   imageAlt = "",
@@ -58,13 +66,19 @@ export default function Hero({
           <Appear preview={preview} className="w-full flex justify-center">
             <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center" style={{ transform: `translateY(${contentOffsetY})` }}>
               {subtitle && (
-                <div className="mt-1 sm:mt-2" style={{ marginBottom: subtitleGap }}>
-                  <span
-                    className="mx-auto block max-w-[min(88%,380px)] text-center text-[clamp(1.18rem,3.2vw,1.65rem)] leading-tight tracking-[-0.05em] uppercase sm:max-w-none sm:inline-block sm:text-[clamp(1.32rem,2.8vw,1.85rem)] sm:whitespace-nowrap lg:text-[clamp(1.4rem,2.2vw,2rem)]"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {subtitle}
-                  </span>
+                <div className="mt-1 sm:mt-2" style={{ marginBottom: subtitleGap, paddingLeft: subtitleHorizontalPadding, paddingRight: subtitleHorizontalPadding, transform: `translateX(${subtitleOffsetX})` }}>
+                  {subtitleStyle === "button" ? (
+                    <div className={buttonClass({ variant: "olive", size: "lg" })}>
+                      {subtitle}
+                    </div>
+                  ) : (
+                    <span
+                      className="mx-auto block text-center text-[clamp(1.18rem,3.2vw,1.65rem)] leading-tight tracking-[-0.05em] uppercase sm:max-w-none sm:inline-block sm:text-[clamp(1.32rem,2.8vw,1.85rem)] sm:whitespace-nowrap lg:text-[clamp(1.4rem,2.2vw,2rem)]"
+                      style={{ fontFamily: "var(--font-mono)", maxWidth: subtitleMaxWidth }}
+                    >
+                      {subtitle}
+                    </span>
+                  )}
                 </div>
               )}
               {textImageUrl ? (
@@ -127,13 +141,19 @@ export default function Hero({
         <Appear preview={preview} className="w-full flex justify-center">
           <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center" style={{ transform: `translateY(${contentOffsetY})` }}>
             {subtitle && (
-              <div className="mt-1 sm:mt-2" style={{ marginBottom: subtitleGap }}>
-                <span
-                  className="mx-auto block max-w-[min(88%,380px)] text-center text-[clamp(1.18rem,3.2vw,1.65rem)] leading-tight tracking-[-0.05em] uppercase sm:max-w-none sm:inline-block sm:text-[clamp(1.32rem,2.8vw,1.85rem)] sm:whitespace-nowrap lg:text-[clamp(1.4rem,2.2vw,2rem)]"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  {subtitle}
-                </span>
+              <div className="mt-1 sm:mt-2" style={{ marginBottom: subtitleGap, paddingLeft: subtitleHorizontalPadding, paddingRight: subtitleHorizontalPadding, transform: `translateX(${subtitleOffsetX})` }}>
+                {subtitleStyle === "button" ? (
+                  <div className={buttonClass({ variant: "olive", size: "lg" })}>
+                    {subtitle}
+                  </div>
+                ) : (
+                  <span
+                    className="mx-auto block text-center text-[clamp(1.18rem,3.2vw,1.65rem)] leading-tight tracking-[-0.05em] uppercase sm:max-w-none sm:inline-block sm:text-[clamp(1.32rem,2.8vw,1.85rem)] sm:whitespace-nowrap lg:text-[clamp(1.4rem,2.2vw,2rem)]"
+                    style={{ fontFamily: "var(--font-mono)", maxWidth: subtitleMaxWidth }}
+                  >
+                    {subtitle}
+                  </span>
+                )}
               </div>
             )}
             {textImageUrl ? (

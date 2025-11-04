@@ -10,7 +10,7 @@ export interface CardProps {
   /** Adjust internal padding */
   padding?: "sm" | "md" | "lg";
   /** Gradient direction for hover effect */
-  gradientDirection?: "tl" | "tr" | "bl" | "br";
+  gradientDirection?: "tl" | "tr" | "bl" | "br" | "olive-tl" | "olive-tr" | "olive-bl" | "olive-br";
 }
 
 export default function Card({
@@ -41,6 +41,10 @@ export default function Card({
     tr: "225deg", // top-right
     bl: "45deg",  // bottom-left (default for About cards)
     br: "135deg", // bottom-right (default for Brands cards)
+    "olive-tl": "315deg", // olive top-left
+    "olive-tr": "225deg", // olive top-right
+    "olive-bl": "45deg",  // olive bottom-left
+    "olive-br": "135deg", // olive bottom-right
   };
 
   const gradientAngle = gradientDirections[gradientDirection];
@@ -63,7 +67,9 @@ export default function Card({
       <div
         className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: `linear-gradient(${gradientAngle}, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 60%)`,
+          background: gradientDirection?.startsWith('olive')
+            ? `linear-gradient(${gradientAngle}, color-mix(in oklab, var(--surface-olive) 12%, transparent) 0%, color-mix(in oklab, var(--accent) 6%, transparent) 30%, transparent 70%)`
+            : `linear-gradient(${gradientAngle}, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 60%)`,
         }}
         aria-hidden="true"
       />

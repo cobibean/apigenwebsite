@@ -7,6 +7,28 @@ import AppearStack from "@/components/motion/AppearStack";
 import { buttonClass } from "@/lib/utils";
 import type { Brand } from "@/data/brands";
 
+/*
+ * ARCHIVED: Original Canada Craft Card Implementation (Pre-Video)
+ *
+ * This was the original implementation before adding CCFOREST1.mp4 video.
+ * Canada Craft card displayed the brand logo with drop shadow effect.
+ *
+ * Original code (from git commit before video implementation):
+ * ```tsx
+ * ) : (
+ *   <AppImage
+ *     src={brand.logo}
+ *     alt={`${brand.name} wordmark`}
+ *     width={1024}
+ *     height={1024}
+ *     className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_color-mix(in_oklab,var(--fg)_18%,transparent)] sm:max-w-[260px]"
+ *   />
+ * )}
+ * ```
+ *
+ * To revert: Replace the video implementation with the above AppImage component.
+ */
+
 type Props = {
   brands: Brand[];
   preview?: boolean;
@@ -18,11 +40,16 @@ export default function Brands2({ brands, preview }: Props) {
 
   return (
     <section className="hero-bleed relative isolate overflow-hidden bg-[var(--bg)] text-[var(--fg)]">
-      {/* Background washes to mirror /brands styling */}
+      {/* Advanced olive gradient background system */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute left-[-25%] top-[-20%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--primary)_22%,transparent)_0%,_transparent_70%)] blur-3xl" />
-        <div className="absolute left-1/2 top-[-10%] h-[720px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--accent)_18%,transparent)_0%,_transparent_75%)] blur-3xl" />
-        <div className="absolute right-[-15%] bottom-[-12%] h-[560px] w-[560px] rounded-full bg-[radial-gradient(circle_at_center,_color-mix(in_oklab,var(--primary)_16%,transparent)_0%,_transparent_80%)] blur-3xl" />
+        {/* PRO LEVEL THEME COLORS GRADIENTS */}
+        <div className="absolute left-[-28%] top-[-22%] h-[640px] w-[640px] rounded-full bg-gradient-conic from-[var(--surface-olive)]/15 via-[var(--accent)]/10 to-[var(--btn-olive)]/12 blur-3xl" />
+
+        <div className="absolute left-[20%] top-[-8%] h-[580px] w-[580px] rounded-full bg-gradient-radial from-[var(--accent)]/18 via-[var(--surface-olive)]/12 to-transparent blur-2xl" />
+
+        <div className="absolute right-[-18%] top-[15%] h-[550px] w-[550px] rounded-full bg-gradient-to-br from-[var(--btn-olive)]/14 to-[var(--accent)]/10 blur-3xl" />
+
+        <div className="absolute bottom-[-10%] left-[40%] h-[420px] w-[420px] rounded-full bg-gradient-to-t from-[var(--surface-olive)]/16 to-transparent blur-2xl" />
       </div>
 
       <BrandsHero brand={primaryBrand} preview={preview} />
@@ -64,27 +91,29 @@ function BrandsHero({ brand, preview }: { brand: Brand; preview?: boolean }) {
           </Appear>
         </div>
         <Appear preview={preview} delay={0.15} className="relative mt-6 flex items-center justify-center lg:mt-0">
-          <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,var(--accent)_25%,transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
-          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-[0px_24px_52px_color-mix(in_oklab,var(--fg)_12%,transparent)] backdrop-blur-xl sm:max-w-[380px] sm:p-10 transition-colors duration-300 ${brand.id === 'mission' ? 'bg-[#0d0c0c] border-[#0d0c0c] hover:bg-white group' : 'border-[var(--border)] bg-[var(--card)]'}`}>
-            <div className="relative w-full max-w-[200px] sm:max-w-[260px]">
-              {brand.id === 'mission' ? (
-                <>
-                  <AppImage
-                    src="/brands/mission_black_bg.jpeg"
-                    alt={`${brand.name} wordmark`}
-                    width={1024}
-                    height={1024}
-                    className="w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
-                  />
-                  <AppImage
-                    src="/brands/mission_no_bg.jpeg"
-                    alt={`${brand.name} wordmark`}
-                    width={1024}
-                    height={1024}
-                    className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  />
-                </>
-              ) : (
+          {/* PRO LEVEL THEME COLORS GLOW */}
+          <div className="absolute inset-0 scale-110 rounded-[36px] bg-gradient-to-br from-[var(--surface-olive)]/12 via-[var(--accent)]/8 to-[var(--btn-olive)]/10 blur-2xl" aria-hidden="true" />
+          <div className="absolute inset-0 scale-125 rounded-[40px] bg-gradient-radial from-[var(--accent)]/6 to-transparent blur-xl" aria-hidden="true" />
+          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-[0px_24px_52px_color-mix(in_oklab,var(--fg)_12%,transparent)] backdrop-blur-xl sm:max-w-[380px] sm:p-10 ${brand.id === 'mission' ? 'bg-[#0d0c0c] border-[#0d0c0c]' : 'border-[var(--border)] bg-[var(--card)]'}`}>
+            {brand.id === 'mission' ? (
+              <>
+                <AppImage
+                  src="/brands/mission_black_bg.jpeg"
+                  alt={`${brand.name} wordmark`}
+                  width={1024}
+                  height={1024}
+                  className="w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
+                />
+                <AppImage
+                  src="/brands/mission_no_bg.jpeg"
+                  alt={`${brand.name} wordmark`}
+                  width={1024}
+                  height={1024}
+                  className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+              </>
+            ) : (
+              <div className="pt-8">
                 <AppImage
                   src={brand.logo}
                   alt={`${brand.name} wordmark`}
@@ -92,10 +121,10 @@ function BrandsHero({ brand, preview }: { brand: Brand; preview?: boolean }) {
                   height={1024}
                   className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_color-mix(in_oklab,var(--fg)_18%,transparent)] sm:max-w-[260px]"
                 />
-              )}
-            </div>
+              </div>
+            )}
             {brand.id !== 'mission' && (
-              <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,var(--accent)_60%,transparent),_transparent)]" aria-hidden="true" />
+              <div className="mt-8 h-px w-24 bg-gradient-to-r from-transparent via-[var(--surface-olive)]/25 via-[var(--accent)]/18 via-[var(--btn-olive)]/25 to-transparent" aria-hidden="true" />
             )}
             {brand.id === 'mission' && (
               <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />
@@ -118,7 +147,7 @@ function BrandsHero({ brand, preview }: { brand: Brand; preview?: boolean }) {
               description={highlight.description}
               radius="md"
               padding="md"
-              gradientDirection="br"
+              gradientDirection="olive-br"
             />
           ))}
         </AppearStack>
@@ -192,38 +221,39 @@ function BrandDetails({ brand, withTopBorder = true, preview }: { brand: Brand; 
           </Appear>
         </div>
         <Appear preview={preview} delay={0.15} className="relative mt-6 flex items-center justify-center lg:mt-0">
-          <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,var(--accent)_25%,transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
+          {/* PRO LEVEL THEME COLORS GLOW for BrandDetails */}
+          <div className="absolute inset-0 scale-110 rounded-[36px] bg-gradient-to-br from-[var(--surface-olive)]/12 via-[var(--accent)]/8 to-[var(--btn-olive)]/10 blur-2xl" aria-hidden="true" />
+          <div className="absolute inset-0 scale-125 rounded-[40px] bg-gradient-radial from-[var(--accent)]/6 to-transparent blur-xl" aria-hidden="true" />
           <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-[0px_24px_52px_color-mix(in_oklab,var(--fg)_12%,transparent)] backdrop-blur-xl sm:max-w-[380px] sm:p-10 transition-colors duration-300 ${brand.id === 'mission' ? 'bg-[#0d0c0c] border-[#0d0c0c] hover:bg-white group' : 'border-[var(--border)] bg-[var(--card)]'}`}>
-            <div className="relative w-full max-w-[200px] sm:max-w-[260px]">
-              {brand.id === 'mission' ? (
-                <>
-                  <AppImage
-                    src="/brands/mission_black_bg.jpeg"
-                    alt={`${brand.name} wordmark`}
-                    width={1024}
-                    height={1024}
-                    className="w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
-                  />
-                  <AppImage
-                    src="/brands/mission_no_bg.jpeg"
-                    alt={`${brand.name} wordmark`}
-                    width={1024}
-                    height={1024}
-                    className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  />
-                </>
-              ) : (
+            {brand.id === 'mission' ? (
+              <video
+                className="w-full h-full object-cover rounded-[24px] absolute inset-0"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source src="/hero/videos/forestloop1.mp4" type="video/mp4" />
                 <AppImage
-                  src={brand.logo}
+                  src="/brands/mission_black_bg.jpeg"
                   alt={`${brand.name} wordmark`}
                   width={1024}
                   height={1024}
-                  className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_color-mix(in_oklab,var(--fg)_18%,transparent)] sm:max-w-[260px]"
+                  className="w-full h-full object-cover rounded-[24px]"
                 />
-              )}
-            </div>
+              </video>
+            ) : (
+              <AppImage
+                src={brand.logo}
+                alt={`${brand.name} wordmark`}
+                width={1024}
+                height={1024}
+                className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_color-mix(in_oklab,var(--fg)_18%,transparent)] sm:max-w-[260px]"
+              />
+            )}
             {brand.id !== 'mission' && (
-              <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,var(--accent)_60%,transparent),_transparent)]" aria-hidden="true" />
+              <div className="mt-8 h-px w-24 bg-gradient-to-r from-transparent via-[var(--surface-olive)]/25 via-[var(--accent)]/18 via-[var(--btn-olive)]/25 to-transparent" aria-hidden="true" />
             )}
             {brand.id === 'mission' && (
               <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />
@@ -246,7 +276,7 @@ function BrandDetails({ brand, withTopBorder = true, preview }: { brand: Brand; 
               description={highlight.description}
               radius="md"
               padding="md"
-              gradientDirection="br"
+              gradientDirection="olive-br"
             />
           ))}
         </AppearStack>

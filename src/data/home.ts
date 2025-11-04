@@ -107,8 +107,8 @@ export const homeContent: HomeContent = {
       hideSupporting: true,
       sectionBgColor: "olive",
       contentTextColor: "white",
-      headerBorderColor: "copper",
-      cardBorderColor: "copper"
+      headerBorderColor: "black",
+      cardBorderColor: "black"
     }
   },
   metadata: {

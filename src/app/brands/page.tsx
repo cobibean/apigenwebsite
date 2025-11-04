@@ -14,11 +14,19 @@ export default function BrandsPage() {
 
   return (
     <div className="hero-bleed relative isolate min-h-screen overflow-hidden bg-background text-foreground">
-      {/* Viewport-fixed background washes to bleed under header and across sections */}
+      {/* Viewport-fixed background washes with advanced olive gradients */}
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
-        <div className="absolute left-[-25%] top-[-20%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,color-mix(in_oklab,rgb(31_39_38/0.22),transparent)_0%,transparent_70%)] blur-3xl" />
-        <div className="absolute left-1/2 top-[-10%] h-[720px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,color-mix(in_oklab,rgb(174_85_33/0.18),transparent)_0%,transparent_75%)] blur-3xl" />
-        <div className="absolute right-[-15%] bottom-[-12%] h-[560px] w-[560px] rounded-full bg-[radial-gradient(circle_at_center,color-mix(in_oklab,rgb(31_39_38/0.16),transparent)_0%,transparent_80%)] blur-3xl" />
+        {/* Primary olive mesh gradient - PRO LEVEL */}
+        <div className="absolute left-[-30%] top-[-25%] h-[680px] w-[680px] rounded-full bg-gradient-to-br from-[var(--surface-olive)]/18 via-[var(--accent)]/12 to-[var(--btn-olive)]/15 blur-3xl" />
+
+        {/* Secondary olive radial with copper accent - PRO LEVEL */}
+        <div className="absolute left-[15%] top-[-5%] h-[520px] w-[520px] rounded-full bg-gradient-radial from-[var(--accent)]/22 via-[var(--surface-olive)]/16 to-transparent blur-2xl" />
+
+        {/* Tertiary olive conic sweep - PRO LEVEL */}
+        <div className="absolute right-[-20%] top-[10%] h-[620px] w-[620px] rounded-full bg-gradient-conic from-transparent via-[var(--btn-olive)]/18 to-[var(--accent)]/12 blur-3xl" />
+
+        {/* Accent olive band - PRO LEVEL */}
+        <div className="absolute bottom-[-15%] left-[35%] h-[480px] w-[480px] rounded-full bg-gradient-to-t from-[var(--surface-olive)]/20 to-transparent blur-2xl" />
       </div>
       {primaryBrand ? <CraftBrandSection brand={primaryBrand} /> : null}
       {otherBrands.filter(Boolean).map((brand) => (

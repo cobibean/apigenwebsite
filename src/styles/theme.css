@@ -39,6 +39,27 @@
   --error: #B9382C; /* Brick */
   --info: #2F5DA0;
 
+  /* Spacing tokens (approved) */
+  --spacing-xs: 0.5rem;   /* 8px */
+  --spacing-sm: 0.75rem;  /* 12px */
+  --spacing-md: 1rem;     /* 16px */
+  --spacing-lg: 1.5rem;   /* 24px */
+  --spacing-xl: 2rem;     /* 32px */
+  --spacing-2xl: 3rem;    /* 48px */
+  --spacing-3xl: 4rem;    /* 64px */
+
+  /* Horizontal spacing for content elements */
+  --content-padding-xs: 1rem;   /* 16px */
+  --content-padding-sm: 2rem;   /* 32px */
+  --content-padding-md: 3rem;   /* 48px */
+  --content-padding-lg: 4rem;   /* 64px */
+
+  /* Fine offset spacing for precise positioning */
+  --offset-xs: 0.25rem;   /* 4px */
+  --offset-sm: 0.5rem;    /* 8px */
+  --offset-md: 0.75rem;   /* 12px */
+  --offset-lg: 1rem;      /* 16px */
+
   /* Placeholders for additional tokens (pending approval) */
   --radius-sm: 4px;
   --radius-md: 8px;

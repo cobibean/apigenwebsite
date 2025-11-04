@@ -123,7 +123,6 @@ export const products: Strain[] = [
         alt: "Dantes Inferno finished flower displaying hand-trim precision and color complexity",
       },
     ],
-    availability: "US, Canada, UK. We also acquire for other markets on request.",
     coaUrl: undefined,
   },
 ];
