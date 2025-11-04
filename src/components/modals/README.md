@@ -1,4 +1,6 @@
-# Contact Modal
+# Modal Components
+
+## Contact Modal
 
 A fully functional contact form modal with client-side validation, ready for backend integration.
 
@@ -173,4 +175,79 @@ The modal uses the site's design tokens from `theme.css`:
 - ✅ Focus trapping when modal is open
 - ✅ Screen reader announcements
 - ✅ Reduced motion support
+
+---
+
+## Legal Disclaimer Modal
+
+A modal component displaying legal disclaimer content for the website.
+
+### Features
+
+- ✅ Structured legal content with roman numeral numbering
+- ✅ Responsive design matching other modals
+- ✅ Consistent styling with italic text and proper typography
+- ✅ Accessible dialog implementation
+
+### Usage
+
+```tsx
+import LegalDisclaimerModal from "@/components/modals/LegalDisclaimerModal";
+import { useState } from "react";
+
+const [disclaimerOpen, setDisclaimerOpen] = useState(false);
+
+// In your JSX
+<LegalDisclaimerModal open={disclaimerOpen} onOpenChange={setDisclaimerOpen} />
+```
+
+---
+
+## Privacy Policy Modal
+
+A modal component displaying the website's privacy policy content.
+
+### Features
+
+- ✅ Comprehensive privacy policy with structured sections
+- ✅ Hierarchical content organization with headings and lists
+- ✅ Consistent styling matching other legal modals
+- ✅ Responsive design with scrollable content
+
+### Usage
+
+```tsx
+import PrivacyPolicyModal from "@/components/modals/PrivacyPolicyModal";
+import { useState } from "react";
+
+const [privacyOpen, setPrivacyOpen] = useState(false);
+
+// In your JSX
+<PrivacyPolicyModal open={privacyOpen} onOpenChange={setPrivacyOpen} />
+```
+
+---
+
+## Terms & Conditions Modal
+
+A modal component displaying the website's terms and conditions.
+
+### Features
+
+- ✅ Complete terms and conditions with numbered sections
+- ✅ Structured legal content with clear headings
+- ✅ Consistent styling and typography
+- ✅ Mobile-responsive design
+
+### Usage
+
+```tsx
+import TermsAndConditionsModal from "@/components/modals/TermsAndConditionsModal";
+import { useState } from "react";
+
+const [termsOpen, setTermsOpen] = useState(false);
+
+// In your JSX
+<TermsAndConditionsModal open={termsOpen} onOpenChange={setTermsOpen} />
+```
 

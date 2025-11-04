@@ -3,15 +3,24 @@ export interface FooterLink {
   href: string;
 }
 
+export interface FooterDisclaimer {
+  label: string;
+  type: 'legal' | 'privacy' | 'terms';
+}
+
 export interface FooterContent {
   copyrightPrefix: string;
-  disclaimer: string;
+  disclaimers: FooterDisclaimer[];
   navigationLinks: FooterLink[];
 }
 
 export const footerContent: FooterContent = {
-  copyrightPrefix: "© Apigen ",
-  disclaimer: "Legal Disclaimer",
+  copyrightPrefix: "© Apigen ALL RIGHTS RESERVED ",
+  disclaimers: [
+    { label: "Privacy Policy", type: "privacy" },
+    { label: "Terms & Conditions", type: "terms" },
+    { label: "Legal Disclaimer", type: "legal" },
+  ],
   navigationLinks: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },

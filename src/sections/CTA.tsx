@@ -20,7 +20,7 @@ export default function CTA({ content, preview }: Props) {
             <h2 className="text-2xl font-semibold text-[var(--primary)] md:text-3xl" style={{ fontFamily: "var(--font-sans)" }}>
               {title}
             </h2>
-            <p className="text-base md:text-lg text-[var(--secondary-foreground)]">{copy}</p>
+            {copy && <p className="text-base md:text-lg text-[var(--secondary-foreground)]">{copy}</p>}
             <div className="pt-2">
               <AppLink href={href} className={buttonClass({ variant, size: "lg" })}>
                 {label}

@@ -11,6 +11,8 @@ import GalleryCarousel from "@/sections/GalleryCarousel";
 import { galleryImages } from "@/data/gallery";
 import CTA from "@/sections/CTA";
 import { homeContent } from "@/data/home";
+import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: homeContent.metadata.title,
@@ -37,8 +39,8 @@ export default function Home() {
       <AboutStory content={aboutContent} />
       <Brands2 brands={defaultBrands} />
 
-      {/* Data-driven Product Showcase Cards */}
-      {showcaseProducts.map((strain, idx) => {
+      {/* Data-driven Product Showcase Cards - TEMPORARILY COMMENTED OUT */}
+      {/* {showcaseProducts.map((strain, idx) => {
         const layoutDirection = homeContent.productShowcases.layoutPattern[
           idx % homeContent.productShowcases.layoutPattern.length
         ];
@@ -51,12 +53,22 @@ export default function Home() {
             {...homeContent.productShowcases.styling}
           />
         );
-      })}
+      })} */}
 
       <GalleryCarousel
         content={homeContent.gallery}
         images={galleryImages}
       />
+
+      {/* Products Link Button */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-6 py-2">
+        <div className="flex justify-center">
+          <AppLink href="/products" className={buttonClass({ variant: "olive", size: "lg" })}>
+            See Our Products
+          </AppLink>
+        </div>
+      </div>
+
       <CTA content={homeContent.cta} />
     </>
   );

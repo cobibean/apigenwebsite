@@ -27,7 +27,7 @@ export interface GalleryContent {
 
 export interface CTAContent {
   title: string;
-  copy: string;
+  copy?: string;
   label: string;
   href: string;
   variant: "brown" | "olive" | "neutral";
@@ -92,7 +92,6 @@ export const homeContent: HomeContent = {
   },
   cta: {
     title: "Ready to talk?",
-    copy: "Let's discuss your needs and timelines.",
     label: "Get in touch",
     href: "/contact",
     variant: "olive",

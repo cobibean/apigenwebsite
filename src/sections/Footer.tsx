@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import AppLink from "@/components/AppLink";
 import LegalDisclaimerModal from "@/components/modals/LegalDisclaimerModal";
+import PrivacyPolicyModal from "@/components/modals/PrivacyPolicyModal";
+import TermsAndConditionsModal from "@/components/modals/TermsAndConditionsModal";
 import type { FooterContent } from "@/data/footer";
 
 type Props = {
@@ -21,9 +23,25 @@ const SPACING = {
 } as const;
 
 export default function Footer({ content }: Props) {
-  const { copyrightPrefix, disclaimer, navigationLinks } = content;
+  const { copyrightPrefix, disclaimers, navigationLinks } = content;
   const copyright = getCopyrightText(copyrightPrefix);
-  const [isDisclaimerOpen, setDisclaimerOpen] = useState(false);
+  const [isLegalOpen, setLegalOpen] = useState(false);
+  const [isPrivacyOpen, setPrivacyOpen] = useState(false);
+  const [isTermsOpen, setTermsOpen] = useState(false);
+
+  const handleDisclaimerClick = (type: 'legal' | 'privacy' | 'terms') => {
+    switch (type) {
+      case 'legal':
+        setLegalOpen(true);
+        break;
+      case 'privacy':
+        setPrivacyOpen(true);
+        break;
+      case 'terms':
+        setTermsOpen(true);
+        break;
+    }
+  };
 
   return (
     <footer data-block="Footer" className="w-full bg-[#545943]">
@@ -33,27 +51,27 @@ export default function Footer({ content }: Props) {
           <div className="text-sm text-white/80 text-center">
             {copyright}
           </div>
-          {disclaimer && (
-            <div className="flex justify-center">
-              <div className="relative group">
+          <div className="flex justify-center gap-2">
+            {disclaimers.map((disclaimer, i) => (
+              <div key={i} className="relative group">
                 <button
                   type="button"
-                  onClick={() => setDisclaimerOpen(true)}
+                  onClick={() => handleDisclaimerClick(disclaimer.type)}
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-transparent px-4 py-1.5 text-xs uppercase tracking-wide transition-colors focus:outline-none text-white/70 hover:border-white hover:text-white focus-visible:border-white focus-visible:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943]"
                   style={{ fontFamily: "var(--font-sans)" }}
-                  aria-label="Open legal disclaimer"
+                  aria-label={`Open ${disclaimer.label}`}
                 >
-                  <span className="font-semibold italic">{disclaimer}</span>
+                  <span className="font-semibold italic">{disclaimer.label}</span>
                 </button>
                 <span
                   className="pointer-events-none absolute left-1/2 bottom-full z-20 mb-2 w-64 -translate-x-1/2 -translate-y-1 rounded-md px-3 py-2 text-[11px] font-medium italic leading-snug opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 text-white/90 bg-[#1a1a1a]"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
-                  Click or tap to read the full legal disclaimer.
+                  Click or tap to read the full {disclaimer.label.toLowerCase()}.
                 </span>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
           <nav className={`flex flex-wrap ${SPACING.mobileNavGap} justify-center`}>
             {navigationLinks.map((l, i) => (
               <AppLink 
@@ -67,53 +85,55 @@ export default function Footer({ content }: Props) {
           </nav>
         </div>
 
-        {/* Desktop: Grid layout with absolute-positioned center */}
-        <div className="hidden md:block relative">
-          <div className="flex items-center justify-between">
-            {/* Left: Copyright */}
-            <div className="text-sm text-white/80">
-              {copyright}
-            </div>
-
-            {/* Right: Navigation Links - tighter spacing */}
-            <nav className={`flex ${SPACING.desktopNavGap}`}>
+        {/* Desktop: Grid layout with properly centered disclaimer pills */}
+        <div className="hidden md:block">
+          <div className="grid grid-cols-3 items-center">
+            {/* Left: Navigation Links - left-aligned */}
+            <nav className={`flex ${SPACING.desktopNavGap} justify-start`}>
               {navigationLinks.map((l, i) => (
-                <AppLink 
-                  key={i} 
-                  href={l.href} 
+                <AppLink
+                  key={i}
+                  href={l.href}
                   className={`text-white/80 text-center transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943] rounded ${SPACING.linkPadding} text-sm`}
                 >
                   {l.label}
                 </AppLink>
               ))}
             </nav>
-          </div>
 
-          {/* Center: Legal Disclaimer - absolutely positioned for perfect centering */}
-          {disclaimer && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="relative group">
-                <button
-                  type="button"
-                  onClick={() => setDisclaimerOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-transparent px-4 py-1.5 text-xs uppercase tracking-wide transition-colors focus:outline-none text-white/70 hover:border-white hover:text-white focus-visible:border-white focus-visible:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943]"
-                  style={{ fontFamily: "var(--font-sans)" }}
-                  aria-label="Open legal disclaimer"
-                >
-                  <span className="font-semibold italic">{disclaimer}</span>
-                </button>
-                <span
-                  className="pointer-events-none absolute left-1/2 bottom-full z-20 mb-2 w-64 -translate-x-1/2 -translate-y-1 rounded-md px-3 py-2 text-[11px] font-medium italic leading-snug opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 text-white/90 bg-[#1a1a1a]"
-                  style={{ fontFamily: "var(--font-sans)" }}
-                >
-                  Click or tap to read the full legal disclaimer.
-                </span>
-              </div>
+            {/* Center: Disclaimer Pills - perfectly centered */}
+            <div className="flex gap-2 justify-center">
+              {disclaimers.map((disclaimer, i) => (
+                <div key={i} className="relative group">
+                  <button
+                    type="button"
+                    onClick={() => handleDisclaimerClick(disclaimer.type)}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-transparent px-3 py-1 text-xs uppercase tracking-wide transition-colors focus:outline-none text-white/70 hover:border-white hover:text-white focus-visible:border-white focus-visible:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943] whitespace-nowrap"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                    aria-label={`Open ${disclaimer.label}`}
+                  >
+                    <span className="font-semibold italic">{disclaimer.label}</span>
+                  </button>
+                  <span
+                    className="pointer-events-none absolute left-1/2 bottom-full z-20 mb-2 w-64 -translate-x-1/2 -translate-y-1 rounded-md px-3 py-2 text-[11px] font-medium italic leading-snug opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 text-white/90 bg-[#1a1a1a]"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    Click or tap to read the full {disclaimer.label.toLowerCase()}.
+                  </span>
+                </div>
+              ))}
             </div>
-          )}
+
+            {/* Right: Copyright - right-aligned */}
+            <div className="text-sm text-white/80 justify-self-end">
+              {copyright}
+            </div>
+          </div>
         </div>
       </div>
-      {disclaimer && <LegalDisclaimerModal open={isDisclaimerOpen} onOpenChange={setDisclaimerOpen} />}
+      <LegalDisclaimerModal open={isLegalOpen} onOpenChange={setLegalOpen} />
+      <PrivacyPolicyModal open={isPrivacyOpen} onOpenChange={setPrivacyOpen} />
+      <TermsAndConditionsModal open={isTermsOpen} onOpenChange={setTermsOpen} />
     </footer>
   );
 }
