@@ -53,10 +53,9 @@ export const brands: Brand[] = [
       'Every product we grow represents our dedication to delivering cannabis that is authentic, consistent, and worthy of its name: MISSION.'
     ],
     attributes: [
-      { label: 'Category', value: 'Retail Brand' },
+      { label: 'Category', value: 'Premium dried flower' },
       { label: 'Origin', value: 'Mission, British Columbia' },
-      { label: 'Focus', value: 'Small-Batch Craft Flower' },
-      { label: 'Values', value: 'Transparency • Integrity • Trust' }
+      { label: 'Market focus', value: 'Retail clients' }
     ],
     highlights: [
       {
