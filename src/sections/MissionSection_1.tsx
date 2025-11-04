@@ -4,31 +4,19 @@ import AppLink from "@/components/AppLink";
 import Appear from "@/components/motion/Appear";
 import AppearStack from "@/components/motion/AppearStack";
 import { buttonClass } from "@/lib/utils";
+import type { MissionContent, SectionStyling } from "@/data/home";
 
 export type MissionSectionProps = {
-  eyebrow?: string;
-  /** Left-side tagline top block (light color). Use \n to create line breaks. */
-  taglinePrimary?: string;
-  /** Left-side tagline bottom block (muted second color). Use \n to create line breaks. */
-  taglineSecondary?: string;
-  /** Right-side bold lead copy (1–2 sentences). */
-  lead?: string;
-  /** Right-side supporting paragraph. */
-  body?: string;
-  cta?: { label: string; href: string };
+  content: MissionContent & { styling?: SectionStyling };
   /** passed by renderer; disables motion in preview */
   preview?: boolean;
 };
 
 export default function MissionSection_1({
-  eyebrow = "Our Mission",
-  taglinePrimary = "TO SET A NEW INDUSTRY\nSTANDARD WITH",
-  taglineSecondary = "PREMIUM MEDICINAL\nCANNABIS FLOWER",
-  lead = "We're not just providing exceptional medication. We're pioneers of quality, transparency, and patient‑centric treatments.",
-  body = "Uncompromising pharmaceutical‑grade quality is not just a goal for us — it's embedded in our DNA and the standards we set for ourselves and for the industry. Our commitment goes beyond profits — we’re for doing what’s right by the plant, our patients, and the planet.",
-  cta = { label: "About Apigen", href: "/about" },
+  content,
   preview,
 }: MissionSectionProps) {
+  const { eyebrow, taglinePrimary, taglineSecondary, lead, body, cta, styling } = content;
   // Force light-on-dark text to match reference regardless of global theme
   const textClass = "[color:var(--fg-on-olive)]";
   const subTextClass = "[color:color-mix(in_oklab,white_78%,transparent)]";
@@ -39,8 +27,8 @@ export default function MissionSection_1({
       data-block="Mission"
       data-variant="1"
       // Solid olive background; keep simple to sit above the hero video layer
-      className="w-full"
-      style={{ background: "var(--surface-olive)" }}
+      className={`w-full ${styling?.backgroundClass || ""}`}
+      style={styling?.backgroundClass ? undefined : { background: "var(--surface-olive)" }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">

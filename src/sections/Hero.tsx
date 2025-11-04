@@ -5,14 +5,10 @@ import AppLink from "@/components/AppLink";
 import AppImage from "@/components/AppImage";
 import { buttonClass } from "@/lib/utils";
 import HeroWordmarkAnimated from "./HeroWordmarkAnimated";
+import type { HeroContent, SectionStyling } from "@/data/home";
 
 type Props = {
-  eyebrow?: string;
-  subtitle?: string;
-  title?: string;
-  copy?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
+  content: HeroContent & { styling?: SectionStyling };
   secondaryCtas?: Array<{ label: string; href: string; variant?: "brown" | "olive" | "neutral" }>;
   wordmarkMaxWidth?: string; // e.g., "900px" or "65%"; controls textImage scaling
   contentOffsetY?: string; // e.g., "12px" or "1rem"; positive moves cluster down
@@ -28,12 +24,7 @@ type Props = {
 };
 
 export default function Hero({
-  eyebrow = "Apigen",
-  subtitle,
-  title = "Premium dried cannabis, exported consistently.",
-  copy = "Ethical, compliant, patient-first.",
-  ctaLabel = "Get in touch",
-  ctaHref = "/contact",
+  content,
   secondaryCtas,
   wordmarkMaxWidth = "70%",
   contentOffsetY = "0px",
@@ -47,6 +38,7 @@ export default function Hero({
   preview,
   variant = "fullscreen",
 }: Props) {
+  const { eyebrow, subtitle, title, copy, ctaLabel, ctaHref, styling } = content;
   const [useVideo, setUseVideo] = useState(true);
   const poster = useMemo(() => posterSrc || imageUrl || "/hero/APIGEN hero text.png", [posterSrc, imageUrl]);
 

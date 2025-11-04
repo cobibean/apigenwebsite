@@ -51,8 +51,8 @@ export default function AboutStory({ content, preview }: AboutStoryProps) {
                         display: "inline-block",
                         verticalAlign: "baseline",
                         transform: "translateY(var(--wordmark-inline-offset))",
-                        ["--wordmark-inline-offset" as const]: "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
-                      }}
+                        "--wordmark-inline-offset": "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
+                      } as React.CSSProperties}
                     />
                   ) : (
                     <img
@@ -64,8 +64,8 @@ export default function AboutStory({ content, preview }: AboutStoryProps) {
                         display: "inline-block",
                         verticalAlign: "baseline",
                         transform: "translateY(var(--wordmark-inline-offset))",
-                        ["--wordmark-inline-offset" as const]: "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
-                      }}
+                        "--wordmark-inline-offset": "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
+                      } as React.CSSProperties}
                     />
                   )}
                   <VisuallyHidden>Apigen</VisuallyHidden>

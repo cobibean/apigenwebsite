@@ -30,8 +30,11 @@ export default function ProductsPage() {
 
       {/* Gallery Carousel */}
       <GalleryCarousel
-        title={productsContent.galleryTitle}
-        subtitle={productsContent.gallerySubtitle}
+        content={{
+          title: productsContent.galleryTitle,
+          subtitle: productsContent.gallerySubtitle,
+          size: "compact"
+        }}
         images={galleryImages}
       />
     </div>

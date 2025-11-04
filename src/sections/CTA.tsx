@@ -3,26 +3,17 @@ import React from "react";
 import Appear from "@/components/motion/Appear";
 import AppLink from "@/components/AppLink";
 import { buttonClass } from "@/lib/utils";
+import type { CTAContent, SectionStyling } from "@/data/home";
 
 type Props = {
-  title?: string;
-  copy?: string;
-  label?: string;
-  href?: string;
-  variant?: "brown" | "olive" | "neutral";
+  content: CTAContent & { styling?: SectionStyling };
   preview?: boolean;
 };
 
-export default function CTA({
-  title = "Ready to talk?",
-  copy = "Let’s discuss your needs and timelines.",
-  label = "Get in touch",
-  href = "/contact",
-  variant = "olive",
-  preview,
-}: Props) {
+export default function CTA({ content, preview }: Props) {
+  const { title, copy, label, href, variant, styling } = content;
   return (
-    <section data-block="CTA" data-variant="default" className="bg-[var(--surface)]">
+    <section data-block="CTA" data-variant="default" className={styling?.backgroundClass || "bg-[var(--surface)]"}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <Appear preview={preview}>
           <div className="mx-auto max-w-3xl text-center space-y-4">

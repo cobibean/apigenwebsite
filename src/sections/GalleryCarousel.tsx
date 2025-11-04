@@ -6,26 +6,24 @@ import { m, LazyMotion, domAnimation, useReducedMotion, AnimatePresence } from "
 import AppImage from "@/components/AppImage";
 import Appear from "@/components/motion/Appear";
 import { GalleryImage } from "@/data/gallery";
+import type { GalleryContent, SectionStyling } from "@/data/home";
 
 type Props = {
-  title?: string;
-  subtitle?: string;
+  content: GalleryContent & { styling?: SectionStyling };
   images?: GalleryImage[];
   preview?: boolean;
   className?: string;
-  size?: "full" | "compact"; // Add size variant
 };
 
 const defaultImages: GalleryImage[] = [];
 
 export default function GalleryCarousel({
-  title = "Product Gallery",
-  subtitle = "Explore our premium dried cannabis flowers",
+  content,
   images = defaultImages,
   preview,
   className,
-  size = "full",
 }: Props) {
+  const { title, subtitle, size, styling } = content;
   const [currentIndex, setCurrentIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
   const reduced = !!prefersReducedMotion;
@@ -63,7 +61,7 @@ export default function GalleryCarousel({
     <section
       data-block="GalleryCarousel"
       data-variant={size}
-      className={`relative bg-background text-foreground ${className || ""}`}
+      className={`relative ${styling?.backgroundClass || "bg-background"} text-foreground ${className || ""}`}
     >
       {/* Subtle accent blur */}
       <div

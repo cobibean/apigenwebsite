@@ -10,48 +10,47 @@ import { products } from "@/data/products";
 import GalleryCarousel from "@/sections/GalleryCarousel";
 import { galleryImages } from "@/data/gallery";
 import CTA from "@/sections/CTA";
+import { homeContent } from "@/data/home";
 
 export const metadata: Metadata = {
-  title: "Apigen | Premium dried cannabis exporter",
-  description: "Premium dried cannabis, exported consistently. Ethical, compliant, patient-first.",
+  title: homeContent.metadata.title,
+  description: homeContent.metadata.description,
 };
 
 export default function Home() {
+  // Get products for showcases based on configured IDs
+  const showcaseProducts = homeContent.productShowcases.productIds
+    .map(id => products.find(p => p.id === id))
+    .filter(Boolean);
+
   return (
     <>
-      <Hero
-        eyebrow="Apigen"
-        subtitle="PREMIUM QUALITY DRIED CANNABIS EXPORTER"
-        title="Premium dried cannabis, exported consistently."
-        copy="Ethical, compliant, patient-first."
-        ctaLabel="Get in touch"
-        ctaHref="/contact"
-      />
-      <MissionSection_1 />
+      <Hero content={homeContent.hero} />
+      <MissionSection_1 content={homeContent.mission} />
       <AboutStory content={aboutContent} />
       <Brands2 brands={defaultBrands} />
 
-      {/* Product Showcase Cards */}
-      {products.map((strain, idx) => (
-        <ProductShowcase
-          key={strain.id}
-          strain={strain}
-          layoutDirection={idx % 2 === 0 ? "left" : "right"}
-          hideSupporting={true}
-          sectionBgColor="olive"
-          contentTextColor="white"
-          headerBorderColor="copper"
-          cardBorderColor="copper"
-        />
-      ))}
+      {/* Data-driven Product Showcase Cards */}
+      {showcaseProducts.map((strain, idx) => {
+        const layoutDirection = homeContent.productShowcases.layoutPattern[
+          idx % homeContent.productShowcases.layoutPattern.length
+        ];
+
+        return (
+          <ProductShowcase
+            key={strain!.id}
+            strain={strain!}
+            layoutDirection={layoutDirection}
+            {...homeContent.productShowcases.styling}
+          />
+        );
+      })}
 
       <GalleryCarousel
-        title="Our Premium Strains"
-        subtitle="Explore Cadillac Rainbow and Dante's Inferno up close"
+        content={homeContent.gallery}
         images={galleryImages}
-        size="compact"
       />
-      <CTA />
+      <CTA content={homeContent.cta} />
     </>
   );
 }
