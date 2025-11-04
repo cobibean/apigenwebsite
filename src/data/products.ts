@@ -24,6 +24,20 @@ export type Strain = {
   coaUrl?: string;
 };
 
+export interface ProductsContent {
+  galleryTitle: string;
+  gallerySubtitle: string;
+  pageTitle: string;
+  pageDescription: string;
+}
+
+export const productsContent: ProductsContent = {
+  galleryTitle: "Product Gallery",
+  gallerySubtitle: "Explore our premium dried cannabis flowers up close",
+  pageTitle: "Products | Apigen",
+  pageDescription: "Discover Apigen's reserve dried cannabis strains: Cadillac Rainbow and Dantes Inferno. Premium cultivars crafted in British Columbia for discerning wholesale partners.",
+};
+
 export const products: Strain[] = [
   {
     id: "cadillac-rainbow",

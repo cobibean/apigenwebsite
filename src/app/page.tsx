@@ -4,6 +4,7 @@ import MissionSection_1 from "@/sections/MissionSection_1";
 import AboutStory from "@/sections/AboutStory";
 import Brands2 from "@/sections/Brands2";
 import { brands as defaultBrands } from "@/data/brands";
+import { aboutContent } from "@/data/about";
 import ProductShowcase from "@/sections/ProductShowcase";
 import { products } from "@/data/products";
 import GalleryCarousel from "@/sections/GalleryCarousel";
@@ -27,7 +28,7 @@ export default function Home() {
         ctaHref="/contact"
       />
       <MissionSection_1 />
-      <AboutStory />
+      <AboutStory content={aboutContent} />
       <Brands2 brands={defaultBrands} />
 
       {/* Product Showcase Cards */}

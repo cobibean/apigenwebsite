@@ -185,19 +185,38 @@ import Footer from "@/sections/Footer";
 <Footer content={footerContent} />
 ```
 
-#### 3.5 Footer Migration Checklist
-- [ ] **PRE-MIGRATION**: Document current footer behavior and take screenshots
-- [ ] Create footer data file with comprehensive interfaces
-- [ ] Temporarily support both old and new props in Footer component (backward compatibility)
-- [ ] Update layout.tsx to use new data structure
-- [ ] Test all pages load without console errors
-- [ ] Verify navigation links work on all pages
-- [ ] Verify disclaimer modal opens/closes correctly
-- [ ] Test responsive layout (mobile: stacked, desktop: grid)
-- [ ] Verify copyright shows current year correctly
-- [ ] Check hover/focus states on all interactive elements
-- [ ] **POST-MIGRATION**: Remove old prop support and defaults from Footer component
-- [ ] Final comprehensive test of entire site functionality
+#### 3.5 Footer Migration Strategy (DIRECT APPROACH)
+
+**Alternative: Direct Migration with Focused Testing**
+
+Instead of backward compatibility, use a direct approach with surgical changes and immediate verification:
+
+1. **Preparation Phase:**
+   - [ ] Document current footer behavior and take screenshots
+   - [ ] Create footer data file with comprehensive interfaces
+   - [ ] Prepare layout.tsx changes in parallel
+
+2. **Migration Execution:**
+   - [ ] Update Footer component to use new `content` prop structure
+   - [ ] Remove old `defaults` array and `getCurrentYear()` function
+   - [ ] Update layout.tsx to pass `footerContent` instead of `NAV_LINKS`
+   - [ ] **IMMEDIATE TESTING**: Test one page at a time before proceeding
+
+3. **Verification Phase:**
+   - [ ] Test layout rendering immediately after changes
+   - [ ] Verify navigation links work correctly
+   - [ ] Verify disclaimer modal opens/closes correctly
+   - [ ] Test responsive layout (mobile: stacked, desktop: grid)
+   - [ ] Verify copyright shows current year correctly
+   - [ ] Check hover/focus states on all interactive elements
+   - [ ] Test all pages load without console errors
+   - [ ] **ROLLBACK PLAN**: If issues found, revert immediately and debug
+
+**Benefits of Direct Approach:**
+- ✅ **Clear State**: Only one code path to test/debug
+- ✅ **Immediate Feedback**: Issues surface immediately, not hidden behind compatibility layers
+- ✅ **Cleaner Code**: No temporary complexity or maintenance burden
+- ✅ **Forced Discipline**: Must get it right the first time or revert
 
 ### Phase 4: Dynamic Pages Setup (Future)
 
@@ -247,14 +266,15 @@ For pages like `/for-doctors`, `/for-pharmacists`, etc.:
 ## Risks & Considerations
 
 ### Breaking Changes ⚠️
-- **Footer Migration (HIGH RISK)**: Footer is used globally in layout.tsx. Changes affect entire site. Must maintain backward compatibility during transition.
-- **Component Props**: Changing component interfaces requires updating all usage sites
-- **Navigation Links**: Footer currently receives NAV_LINKS from layout - must preserve this relationship
+- **Footer Migration (HIGH RISK)**: Footer is used globally in layout.tsx. Changes affect entire site. Direct migration with immediate testing.
+- **Component Props**: Changing component interfaces requires updating all usage sites simultaneously
+- **Navigation Links**: Footer currently receives NAV_LINKS from layout - relationship will be replaced with data-driven approach
 
 ### Migration Strategy
 - **Phased Approach**: Implement page-by-page to minimize disruption
-- **Footer First Priority**: Test footer changes extensively before proceeding
-- **Backward Compatibility**: Keep old props as fallbacks during transition
+- **Direct Migration**: No backward compatibility - clean, immediate transitions
+- **Surgical Changes**: Small, focused changes with immediate testing
+- **Rollback Ready**: Prepared to revert if issues discovered
 - **Comprehensive Testing**: Full site functionality testing after each migration
 
 ### Footer-Specific Risks

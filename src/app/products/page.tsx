@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import ProductShowcase from "@/sections/ProductShowcase";
 import GalleryCarousel from "@/sections/GalleryCarousel";
-import { products } from "@/data/products";
+import { products, productsContent } from "@/data/products";
 import { galleryImages } from "@/data/gallery";
 
 export const metadata: Metadata = {
-  title: "Products | Apigen",
-  description:
-    "Discover Apigen's reserve dried cannabis strains: Cadillac Rainbow and Dantes Inferno. Premium cultivars crafted in British Columbia for discerning wholesale partners.",
+  title: productsContent.pageTitle,
+  description: productsContent.pageDescription,
 };
 
 export default function ProductsPage() {
@@ -31,8 +30,8 @@ export default function ProductsPage() {
 
       {/* Gallery Carousel */}
       <GalleryCarousel
-        title="Product Gallery"
-        subtitle="Explore our premium dried cannabis flowers up close"
+        title={productsContent.galleryTitle}
+        subtitle={productsContent.gallerySubtitle}
         images={galleryImages}
       />
     </div>

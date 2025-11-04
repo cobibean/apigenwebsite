@@ -2,22 +2,16 @@
 import React, { useState } from "react";
 import AppLink from "@/components/AppLink";
 import LegalDisclaimerModal from "@/components/modals/LegalDisclaimerModal";
-
-type Link = { label: string; href: string };
+import type { FooterContent } from "@/data/footer";
 
 type Props = {
-  copyright?: string;
-  links?: Link[];
-  disclaimer?: string;
+  content: FooterContent;
 };
 
-const defaults: Link[] = [
-  { label: "Privacy", href: "/privacy" },
-  { label: "Contact", href: "/contact" },
-];
+import { getCopyrightText } from "@/data/footer";
 
 const SPACING = {
-  section: "py-10",
+  section: "py-6",
   container: "px-4 sm:px-6 lg:px-8", // Horizontal edge padding
   maxWidth: "max-w-7xl", // Increased from 6xl (1152px) to 7xl (1280px) for more width
   mobileGap: "gap-6",
@@ -26,13 +20,9 @@ const SPACING = {
   linkPadding: "px-1.5 py-1", // Keeps links tappable/clickable
 } as const;
 
-const getCurrentYear = () => new Date().getFullYear();
-
-export default function Footer({ 
-  copyright = `© Apigen ${getCurrentYear()}`, 
-  links = defaults,
-  disclaimer = "Legal Disclaimer",
-}: Props) {
+export default function Footer({ content }: Props) {
+  const { copyrightPrefix, disclaimer, navigationLinks } = content;
+  const copyright = getCopyrightText(copyrightPrefix);
   const [isDisclaimerOpen, setDisclaimerOpen] = useState(false);
 
   return (
@@ -65,7 +55,7 @@ export default function Footer({
             </div>
           )}
           <nav className={`flex flex-wrap ${SPACING.mobileNavGap} justify-center`}>
-            {links.map((l, i) => (
+            {navigationLinks.map((l, i) => (
               <AppLink 
                 key={i} 
                 href={l.href} 
@@ -87,7 +77,7 @@ export default function Footer({
 
             {/* Right: Navigation Links - tighter spacing */}
             <nav className={`flex ${SPACING.desktopNavGap}`}>
-              {links.map((l, i) => (
+              {navigationLinks.map((l, i) => (
                 <AppLink 
                   key={i} 
                   href={l.href} 

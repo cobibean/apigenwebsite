@@ -4,6 +4,7 @@ import Header from "@/components/navigation/Header";
 import Footer from "@/sections/Footer";
 import { ContactModalProvider } from "@/providers/ContactModalProvider";
 import { SITE_NAME, SITE_URL } from "@/config/site";
+import { footerContent } from "@/data/footer";
 import "./globals.css";
 import ScrollRestorationFix from "@/helpers/client/ScrollRestorationFix";
 import AgeGate from "@/components/AgeGate";
@@ -28,13 +29,7 @@ export const metadata: Metadata = {
   },
 };
 
-const NAV_LINKS: Array<{ label: string; href: string }> = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Products", href: "/products" },
-  { label: "Brands", href: "/brands" },
-  { label: "Contact", href: "/contact" },
-];
+// Navigation links are now defined in src/data/footer.ts
 
 export default function RootLayout({
   children,
@@ -47,9 +42,9 @@ export default function RootLayout({
         <ContactModalProvider>
           <ScrollRestorationFix />
           <AgeGate />
-          <Header links={NAV_LINKS} />
+          <Header links={footerContent.navigationLinks} />
           <main className="navbar-offset">{children}</main>
-          <Footer links={NAV_LINKS} />
+          <Footer content={footerContent} />
         </ContactModalProvider>
         <script
           type="application/ld+json"
