@@ -13,7 +13,7 @@ export const brands: Brand[] = [
     id: "cannada-craft",
     name: "Cannada Craft",
     logo: "/brands/Cannada%20Craft%20No%20BG.png",
-    heading: "Proud to be Craft. Proud to be Canadian.",
+    heading: "Proud to be Craft.\nProud to be Canadian.",
     body: [
       "Our flagship dried flower brand, Cannada Craft, represents the heart of premium Canadian cannabis.",
       "Focused exclusively on the export of dried flower, we bring the best of BC craft cultivation to the global stage.",
@@ -46,7 +46,7 @@ export const brands: Brand[] = [
     id: 'mission',
     name: 'Mission',
     logo: '/brands/mission_black_bg.jpeg',
-    heading: 'From the hills of Mission to the hands of our customers.',
+    heading: 'From the hills of Mission\nto the hands of our customers.',
     body: [
       'Born in the city of Mission, British Columbia, our brand carries forward a legacy of producing some of the finest cannabis in Canada — a tradition that began in the grey-market era when craftsmanship and quality came first.',
       'MISSION reflects our commitment to cultivating premium, small-batch cannabis that honours our community\'s history while shaping the future of the industry. We focus on producing exceptional flower and products built on transparency, integrity, and trust, values that guide our relationships with partners and consumers alike.',

@@ -5,7 +5,7 @@ import Card from "@/components/Card";
 import { buttonClass } from "@/lib/utils";
 import type { Brand } from "@/data/brands";
 
-interface BrandDetailsProps {
+interface MissionBrandSectionProps {
   brand: Brand;
   preview?: boolean;
 }
@@ -16,7 +16,7 @@ const SPACING = {
   cardGrid: "gap-5 md:grid-cols-2 lg:grid-cols-1",
 } as const;
 
-export default function BrandDetails({ brand, preview }: BrandDetailsProps) {
+export default function MissionBrandSection({ brand, preview }: MissionBrandSectionProps) {
   return (
     <section className="relative border-t border-muted bg-background">
       {/* Hero section with heading, description, and logo */}

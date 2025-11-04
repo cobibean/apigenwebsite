@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import BrandsHero from "@/sections/BrandsHero";
-import BrandDetails from "@/sections/BrandDetails";
+import CraftBrandSection from "@/sections/CraftBrandSection";
+import MissionBrandSection from "@/sections/MissionBrandSection";
 import { brands } from "@/data/brands";
 
 export const metadata: Metadata = {
@@ -20,9 +20,9 @@ export default function BrandsPage() {
         <div className="absolute left-1/2 top-[-10%] h-[720px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,color-mix(in_oklab,rgb(174_85_33/0.18),transparent)_0%,transparent_75%)] blur-3xl" />
         <div className="absolute right-[-15%] bottom-[-12%] h-[560px] w-[560px] rounded-full bg-[radial-gradient(circle_at_center,color-mix(in_oklab,rgb(31_39_38/0.16),transparent)_0%,transparent_80%)] blur-3xl" />
       </div>
-      {primaryBrand ? <BrandsHero brand={primaryBrand} /> : null}
+      {primaryBrand ? <CraftBrandSection brand={primaryBrand} /> : null}
       {otherBrands.filter(Boolean).map((brand) => (
-        <BrandDetails key={brand!.id} brand={brand!} />
+        <MissionBrandSection key={brand!.id} brand={brand!} />
       ))}
     </div>
   );

@@ -5,7 +5,7 @@ import Card from "@/components/Card";
 import { buttonClass } from "@/lib/utils";
 import type { Brand } from "@/data/brands";
 
-interface BrandsHeroProps {
+interface CraftBrandSectionProps {
   brand: Brand;
   preview?: boolean;
 }
@@ -17,17 +17,20 @@ const SPACING = {
   cardGrid: "gap-5 md:grid-cols-2 lg:grid-cols-1",
 } as const;
 
-export default function BrandsHero({ brand, preview }: BrandsHeroProps) {
+export default function CraftBrandSection({ brand, preview }: CraftBrandSectionProps) {
   return (
     <section className="relative isolate overflow-hidden">
       {/* Hero section with heading, description, and logo */}
       <div className={`relative mx-auto flex w-full max-w-6xl flex-col justify-center px-6 ${SPACING.section} lg:grid lg:min-h-[calc(100vh-140px)] lg:grid-cols-[minmax(0,_1.15fr)_minmax(0,_0.85fr)] lg:items-center lg:gap-16`}>
         <div className="space-y-6 md:space-y-8">
           <span className="sr-only">{brand.name}</span>
-          <h1 className="max-w-[18ch] text-balance font-semibold tracking-tight text-primary text-[clamp(2.35rem,3.6vw,3.3rem)] lg:text-[clamp(2.6rem,3.3vw,3.6rem)] font-sans">
+          <h1
+            className="max-w-[20ch] font-semibold tracking-tight text-primary text-[clamp(2.35rem,3.6vw,3.3rem)] lg:text-[clamp(2.6rem,3.3vw,3.6rem)] font-sans"
+            style={{ whiteSpace: "pre-line" }}
+          >
             {brand.heading}
           </h1>
-          <div className="max-w-[620px] space-y-3 text-[clamp(1.08rem,1.35vw,1.25rem)] leading-[1.55] text-primary font-body">
+          <div className="max-w-[580px] space-y-3 text-[clamp(1.08rem,1.35vw,1.25rem)] leading-[1.55] text-primary font-body">
             {brand.body.map((paragraph, index) => (
               <p key={index} className="text-pretty">
                 {paragraph}
