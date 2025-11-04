@@ -1,11 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { m, LazyMotion, domAnimation, useReducedMotion, AnimatePresence } from "framer-motion";
 import type { Strain } from "@/data/products";
 import AppImage from "@/components/AppImage";
-import AppLink from "@/components/AppLink";
-import { buttonClass } from "@/lib/utils";
-import { useContactModal } from "@/providers/ContactModalProvider";
 import Appear from "@/components/motion/Appear";
 
 interface ProductShowcaseProps {
@@ -50,9 +48,46 @@ export default function ProductShowcase({
   headerBorderColor = "none",
   cardBorderColor = "default",
 }: ProductShowcaseProps) {
-  const { openContactModal } = useContactModal();
   const isImageLeft = layoutDirection === "left";
-  const [heroImage, ...supportImages] = strain.images;
+
+  // Carousel state and logic
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
+  const reduced = !!prefersReducedMotion;
+
+  const nextImage = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % strain.images.length);
+  }, [strain.images.length]);
+
+  const prevImage = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + strain.images.length) % strain.images.length);
+  }, [strain.images.length]);
+
+  const goToImage = useCallback((index: number) => {
+    setCurrentIndex(index);
+  }, []);
+
+  // Preload adjacent images for instant navigation
+  useEffect(() => {
+    const preloadImages = () => {
+      const imagesToPreload = [];
+
+      // Previous image
+      const prevIndex = currentIndex === 0 ? strain.images.length - 1 : currentIndex - 1;
+      imagesToPreload.push(strain.images[prevIndex].src);
+
+      // Next image
+      const nextIndex = (currentIndex + 1) % strain.images.length;
+      imagesToPreload.push(strain.images[nextIndex].src);
+
+      imagesToPreload.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+
+    preloadImages();
+  }, [currentIndex, strain.images]);
 
   // Determine section background
   const sectionBg = sectionBgColor === "olive" ? "bg-[#545943]" : "bg-background";
@@ -223,13 +258,13 @@ export default function ProductShowcase({
                 <div
                   className={`relative overflow-hidden ${SPACING.imageRadius} border border-border bg-card shadow-lg aspect-[5/4]`}
                 >
-                  {heroImage && (
+                  {strain.images[0] && (
                     <AppImage
-                      src={heroImage.src}
-                      alt={heroImage.alt}
+                      src={strain.images[0].src}
+                      alt={strain.images[0].alt}
                       width={800}
                       height={640}
-                      priority={heroImage.priority}
+                      priority={strain.images[0].priority}
                       className="w-full h-full object-cover"
                     />
                   )}
@@ -237,23 +272,115 @@ export default function ProductShowcase({
               </div>
             </div>
 
-            {/* Supporting Images Strip */}
-            {!hideSupporting && supportImages.length > 0 && (
-              <div className="mt-12 md:mt-16 grid gap-3 md:grid-cols-2">
-                {supportImages.map((img, idx) => (
-                  <div
-                    key={idx}
-                    className={`relative overflow-hidden ${SPACING.imageRadius} border border-border`}
-                  >
-                    <AppImage
-                      src={img.src}
-                      alt={img.alt}
-                      width={540}
-                      height={540}
-                      className="w-full h-auto object-cover aspect-square"
-                    />
+            {/* Product Image Carousel */}
+            {!hideSupporting && strain.images.length > 0 && (
+              <div className="mt-12 md:mt-16">
+                <div className="relative max-w-2xl mx-auto">
+                  {/* Main Carousel Display */}
+                  <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-lg aspect-[4/3] md:aspect-[16/10]">
+                    <LazyMotion features={domAnimation} strict>
+                      <AnimatePresence mode="wait">
+                        <m.div
+                          key={currentIndex}
+                          initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
+                          animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+                          exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.05 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="w-full h-full"
+                        >
+                          <AppImage
+                            src={strain.images[currentIndex].src}
+                            alt={strain.images[currentIndex].alt}
+                            width={800}
+                            height={600}
+                            className="w-full h-full object-cover"
+                            priority={strain.images[currentIndex].priority}
+                          />
+                        </m.div>
+                      </AnimatePresence>
+                    </LazyMotion>
+
+                    {/* Navigation Arrows */}
+                    {strain.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
+                          aria-label="Previous image"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
+                          aria-label="Next image"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </>
+                    )}
                   </div>
-                ))}
+
+                  {/* Image Counter */}
+                  <div className="text-center mt-3">
+                    <span
+                      className="text-sm text-secondary font-mono"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      {currentIndex + 1} / {strain.images.length}
+                    </span>
+                  </div>
+
+                  {/* Dot Indicators */}
+                  {strain.images.length > 1 && (
+                    <div className="flex justify-center mt-3 space-x-2">
+                      {strain.images.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => goToImage(index)}
+                          className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
+                            index === currentIndex
+                              ? "bg-primary scale-125"
+                              : "bg-secondary hover:bg-secondary/80"
+                          }`}
+                          aria-label={`Go to image ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Thumbnail Strip */}
+                  {strain.images.length > 1 && (
+                    <div className="hidden md:block mt-6">
+                      <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
+                        {strain.images.map((image, index) => (
+                          <button
+                            key={index}
+                            onClick={() => goToImage(index)}
+                            className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                              index === currentIndex
+                                ? "border-primary scale-105"
+                                : "border-border hover:border-secondary"
+                            }`}
+                            aria-label={`View image ${index + 1}`}
+                          >
+                            <AppImage
+                              src={image.src}
+                              alt=""
+                              width={56}
+                              height={56}
+                              className="w-full h-full object-cover"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>

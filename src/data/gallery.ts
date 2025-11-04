@@ -8,113 +8,48 @@ export type GalleryImage = {
 export const galleryImages: GalleryImage[] = [
   // Cadillac Rainbow images
   {
-    src: "/products/cadillac-rainbow/hero.jpg",
-    alt: "Cadillac Rainbow premium dried cannabis flower",
+    src: "/products/cadillac-rainbow/1.jpeg",
+    alt: "Cadillac Rainbow premium cannabis flower showcasing dense structure and vibrant color",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/detail-1.jpg",
-    alt: "Close-up of Cadillac Rainbow trichomes and crystal structure",
+    src: "/products/cadillac-rainbow/2.jpeg",
+    alt: "Close-up detail of Cadillac Rainbow trichomes and crystal structure",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/detail-2.jpg",
-    alt: "Cadillac Rainbow dense flower structure showcasing quality",
+    src: "/products/cadillac-rainbow/3.jpeg",
+    alt: "Cadillac Rainbow flower highlighting hand-trim precision and quality",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/vertical_close_up_flower_1.jpeg",
-    alt: "Vertical close-up view of Cadillac Rainbow flower",
+    src: "/products/cadillac-rainbow/4.jpeg",
+    alt: "Detailed view of Cadillac Rainbow buds showing limonene-rich profile",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/vertical_close_up_flower_2.jpeg",
-    alt: "Detailed vertical shot of Cadillac Rainbow buds",
+    src: "/products/cadillac-rainbow/5.jpeg",
+    alt: "Cadillac Rainbow premium dried flower close examination",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/vertical_close_up_flower_3.jpeg",
-    alt: "Macro vertical perspective of Cadillac Rainbow flower",
+    src: "/products/cadillac-rainbow/6.jpeg",
+    alt: "Macro shot of Cadillac Rainbow showcasing trichome density",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/wide_close_up_flower_1.jpeg",
-    alt: "Wide-angle close-up of Cadillac Rainbow flower",
+    src: "/products/cadillac-rainbow/7.jpeg",
+    alt: "Cadillac Rainbow flower structure and color complexity",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/wide_grow_room_2.jpeg",
-    alt: "Cadillac Rainbow growing environment",
+    src: "/products/cadillac-rainbow/8.jpeg",
+    alt: "Premium Cadillac Rainbow reserve dried flower presentation",
     category: "cadillac-rainbow",
   },
   {
-    src: "/products/cadillac-rainbow/wide_grow_room_3.jpeg",
-    alt: "Professional grow room showcasing Cadillac Rainbow cultivation",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.17.11.jpeg",
-    alt: "Cadillac Rainbow cannabis flower detail shot",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.17.22.jpeg",
-    alt: "Premium Cadillac Rainbow flower presentation",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.17.35.jpeg",
-    alt: "Cadillac Rainbow quality showcase",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.17.47.jpeg",
-    alt: "Detailed view of Cadillac Rainbow buds",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.18.05.jpeg",
-    alt: "Cadillac Rainbow flower close examination",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.18.19.jpeg",
-    alt: "Premium dried Cadillac Rainbow flower",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.18.35.jpeg",
-    alt: "Cadillac Rainbow cultivation excellence",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.18.47.jpeg",
-    alt: "High-quality Cadillac Rainbow flower",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.19.14.jpeg",
-    alt: "Cadillac Rainbow premium reserve flower",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.19.26.jpeg",
-    alt: "Detailed Cadillac Rainbow flower structure",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.19.37.jpeg",
-    alt: "Cadillac Rainbow quality inspection",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.19.48.jpeg",
-    alt: "Premium Cadillac Rainbow dried flower",
-    category: "cadillac-rainbow",
-  },
-  {
-    src: "/products/cadillac-rainbow/WhatsApp Image 2025-10-23 at 12.20.09.jpeg",
-    alt: "Cadillac Rainbow flower excellence",
+    src: "/products/cadillac-rainbow/9.jpeg",
+    alt: "Cadillac Rainbow cultivation excellence and quality showcase",
     category: "cadillac-rainbow",
   },
 

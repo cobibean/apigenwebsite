@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { m, LazyMotion, domAnimation, useReducedMotion, AnimatePresence } from "framer-motion";
 import AppImage from "@/components/AppImage";
@@ -40,6 +40,28 @@ export default function GalleryCarousel({
   const goToImage = useCallback((index: number) => {
     setCurrentIndex(index);
   }, []);
+
+  // Preload adjacent images for instant navigation
+  useEffect(() => {
+    const preloadImages = () => {
+      const imagesToPreload = [];
+
+      // Previous image
+      const prevIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+      imagesToPreload.push(images[prevIndex].src);
+
+      // Next image
+      const nextIndex = (currentIndex + 1) % images.length;
+      imagesToPreload.push(images[nextIndex].src);
+
+      imagesToPreload.forEach(src => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+
+    preloadImages();
+  }, [currentIndex, images]);
 
   const handleImageClick = useCallback(() => {
     router.push("/products");
@@ -103,7 +125,7 @@ export default function GalleryCarousel({
                     initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
                     animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
                     exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.05 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                     className="w-full h-full"
                   >
                     <AppImage
