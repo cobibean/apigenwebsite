@@ -32,7 +32,7 @@ export default function Hero({
   ctaGap = "2rem", // 32px default (matches mt-8 approx)
   imageUrl,
   imageAlt = "",
-  videoSrc = "/hero/herovid1.mp4",
+  videoSrc, // Now optional - will use sequence if not provided
   posterSrc,
   textImageUrl = "/hero/herotext/APIGEN_hero_text_COPPER.svg",
   preview,
@@ -40,6 +40,8 @@ export default function Hero({
 }: Props) {
   const { eyebrow, subtitle, title, copy, ctaLabel, ctaHref, styling } = content;
   const [useVideo, setUseVideo] = useState(true);
+  const [currentVideoSrc, setCurrentVideoSrc] = useState<string>("/hero/videos/flowerloop2-MAIN.mp4");
+  const [isIntroPlaying, setIsIntroPlaying] = useState(true);
   const poster = useMemo(() => posterSrc || imageUrl || "/hero/APIGEN hero text.png", [posterSrc, imageUrl]);
 
   // Respect reduced motion and allow graceful fallback
@@ -50,6 +52,14 @@ export default function Hero({
     mq.addEventListener?.("change", onChange);
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
+
+  // Handle video sequence transition
+  const handleVideoEnd = () => {
+    if (isIntroPlaying) {
+      setCurrentVideoSrc("/hero/videos/flowerloop2normal.mp4");
+      setIsIntroPlaying(false);
+    }
+  };
 
   if (variant === "section") {
     return (
@@ -104,17 +114,18 @@ export default function Hero({
       <div className="fixed inset-0 -z-10 w-full h-full">
         {useVideo ? (
           <video
-            key={videoSrc}
+            key={currentVideoSrc}
             className="absolute inset-0 w-full h-full object-cover"
             autoPlay
             muted
-            loop
+            loop={!isIntroPlaying} // Only loop the second video
             playsInline
             preload="metadata"
             poster={poster}
             onError={() => setUseVideo(false)}
+            onEnded={handleVideoEnd}
           >
-            <source src={videoSrc} type="video/mp4" />
+            <source src={currentVideoSrc} type="video/mp4" />
           </video>
         ) : (
           <AppImage src={poster} alt={imageAlt || ""} fill sizes="100vw" className="object-cover object-center" />
