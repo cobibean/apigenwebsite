@@ -5,7 +5,7 @@ import AppImage from "@/components/AppImage";
 
 export function Logo({
   text = "",
-  imageSrc = "/hero/logo + text.png",
+  imageSrc = "/hero/logo-header.png",
   showImage = true,
 }: {
   text?: string;
@@ -18,12 +18,15 @@ export function Logo({
     setImageError(true);
   };
 
+  const currentImageSrc = imageError ? imageSrc : "/hero/logo-header.png";
+
   return (
     <AppLink href="/" aria-label="Apigen home" className="inline-flex flex-col items-start leading-tight">
       {showImage && !imageError ? (
         <span className="block h-10 md:h-12 w-auto overflow-hidden">
           <AppImage
-            src={imageSrc}
+            key={currentImageSrc} // Force re-render when src changes
+            src={currentImageSrc}
             alt="Apigen logo with wordmark"
             width={200}
             height={80}

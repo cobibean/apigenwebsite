@@ -9,8 +9,8 @@ type Props = {
 
 // Spacing constants for logo card dimensions - editorial feature grid
 const SPACING = {
-  cardWidth: "w-full",
-  cardHeight: "aspect-[4/3]", // 4:3 aspect ratio as requested
+  cardWidth: "w-full md:max-w-[420px] lg:max-w-[440px]",
+  cardHeight: "aspect-[4/3] md:aspect-[16/10]",
   borderRadius: "rounded-[16px]", // Consistent 16px radius
   padding: "p-0", // No padding for clean image fit
   border: "border-0", // Borderless as requested

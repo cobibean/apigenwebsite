@@ -12,7 +12,7 @@ type Props = {
 
 export default function BrandsUnified({ preview }: Props) {
   return (
-    <section className="py-12 md:py-16 bg-(--surface-olive)">
+    <section className="py-10 md:py-14 bg-(--surface-olive)">
       <div className="container mx-auto px-4">
         {/* Hero Section - Premium Typography */}
         <div className="text-center mb-8 md:mb-10">
@@ -29,20 +29,20 @@ export default function BrandsUnified({ preview }: Props) {
         </div>
 
         {/* Premium Editorial Feature Pairs */}
-        <div className="space-y-14 md:space-y-16">
+        <div className="space-y-12 md:space-y-14">
 
           {/* Pair 1: Mission - Premium Feature Layout */}
           <Appear
             preview={preview}
             className="group relative hover:translate-y-[-3px] transition-all duration-300 ease-out"
           >
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-y-6 md:gap-y-0 md:gap-x-6 items-start relative md:pr-4 lg:pr-6">
-              {/* Dominant Image - Full Height */}
-              <div className="md:col-span-7 relative z-10">
+            <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,_1.05fr)_minmax(0,_0.95fr)] md:gap-8">
+              {/* Dominant Image - Balanced Height */}
+              <div className="relative z-10 flex w-full justify-center md:justify-start">
                 <BrandLogoCard brand={brands.find(b => b.id === 'mission')!} preview={preview} />
               </div>
               {/* Secondary Content - Offset and Layered */}
-              <div className="md:col-span-5 md:col-start-8 relative z-20 md:mt-5 lg:mt-6 md:justify-self-start">
+              <div className="relative z-20 flex w-full justify-center md:justify-start">
                 <BrandCard brand={brands.find(b => b.id === 'mission')!} preview={preview} />
               </div>
             </div>
@@ -54,13 +54,13 @@ export default function BrandsUnified({ preview }: Props) {
             delay={0.2}
             className="group relative hover:translate-y-[-3px] transition-all duration-300 ease-out"
           >
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-y-6 md:gap-y-0 md:gap-x-6 items-start relative md:pl-4 lg:pl-6">
+            <div className="grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,_0.95fr)_minmax(0,_1.05fr)] md:gap-8">
               {/* Secondary Content - Offset and Layered */}
-              <div className="md:col-span-5 relative z-20 md:mb-5 lg:mb-6 md:justify-self-end">
+              <div className="order-2 flex w-full justify-center md:order-1 md:justify-end">
                 <BrandCard brand={brands.find(b => b.id === 'cannada-craft')!} preview={preview} />
               </div>
               {/* Dominant Image - Full Height */}
-              <div className="md:col-span-7 md:col-start-6 relative z-10">
+              <div className="order-1 relative z-10 flex w-full justify-center md:order-2 md:justify-end">
                 <BrandLogoCard brand={brands.find(b => b.id === 'cannada-craft')!} preview={preview} />
               </div>
             </div>
