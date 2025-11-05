@@ -80,6 +80,22 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
     setStatus("submitting");
 
+    // Check if EmailJS is properly configured
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error('EmailJS configuration missing:', {
+        serviceId: !!serviceId,
+        templateId: !!templateId,
+        publicKey: !!publicKey,
+      });
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+      return;
+    }
+
     try {
       // Send email using EmailJS
       const result = await emailjs.send(
@@ -97,6 +113,18 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
       );
 
       console.log('Email sent successfully:', result);
+      console.log('Email data sent:', {
+        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        data: {
+          from_name: formData.name,
+          from_company: formData.company,
+          from_email: formData.email,
+          from_country: formData.country,
+          message: formData.message,
+          reply_to: formData.email,
+        }
+      });
       setStatus("success");
 
       // Reset form after 2 seconds and close modal
@@ -112,8 +140,28 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
         onOpenChange(false);
       }, 2000);
 
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Email send failed:', error);
+
+      // Check if it's a specific EmailJS error
+      const emailError = error as { status?: number; statusText?: string };
+      if (emailError?.status === 422) {
+        console.error('EmailJS 422 Error - Template/Service configuration issue:');
+        console.error('- Check that template variables match: from_name, from_company, from_email, from_country, message, reply_to');
+        console.error('- Verify EmailJS service is properly connected to an email account');
+        console.error('- Ensure template is active and not in draft mode');
+      }
+
+      // Log more specific error information
+      console.error('Error details:', {
+        error: JSON.stringify(error),
+        status: emailError?.status,
+        statusText: emailError?.statusText,
+        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
+        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing',
+        publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ? 'Set' : 'Missing',
+      });
+
       setStatus("error");
 
       // Reset to idle after showing error for 3 seconds

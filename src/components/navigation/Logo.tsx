@@ -32,6 +32,7 @@ export function Logo({
             height={80}
             sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 220px"
             className="h-full w-auto object-contain"
+            priority // LCP optimization for header logo
             onError={handleImageError}
           />
         </span>

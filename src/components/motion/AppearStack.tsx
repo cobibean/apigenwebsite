@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import { m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
+import { appearStackConfig } from "@/lib/animations";
 
 type Props = {
   children: React.ReactNode[] | React.ReactNode;
   className?: string;
-  delay?: number;
+  delay?: number; // Additional delay on top of base delay
   duration?: number;
   gap?: number;
   y?: number;
@@ -15,10 +16,10 @@ type Props = {
 export default function AppearStack({
   children,
   className,
-  delay = 0,
-  duration = 0.5,
-  gap = 0.06,
-  y = 12,
+  delay = 0, // Additional delay beyond the base config delay
+  duration,
+  gap,
+  y,
   preview,
 }: Props) {
   const prefersReducedMotion = useReducedMotion();
@@ -26,16 +27,28 @@ export default function AppearStack({
   const disabled = !!preview;
   const items = React.Children.toArray(children);
 
+  // Use centralized config with optional overrides
+  const config = {
+    duration: duration ?? appearStackConfig.duration,
+    delay: appearStackConfig.delay + delay, // Add base delay + additional delay
+    gap: gap ?? appearStackConfig.gap,
+    y: y ?? appearStackConfig.y,
+  };
+
   return (
     <LazyMotion features={domAnimation} strict>
       <div className={className}>
         {items.map((child, idx) => (
           <m.div
             key={idx}
-            initial={disabled ? false : reduced ? { opacity: 0 } : { opacity: 0, y }}
+            initial={disabled ? false : reduced ? appearStackConfig.reducedMotion : { ...appearStackConfig.fullMotion, y: config.y }}
             whileInView={disabled ? {} : reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-            transition={{ duration, delay: delay + idx * gap, ease: "easeOut" }}
+            viewport={appearStackConfig.viewport}
+            transition={{
+              duration: config.duration,
+              delay: config.delay + idx * config.gap,
+              ease: appearStackConfig.ease
+            }}
           >
             {child}
           </m.div>
