@@ -11,6 +11,7 @@ import {
 import { validateContactForm, type ContactFormData, type ValidationErrors } from "@/lib/validation";
 import { buttonClass } from "@/lib/utils";
 import countries from "world-countries";
+import emailjs from '@emailjs/browser';
 
 interface ContactModalProps {
   open: boolean;
@@ -69,7 +70,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
     const validationErrors = validateContactForm(formData);
     if (Object.keys(validationErrors).length > 0) {
@@ -79,26 +80,47 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
     setStatus("submitting");
 
-    // Placeholder: Log to console instead of submitting to backend
-    console.log("Form submission (backend integration pending):", formData);
+    try {
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: formData.name,
+          from_company: formData.company,
+          from_email: formData.email,
+          from_country: formData.country,
+          message: formData.message,
+          reply_to: formData.email,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log('Email sent successfully:', result);
+      setStatus("success");
 
-    setStatus("success");
+      // Reset form after 2 seconds and close modal
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          company: "",
+          email: "",
+          country: "",
+          message: "",
+        });
+        setStatus("idle");
+        onOpenChange(false);
+      }, 2000);
 
-    // Reset form after 2 seconds and close modal
-    setTimeout(() => {
-      setFormData({
-        name: "",
-        company: "",
-        email: "",
-        country: "",
-        message: "",
-      });
-      setStatus("idle");
-      onOpenChange(false);
-    }, 2000);
+    } catch (error) {
+      console.error('Email send failed:', error);
+      setStatus("error");
+
+      // Reset to idle after showing error for 3 seconds
+      setTimeout(() => {
+        setStatus("idle");
+      }, 3000);
+    }
   };
 
   const inputClass = "w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm ring-offset-[var(--bg)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
@@ -121,6 +143,34 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
             <p className="text-[var(--secondary)]" style={{ fontFamily: "var(--font-body)" }}>
               We&apos;ll be in touch soon.
             </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="w-full max-w-[min(92vw,360px)] sm:max-w-[480px]">
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="mb-4 h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
+              <svg className="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "var(--font-sans)" }}>
+              Oops! Something went wrong
+            </h3>
+            <p className="text-[var(--secondary)] mb-4" style={{ fontFamily: "var(--font-body)" }}>
+              We couldn&apos;t send your message. Please try again or contact us directly.
+            </p>
+            <button
+              onClick={() => setStatus("idle")}
+              className={buttonClass({ variant: "olive", size: "lg" })}
+            >
+              Try Again
+            </button>
           </div>
         </DialogContent>
       </Dialog>

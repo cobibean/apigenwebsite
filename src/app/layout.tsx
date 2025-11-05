@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Open_Sans, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
-import Header from "@/components/navigation/Header";
+import Header, { HeaderProvider } from "@/components/navigation/Header";
 import Footer from "@/sections/Footer";
 import { ContactModalProvider } from "@/providers/ContactModalProvider";
 import { SITE_NAME, SITE_URL } from "@/config/site";
@@ -39,13 +39,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${openSans.variable} ${inter.variable} ${plexMono.variable} ${instrumentSerif.variable} antialiased`}>
-        <ContactModalProvider>
-          <ScrollRestorationFix />
-          <AgeGate />
-          <Header links={footerContent.navigationLinks} />
-          <main className="navbar-offset">{children}</main>
-          <Footer content={footerContent} />
-        </ContactModalProvider>
+        <HeaderProvider>
+          <ContactModalProvider>
+            <ScrollRestorationFix />
+            <AgeGate />
+            <Header links={footerContent.navigationLinks} />
+            <main className="navbar-offset">{children}</main>
+            <Footer content={footerContent} />
+          </ContactModalProvider>
+        </HeaderProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

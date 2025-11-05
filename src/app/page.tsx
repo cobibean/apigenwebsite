@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import Hero from "@/sections/Hero";
 import MissionSection_1 from "@/sections/MissionSection_1";
 import AboutStory from "@/sections/AboutStory";
-import Brands2 from "@/sections/Brands2";
-import { brands as defaultBrands } from "@/data/brands";
+import BrandsUnified from "@/sections/BrandsUnified";
 import { aboutContent } from "@/data/about";
 import ProductShowcase from "@/sections/ProductShowcase";
 import { products } from "@/data/products";
-import GalleryCarousel from "@/sections/GalleryCarousel";
+import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { galleryImages } from "@/data/gallery";
 import CTA from "@/sections/CTA";
 import { homeContent } from "@/data/home";
@@ -37,7 +36,7 @@ export default function Home() {
       />
       <MissionSection_1 content={homeContent.mission} />
       <AboutStory content={aboutContent} />
-      <Brands2 brands={defaultBrands} />
+      <BrandsUnified />
 
       {/* Data-driven Product Showcase Cards - TEMPORARILY COMMENTED OUT */}
       {/* {showcaseProducts.map((strain, idx) => {
@@ -55,13 +54,14 @@ export default function Home() {
         );
       })} */}
 
-      <GalleryCarousel
-        content={homeContent.gallery}
+      <ProductCarousel3D
         images={galleryImages}
+        autoPlay={true}
+        autoPlayDelay={4000}
       />
 
       {/* Products Link Button */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-6 py-2">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-2 py-2">
         <div className="flex justify-center">
           <AppLink href="/products" className={buttonClass({ variant: "olive", size: "lg" })}>
             See Our Products

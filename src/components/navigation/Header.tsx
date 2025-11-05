@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, createContext, useContext, ReactNode } from "react";
 import GlassEffect from "@/components/ui/liquid-glass";
 import { Logo } from "@/components/navigation/Logo";
 import { NavLink } from "@/components/navigation/NavLink";
@@ -7,6 +7,36 @@ import { MobileSidebar } from "@/components/navigation/MobileSidebar";
 import { useScrolled } from "@/hooks/useScrolled";
 import AppLink from "@/components/AppLink";
 import { buttonClass } from "@/lib/utils";
+
+// Header visibility context
+interface HeaderContextType {
+  hidden: boolean;
+  setHidden: (hidden: boolean) => void;
+}
+
+export const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
+
+export function useHeader() {
+  const context = useContext(HeaderContext);
+  if (context === undefined) {
+    throw new Error('useHeader must be used within a HeaderProvider');
+  }
+  return context;
+}
+
+interface HeaderProviderProps {
+  children: ReactNode;
+}
+
+export function HeaderProvider({ children }: HeaderProviderProps) {
+  const [hidden, setHidden] = useState(false);
+
+  return (
+    <HeaderContext.Provider value={{ hidden, setHidden }}>
+      {children}
+    </HeaderContext.Provider>
+  );
+}
 
 type HeaderProps = {
   links?: { label: string; href: string }[];
@@ -36,6 +66,7 @@ export default function Header({
   glassDistort = false,
 }: HeaderProps) {
   const scrolled = useScrolled(8);
+  const { hidden } = useHeader();
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarId = "mobile-sidebar-panel";
@@ -45,7 +76,12 @@ export default function Header({
   };
 
   return (
-    <header role="banner" className="fixed top-0 inset-x-0 z-50 pt-3 supports-[height:100svh]:pt-3">
+    <header
+      role="banner"
+      className={`fixed top-0 inset-x-0 z-50 pt-3 supports-[height:100svh]:pt-3 transition-transform duration-300 ease-out ${
+        hidden ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         <GlassEffect backgroundOpacity={glassOpacity} distort={glassDistort} className={(scrolled ? " shadow-lg ring-1 ring-black/5 " : "") + " transition-all "}>
           <nav className={"relative h-16 md:h-20 grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-5 px-4 md:px-5"} aria-label="Primary">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ProductShowcase from "@/sections/ProductShowcase";
-import GalleryCarousel from "@/sections/GalleryCarousel";
+import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { products, productsContent } from "@/data/products";
 import { galleryImages } from "@/data/gallery";
 
@@ -28,15 +28,14 @@ export default function ProductsPage() {
         />
       ))}
 
-      {/* Gallery Carousel */}
-      <GalleryCarousel
-        content={{
-          title: productsContent.galleryTitle,
-          subtitle: productsContent.gallerySubtitle,
-          size: "compact"
-        }}
-        images={galleryImages}
-      />
+      {/* Product Carousel */}
+      <div className="py-16">
+        <ProductCarousel3D
+          images={galleryImages}
+          autoPlay={true}
+          autoPlayDelay={4000}
+        />
+      </div>
     </div>
   );
 }

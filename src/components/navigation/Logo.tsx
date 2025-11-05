@@ -1,20 +1,26 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import AppLink from "@/components/AppLink";
 import AppImage from "@/components/AppImage";
 
 export function Logo({
   text = "",
-  imageSrc = "/hero/logo%20+%20text.png",
+  imageSrc = "/hero/logo + text.png",
   showImage = true,
 }: {
   text?: string;
   imageSrc?: string;
   showImage?: boolean;
 }) {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <AppLink href="/" aria-label="Apigen home" className="inline-flex flex-col items-start leading-tight">
-      {showImage ? (
+      {showImage && !imageError ? (
         <span className="block h-10 md:h-12 w-auto overflow-hidden">
           <AppImage
             src={imageSrc}
@@ -23,12 +29,13 @@ export function Logo({
             height={80}
             sizes="(max-width: 640px) 160px, (max-width: 768px) 200px, 220px"
             className="h-full w-auto object-contain"
+            onError={handleImageError}
           />
         </span>
       ) : null}
-      {!showImage && text ? (
+      {(!showImage || imageError) && text ? (
         <span className="text-lg font-semibold tracking-[0.3em]" style={{ fontFamily: "var(--font-mono)" }}>
-          {text}
+          {text || "APIGEN"}
         </span>
       ) : null}
     </AppLink>
