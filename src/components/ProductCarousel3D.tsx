@@ -188,9 +188,9 @@ export default function ProductCarousel3D({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToNext, goToPrev]);
 
-  // Click handler to navigate to brands page
+  // Click handler to navigate to products page
   const handleCardClick = useCallback(() => {
-    router.push("/brands");
+    router.push("/products");
   }, [router]);
 
   // Get card styling based on position - 5 card layout (2 left, center, 2 right)
@@ -303,7 +303,7 @@ export default function ProductCarousel3D({
                   onClick={isCenter ? handleCardClick : undefined}
                   role="button"
                   tabIndex={isCenter ? 0 : -1}
-                  aria-label={isCenter ? `View ${image.alt}. Click to explore our brands.` : image.alt}
+                  aria-label={isCenter ? `View ${image.alt}. Click to explore our products.` : image.alt}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && isCenter) {
                       handleCardClick();

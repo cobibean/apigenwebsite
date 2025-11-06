@@ -2,92 +2,64 @@
 
 ## High Priority
 
-### 1. Combine Brands Section
+### 1. Combine Brands Section ✅ COMPLETE
 **Goal:** Merge the brands section into a single uniform section with both brand cards and a CTA to view the brands page.
 
-**Current State:**
-- Multiple brand-related sections on home page
-- Brand cards scattered across different components
-
-**Target:**
-- Single cohesive brands section
-- Brand showcase cards
-- Clear CTA button linking to `/brands` page
+**Status:** ✅ COMPLETED
+- BrandsUnified component created and integrated
+- Single cohesive brands section on home page
+- Brand showcase cards with CTA to `/brands` page
 
 ---
 
-### 2. Clean Up Mission Brand Section Spacing
+### 2. Clean Up Mission Brand Section Spacing 🔄 IN PROGRESS
 **Goal:** Improve the spacing and layout of copy in the MISSION brand section on the brands page.
+
+**Status:** 🔄 IN PROGRESS
+- Need to look at details of spacing and potentially adjust
+- Emphasis on how the copy (text) sits in the section
+- Look for ways to use line breaks to tighten this up
+- May need to remove some text to make it shorter to match Cannada Craft section vibe
 
 **Current Issues:**
 - Copy spacing needs refinement
 - Text layout may need better hierarchy
-
-**Target:**
-- Clean, readable text spacing
-- Proper visual hierarchy
-- Consistent with overall design system
+- Need to tighten up text flow and spacing
 
 ---
 
-### 3. Fix Header Logo Rendering in Production
+### 3. Fix Header Logo Rendering in Production ✅ COMPLETE
 **Goal:** Diagnose and fix why the logo doesn't render properly in production environment.
 
-**Current Issue:**
-- Logo displays correctly in development
-- Fails to render in production builds
-
-**Potential Causes:**
-- Path resolution issues
-- Image optimization problems
-- Build process differences
-- CDN/static asset serving issues
-
-**Target:**
-- Logo renders consistently across all environments
-- Proper fallback handling if needed
+**Status:** ✅ COMPLETED
+- Logo component simplified to use single reliable PNG source
+- Added priority prop for LCP optimization
+- Proper error handling with text fallback
+- Renders consistently across development and production
 
 ---
 
-### 4. Build New 3-Column Carousel Component
+### 4. Build New 3-Column Carousel Component 🔄 MOSTLY COMPLETE
 **Goal:** Create a new carousel component with 3 visible cards (1 in focus, 2 behind with blur) optimized for portrait images.
 
-**Current State:**
-- Existing carousel is horizontal/landscape oriented
-- Most product images are portrait-sized (taken with vertical phone camera)
-- Single image display doesn't showcase product variety well
+**Status:** 🔄 MOSTLY COMPLETE
+- ProductCarousel3D component built and integrated
+- 3-column layout with center focus and blurred side cards
+- Auto-play, touch/swipe, keyboard navigation implemented
+- Cards link to `/brands` page
+- Header slide-up animation when scrolling into carousel
 
-**Requirements:**
-- 3-column layout with center card in focus
-- Left and right cards slightly blurred and smaller
-- Cards clickable, linking to `/brands` page
-- Optimized for portrait product images
-- Replace current carousel on home and brands pages
-
-**Why This Change:**
-- Current horizontal carousel doesn't work well with vertical phone camera images
-- Portrait images need vertical emphasis, not horizontal stretching
-- 3-card layout better showcases product variety
-- Blur effect creates visual depth and focus hierarchy
-
-**Target:**
-- Smooth carousel navigation with focus/blur transitions
-- Touch/swipe support on mobile
-- Auto-play with pause on hover
-- Accessible keyboard navigation
-- Consistent with site design system
+**Remaining:** Need to audit card content text and get Sunny's approval on what displays on the "backside" of cards
 
 ---
 
-### 5. Convert Canada Craft Logo to SVG
+### 5. Convert Canada Craft Logo to SVG 🎯 EXTRA CREDIT / NICE TO HAVE
 **Goal:** Convert the Canada Craft logo from PNG to SVG format with improved spacing and centered "Cannada" text.
 
-**Current State:**
-- Logo exists as `public/brands/Cannada%20Craft%20No%20BG.png`
-- "Cannada" (intentionally misspelled) appears as curved text on top
-- Red maple leaf in center
-- "Craft" as straight text at bottom
-- Spacing and centering issues with curved "Cannada" text
+**Status:** 🎯 EXTRA CREDIT / NICE TO HAVE
+- Should only be completed AFTER everything else is done
+- Including deploying to production and setting up domain/hosting
+- Current PNG works functionally, this is polish/enhancement
 
 **Requirements:**
 - Recreate logo as scalable SVG
@@ -96,144 +68,115 @@
 - Keep "Craft" text straight and level
 - Preserve intentional "Cannada" misspelling (cannabis play on words)
 
-**Target:**
-- Clean SVG logo file
-- Perfect text spacing and centering
-- Scalable vector format for all screen sizes
-- Replace PNG in brand data and components
-
 ---
 
-### 6. Wire Up Contact Modal to Email Service
+### 6. Wire Up Contact Modal to Email Service 🔄 MOSTLY COMPLETE
 **Goal:** Connect the contact modal to a real email inbox using a simple, free service.
 
-**Requirements:**
-- Simple implementation (can enhance later)
-- Free email service integration
-- Form submissions reach actual inbox
+**Status:** 🔄 MOSTLY COMPLETE
+- EmailJS integration implemented in ContactModal
+- Email delivery working
 - Basic validation and success feedback
+- EmailJS Setup Guide created
 
-**Options:**
-- EmailJS (free tier available)
-- Netlify Forms (if using Netlify)
-- Formspree (free tier)
-- Resend (free tier)
-- Custom API route with service like SendGrid
-
-**Target:**
-- Functional contact form
-- Email delivery to designated inbox
-- User feedback on form submission
-- Basic spam protection
+**Remaining:** Need to retry testing with new info from Sunny
 
 ---
 
-### 7. Standardize Framer Motion Appear Settings
+### 7. Standardize Framer Motion Appear Settings ✅ COMPLETE
 **Goal:** Match the Framer Motion appear settings/parameters across all pages to match the home page implementation.
 
-**Current State:**
-- Inconsistent animation timing and effects across different pages
-- Appear component may have different configurations
-
-**Target:**
-- Uniform animation behavior across all pages
-- Consistent timing, easing, and motion preferences
-- Respect `prefers-reduced-motion` setting universally
+**Status:** ✅ COMPLETED
+- Centralized animation configuration in `src/lib/animations.ts`
+- `appearConfig` and `appearStackConfig` created
+- All Appear components updated to use centralized settings
+- Consistent animation behavior across all pages
+- Respects `prefers-reduced-motion` universally
 
 ---
 
-### 8. Audit and Clean Up Docs Folder
+### 8. Audit and Clean Up Docs Folder ✅ COMPLETE
 **Goal:** Review and remove unnecessary files from the /docs folder to streamline documentation.
 
-**Current State:**
-- Accumulated documentation, notes, and temporary files
-- Mixed useful and outdated content
-
-**Target:**
-- Keep only relevant, current documentation
-- Remove outdated notes, temporary files, and unused assets
-- Organized, clean documentation structure
+**Status:** ✅ COMPLETED
+- Documentation reorganized into structured folders
+- Outdated files removed (client updates, notes, prompts, questions.md)
+- Created organized structure: architecture/, guides/, plans/, style/
+- Only relevant, current documentation retained
 
 ---
 
-### 9. Make GitHub Repository Private
+### 9. Make GitHub Repository Private ❌ NOT STARTED
 **Goal:** Convert the repository to private and add Sunny as collaborator/owner.
+
+**Status:** ❌ NOT STARTED
+- Need to make Sunny a co-owner of the repo first
+- Requires getting site pushed to proper production environment first
+- Will convert to private and add Sunny as collaborator/owner
 
 **Requirements:**
 - Change repository visibility to private
 - Add Sunny as collaborator or transfer ownership
 - Ensure he has full access for future maintenance
 
-**Target:**
-- Private repository for security
-- Sunny has admin/owner access
-- Ready for handover to another developer if needed
-
 ---
 
-### 10. Add Site to Sunny's Vercel Account
+### 10. Add Site to Sunny's Vercel Account ❌ NOT STARTED
 **Goal:** Transfer or set up the site deployment on Sunny's personal Vercel account.
+
+**Status:** ❌ NOT STARTED
+- Just got login info for this from Sunny
+- Need to set up site deployment on Sunny's Vercel account
+- Ensure all environment variables and settings are preserved
 
 **Requirements:**
 - Move deployment from current account to Sunny's Vercel
 - Ensure all environment variables and settings are preserved
 - Test deployment functionality
 
-**Target:**
-- Site deployed on Sunny's Vercel account
-- All functionality intact
-- Sunny has full control over deployment settings
-
 ---
 
-### 11. Point Domain to Vercel Hosting
+### 11. Point Domain to Vercel Hosting ❌ NOT STARTED
 **Goal:** Configure domain settings to point from GoDaddy to Vercel hosting.
+
+**Status:** ❌ NOT STARTED
+- Just got login info for this from Sunny
+- Need to configure domain settings to point from GoDaddy to Vercel
+- Requires Vercel Pro plan for custom domain support
 
 **Requirements:**
 - Update DNS settings in GoDaddy
 - Configure custom domain in Vercel
 - Set up SSL certificate
-- Purchase appropriate Vercel plan or provide instructions
-
-**Steps:**
-1. Update GoDaddy DNS to point to Vercel nameservers
-2. Add custom domain in Vercel dashboard
-3. Configure DNS records as instructed by Vercel
-4. Purchase Vercel Pro plan for custom domain support
-5. Verify SSL certificate generation
-
-**Target:**
-- Domain properly configured and pointing to Vercel
-- SSL certificate active
-- Fast, secure hosting on custom domain
 
 ---
 
-### 12. Update Brands Section Background
+### 12. Update Brands Section Background 🎯 EXTRA CREDIT / NICE TO HAVE
 **Goal:** Apply olive-green background to the newly created condensed/minimal brands section on home page.
+
+**Status:** 🎯 EXTRA CREDIT / NICE TO HAVE
+- Should only be completed AFTER everything else is done
+- Including deploying to production and setting up domain/hosting
+- Brands section already has olive background implemented
 
 **Background Flow Target:**
 - Hero: video/none background
 - Mission: green background
 - About: white background
-- Brands: green background
+- Brands: green background ✅ (already implemented)
 - Gallery: video/none background
 - CTA: green background (already implemented)
 - Footer: green background (already implemented)
 
-**Requirements:**
-- New brands section gets `bg-[var(--surface-olive)]` class
-- Maintains visual flow consistency
-- Matches existing green sections
-
-**Target:**
-- Consistent background color alternation
-- Visual rhythm: video → green → white → green → video → green → green
-
 ---
 
-### 13. Create Site Architecture Flowchart
+### 13. Create Site Architecture Flowchart 🎯 EXTRA CREDIT / NICE TO HAVE
 **Goal:** Document the complete site architecture with a visual flowchart after all tasks are complete.
+
+**Status:** 🎯 EXTRA CREDIT / NICE TO HAVE
+- Should only be completed AFTER everything else is done
+- Including deploying to production and setting up domain/hosting
+- Useful for future developers and maintenance
 
 **Requirements:**
 - Map out component relationships
@@ -241,12 +184,6 @@
 - Document routing structure
 - Include key utilities and helpers
 - Show integration points (modals, forms, etc.)
-
-**Target:**
-- Comprehensive visual diagram of site structure
-- Useful for future developers and maintenance
-- Clear understanding of how components interact
-- Include in `/docs` folder as reference material
 
 ---
 
