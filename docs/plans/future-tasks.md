@@ -53,20 +53,28 @@
 
 ---
 
-### 5. Convert Canada Craft Logo to SVG 🎯 EXTRA CREDIT / NICE TO HAVE
-**Goal:** Convert the Canada Craft logo from PNG to SVG format with improved spacing and centered "Cannada" text.
+### 5. Convert Canada Craft Logo to SVG & Create Animated Card 🎯 EXTRA CREDIT / NICE TO HAVE
+**Goal:** Convert the Canada Craft logo from PNG to SVG format with improved spacing and centered "Cannada" text, PLUS create an animated card that matches the Mission card's vibe.
 
 **Status:** 🎯 EXTRA CREDIT / NICE TO HAVE
 - Should only be completed AFTER everything else is done
 - Including deploying to production and setting up domain/hosting
-- Current PNG works functionally, this is polish/enhancement
+- Current PNG works functionally, this is premium polish/enhancement
 
-**Requirements:**
+**SVG Requirements:**
 - Recreate logo as scalable SVG
 - Properly center the curved "Cannada" text
 - Maintain red maple leaf positioning
 - Keep "Craft" text straight and level
 - Preserve intentional "Cannada" misspelling (cannabis play on words)
+
+**Animated Card Requirements:**
+- Take the no-background PNG version
+- Turn it into an SVG to center the word "Cannada"
+- Place that SVG on some type of shape (maybe a solid color maple leaf)
+- Create a background for the card that the maple leaf shape + logo sit on
+- Background should have green/foresty vibe to blend with the olive background
+- Match the premium Mission card treatment and animation vibe
 
 ---
 
@@ -187,6 +195,674 @@
 
 ---
 
+### 14. Update Brand Section Header Color & Adjust Carousel Width
+**Goal:** Change the brand section header on homepage to copper color (from brand theme file) and make carousel images slightly wider with adjustable spacing.
+
+**Status:** ❌ NOT STARTED
+- Need to locate copper color token in brand theme file
+- Adjust carousel image dimensions to be slightly wider
+- Create spacing constants or props for easy width adjustment
+- Ideally make front card size adapt to actual image dimensions
+
+**Requirements:**
+- Update header text color to copper (find token in theme file)
+- Make carousel images on homepage slightly wider
+- Add adjustable spacing/constants/props for easy tweaking
+- Consider dynamic sizing based on real image dimensions (if feasible)
+
+---
+
+### 15. Create Immersive Contact Form Success Animation 🎯 EXTRA CREDIT / NICE TO HAVE
+**Goal:** Create a premium, brand-aligned success animation that plays after contact form submission with three-step text-led micro-animation.
+
+**Status:** 🎯 EXTRA CREDIT / NICE TO HAVE
+- Should only be completed AFTER everything else is done
+- Including deploying to production and setting up domain/hosting
+- Premium enhancement for user experience
+
+**Requirements:**
+- Three-step animation (≤4s total): "Planting the Seed" → "Cultivating the Connection" → "Harvesting the Response"
+- Inline SVG + Framer Motion (no raster assets)
+- Respect prefers-reduced-motion with instant final state
+- Trigger only on successful POST completion
+- Use existing brand tokens (copper, background, text colors)
+- 320×80 SVG with baseline line, 3 nodes, hidden checkmark path
+- Animate with stroke dash, node scale/opacity, copper shimmer sweep
+
+**Saved Agent Prompt:**
+
+---
+
+## ▶️ Cursor Agent Prompt (paste everything below)
+
+**Role / Objective**
+
+You are implementing a premium, brand-aligned **success animation** that plays **after the contact form successfully submits**. It is a **three-step, text-led micro-animation** (≤4s total), abstract (not cartoony), and must align with our existing design system and brand tokens.
+
+**Narrative copy (exact):**
+
+1. **Planting the Seed.** Message received.
+
+2. **Cultivating the Connection.** We're reviewing.
+
+3. **Harvesting the Response.** We'll reach out shortly.
+
+**Implementation approach (selected):**
+
+* **Inline SVG + Framer Motion** (no raster assets).
+
+* One 320×80 SVG: baseline line + 3 nodes + hidden checkmark path.
+
+* Animate with stroke dash, node scale/opacity, and a copper shimmer sweep.
+
+* Respect `prefers-reduced-motion` with an instant final state.
+
+* Trigger only on **successful POST** completion (not on validation errors).
+
+* Keep it tasteful, minimal, and **brand true**.
+
+---
+
+### Do not infer — go look these up first
+
+1. **Brand tokens & theme:**
+
+   * Locate our **global theme file(s)** and **CSS variables** (e.g., `:root` tokens).
+
+   * Identify the tokens for: **background**, **text**, **primary copper/accent**, and any **stroke/halo** color used on brand accents.
+
+   * Use **existing tokens** (CSS variables or theme tokens) rather than hard-coded hex values.
+
+   * If tokens exist under different names (e.g., `--color-primary-500`), **map them** to local CSS variables in the component wrapper (don't rename global tokens).
+
+2. **Design system & components:**
+
+   * Confirm our **modal** / **toast** / **success UI** pattern where this should live (component names, paths).
+
+   * Determine whether success states live in a **form wrapper** (e.g., `ContactForm.tsx`) or a dedicated **SuccessModal**. Integrate accordingly.
+
+3. **File structure & conventions:**
+
+   * Verify the correct **components directory** and naming convention (e.g., `src/components/ui/` vs `components/common/`).
+
+   * Verify whether we use `*.tsx` and strict TypeScript.
+
+   * Confirm **linting rules** (ESLint/Prettier) and adjust code style to match.
+
+4. **Framer Motion dependency:**
+
+   * If not already installed, add it per our package manager (pnpm/npm/yarn).
+
+   * Check version compatibility with our React version.
+
+---
+
+### Acceptance criteria
+
+* Animation renders inside our success UI with **no layout shift**.
+
+* Uses **existing brand tokens** (no guessed hex values).
+
+* **Three distinct phases** with visible label changes exactly as scripted.
+
+* **Reduced motion** shows final state instantly with accessible text.
+
+* Keyboard/screen reader friendly: container `role="status"` and `aria-live="polite"`.
+
+* Unit/integration test coverage for final state and basic accessibility attributes.
+
+* Code passes local linting and type checks.
+
+---
+
+### Deliverables
+
+1. A new component (place per repo conventions):
+
+   `SeedToHarvestSuccess.tsx` (name can be adjusted to match project style)
+
+2. Integration into the **contact form success flow** (render on success, then show CTAs).
+
+3. Minimal tests (e.g., React Testing Library) to assert:
+
+   * `strokeDashoffset` ends at 0, nodes visible, checkmark drawn (or final state when reduced motion).
+
+   * `role="status"` and `aria-live="polite"` present.
+
+4. Short README note (in the component file header or separate md) explaining usage and tokens.
+
+---
+
+### Implementation guardrails
+
+* **Premium feel**: abstract geometry, subtle easing (`[0.22, 1, 0.36, 1]`), no cartoon icons.
+
+* **Performance**: inline SVG only; do not import large images; animation ≤4s.
+
+* **Theming**: read tokens from theme; do not hard-code colors or fonts.
+
+* **Accessibility**: support `prefers-reduced-motion`; provide clear, concise copy.
+
+* **Code style**: match repo naming, exports (default vs named), and import order.
+
+---
+
+### Code scaffold (starting point; adapt to our tokens/components)
+
+> NOTE TO AGENT: **Replace** the `var(--placeholder-*)` CSS variables below with mapped variables from our existing theme. Do **not** change our global token names; instead, set the wrapper `style` to map global tokens into these locals if needed. Keep geometry (320×80, line from x=40→280 at y=40) unless our design grid dictates otherwise.
+
+```tsx
+
+// SeedToHarvestSuccess.tsx
+
+import React from "react";
+
+import { motion, useAnimationControls, useReducedMotion } from "framer-motion";
+
+type Props = {
+
+  className?: string;
+
+  /** Called when the timeline finishes (e.g., reveal CTAs) */
+
+  onDone?: () => void;
+
+  /** Optional: override timings in ms */
+
+  durations?: {
+
+    toSecond?: number; // line fill to node 2
+
+    toThird?: number;  // line fill to node 3
+
+    shimmer?: number;  // shimmer sweep
+
+    check?: number;    // checkmark draw
+
+  };
+
+};
+
+const LINE_LENGTH = 240;        // path length from x=40 to x=280 at y=40
+
+const STEP = LINE_LENGTH / 2;   // fill to second node
+
+export default function SeedToHarvestSuccess({
+
+  className,
+
+  onDone,
+
+  durations,
+
+}: Props) {
+
+  const reduce = useReducedMotion();
+
+  const lineCtl = useAnimationControls();
+
+  const shimmerCtl = useAnimationControls();
+
+  const node1Ctl = useAnimationControls();
+
+  const node2Ctl = useAnimationControls();
+
+  const node3Ctl = useAnimationControls();
+
+  const checkCtl = useAnimationControls();
+
+  const labelCtl = useAnimationControls();
+
+  const [phase, setPhase] = React.useState<0 | 1 | 2 | 3>(0);
+
+  // Map timings (tweakable; keep total under ~4000ms)
+
+  const d = {
+
+    toSecond: durations?.toSecond ?? 900,
+
+    toThird: durations?.toThird ?? 1000,
+
+    shimmer: durations?.shimmer ?? 600,
+
+    check: durations?.check ?? 450,
+
+  };
+
+  React.useEffect(() => {
+
+    let cancelled = false;
+
+    const run = async () => {
+
+      if (reduce) {
+
+        // Instant final state for reduced motion
+
+        lineCtl.set({ strokeDashoffset: 0 });
+
+        node1Ctl.set({ scale: 1, opacity: 1 });
+
+        node2Ctl.set({ scale: 1, opacity: 1 });
+
+        node3Ctl.set({ scale: 1, opacity: 1 });
+
+        checkCtl.set({ pathLength: 1, opacity: 1 });
+
+        setPhase(3);
+
+        onDone?.();
+
+        return;
+
+      }
+
+      // Reset
+
+      lineCtl.set({ strokeDashoffset: LINE_LENGTH });
+
+      shimmerCtl.set({ x: -260, opacity: 0 });
+
+      node1Ctl.set({ scale: 0.6, opacity: 0 });
+
+      node2Ctl.set({ scale: 0.6, opacity: 0 });
+
+      node3Ctl.set({ scale: 0.6, opacity: 0 });
+
+      checkCtl.set({ pathLength: 0, opacity: 0 });
+
+      labelCtl.set({ opacity: 0, y: 6 });
+
+      setPhase(0);
+
+      // Phase 1 — Planting the Seed
+
+      setPhase(1);
+
+      await Promise.all([
+
+        node1Ctl.start({ scale: 1, opacity: 1, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }),
+
+        lineCtl.start({ strokeDashoffset: LINE_LENGTH - STEP, transition: { duration: d.toSecond, ease: "easeInOut" } }),
+
+        labelCtl.start({ opacity: 1, y: 0, transition: { duration: 0.25 } }),
+
+      ]);
+
+      await labelCtl.start({ opacity: 0, y: -6, transition: { delay: 0.35, duration: 0.25 } });
+
+      if (cancelled) return;
+
+      // Phase 2 — Cultivating the Connection
+
+      setPhase(2);
+
+      await Promise.all([
+
+        node2Ctl.start({ scale: 1, opacity: 1, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }),
+
+        lineCtl.start({ strokeDashoffset: 0, transition: { duration: d.toThird, ease: "easeInOut" } }),
+
+        labelCtl.start({ opacity: 1, y: 0, transition: { duration: 0.25 } }),
+
+      ]);
+
+      await labelCtl.start({ opacity: 0, y: -6, transition: { delay: 0.35, duration: 0.25 } });
+
+      if (cancelled) return;
+
+      // Phase 3 — Harvesting the Response
+
+      setPhase(3);
+
+      await node3Ctl.start({ scale: 1, opacity: 1, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } });
+
+      // Shimmer sweep
+
+      shimmerCtl.set({ x: -260, opacity: 0.0 });
+
+      shimmerCtl.start({
+
+        x: 260,
+
+        opacity: [0, 1, 0],
+
+        transition: { duration: d.shimmer, times: [0, 0.2, 1], ease: "easeOut" },
+
+      });
+
+      // Checkmark draw
+
+      await checkCtl.start({
+
+        opacity: 1,
+
+        pathLength: 1,
+
+        transition: { duration: d.check, ease: "easeOut" },
+
+      });
+
+      onDone?.();
+
+    };
+
+    run();
+
+    return () => {
+
+      cancelled = true;
+
+    };
+
+  }, [reduce, lineCtl, shimmerCtl, node1Ctl, node2Ctl, node3Ctl, checkCtl, labelCtl, onDone, d.toSecond, d.toThird, d.shimmer, d.check]);
+
+  return (
+
+    <div
+
+      className={className}
+
+      role="status"
+
+      aria-live="polite"
+
+      style={{
+
+        /* NOTE: Replace these local fallbacks by mapping to our existing theme tokens.
+
+           Example: background: 'var(--apigen-surface-900)' etc. */
+
+        background: "var(--placeholder-bg, #111315)",
+
+        color: "var(--placeholder-text, #ffffff)",
+
+        // Optional: softly rounded card feel
+
+        borderRadius: 12,
+
+        padding: 16,
+
+      }}
+
+    >
+
+      <div style={{ width: 320, height: 80 }}>
+
+        <svg viewBox="0 0 320 80" width="320" height="80" aria-hidden="true">
+
+          <defs>
+
+            <linearGradient id="copperGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+
+              <stop offset="0%" stopColor="var(--placeholder-copper, #AE5521)" stopOpacity="0" />
+
+              <stop offset="50%" stopColor="var(--placeholder-copper, #AE5521)" stopOpacity="0.9" />
+
+              <stop offset="100%" stopColor="var(--placeholder-copper, #AE5521)" stopOpacity="0" />
+
+            </linearGradient>
+
+            <clipPath id="lineClip">
+
+              <path d="M40 40 L280 40" stroke="white" strokeWidth="4" strokeLinecap="round" />
+
+            </clipPath>
+
+          </defs>
+
+          {/* Track */}
+
+          <path
+
+            d="M40 40 L280 40"
+
+            stroke="rgba(255,255,255,0.12)"
+
+            strokeWidth="4"
+
+            strokeLinecap="round"
+
+            fill="none"
+
+          />
+
+          {/* Animated line */}
+
+          <motion.path
+
+            d="M40 40 L280 40"
+
+            stroke="var(--placeholder-stroke, rgba(174,85,33,0.7))"
+
+            strokeWidth="4"
+
+            strokeLinecap="round"
+
+            fill="none"
+
+            style={{ strokeDasharray: LINE_LENGTH } as React.CSSProperties}
+
+            animate={lineCtl}
+
+          />
+
+          {/* Shimmer sweep clipped to the line */}
+
+          <motion.rect
+
+            x="-260"
+
+            y="34"
+
+            width="260"
+
+            height="12"
+
+            fill="url(#copperGrad)"
+
+            clipPath="url(#lineClip)"
+
+            animate={shimmerCtl}
+
+          />
+
+          {/* Nodes */}
+
+          <motion.circle
+
+            cx="40" cy="40" r="7"
+
+            fill="var(--placeholder-bg, #111315)"
+
+            stroke="var(--placeholder-copper, #AE5521)"
+
+            strokeWidth="2.5"
+
+            animate={node1Ctl}
+
+          />
+
+          <motion.circle
+
+            cx="160" cy="40" r="7"
+
+            fill="var(--placeholder-bg, #111315)"
+
+            stroke="var(--placeholder-copper, #AE5521)"
+
+            strokeWidth="2.5"
+
+            animate={node2Ctl}
+
+          />
+
+          <motion.circle
+
+            cx="280" cy="40" r="7"
+
+            fill="var(--placeholder-bg, #111315)"
+
+            stroke="var(--placeholder-copper, #AE5521)"
+
+            strokeWidth="2.5"
+
+            animate={node3Ctl}
+
+          />
+
+          {/* Checkmark near node 3 */}
+
+          <motion.path
+
+            d="M270 38 L278 46 L292 30"
+
+            fill="none"
+
+            stroke="var(--placeholder-copper, #AE5521)"
+
+            strokeWidth="3"
+
+            strokeLinecap="round"
+
+            strokeLinejoin="round"
+
+            initial={{ pathLength: 0, opacity: 0 }}
+
+            animate={checkCtl}
+
+          />
+
+        </svg>
+
+      </div>
+
+      {/* Phase labels (visible text) */}
+
+      {!useReducedMotion() && (
+
+        <motion.div animate={labelCtl} style={{ fontSize: 14, marginTop: 8, letterSpacing: 0.2 }}>
+
+          {phase === 1 && (<><strong>Planting the Seed.</strong> Message received.</>)}
+
+          {phase === 2 && (<><strong>Cultivating the Connection.</strong> We're reviewing.</>)}
+
+          {phase === 3 && (<><strong>Harvesting the Response.</strong> We'll reach out shortly.</>)}
+
+        </motion.div>
+
+      )}
+
+      {/* Reduced motion: show final text instantly */}
+
+      {useReducedMotion() && (
+
+        <div style={{ fontSize: 14, marginTop: 8 }}>
+
+          <strong>Harvesting the Response.</strong> We'll reach out shortly.
+
+        </div>
+
+      )}
+
+    </div>
+
+  );
+
+}
+
+```
+
+**Integration example (starting point):**
+
+> NOTE TO AGENT: Insert this where the contact form currently shows a plain success message. Respect the project's modal/toast conventions. If there's already a `SuccessModal`, put the component inside it and reveal CTAs on `onDone`.
+
+```tsx
+
+// In ContactForm.tsx (or equivalent)
+
+const [submitState, setSubmitState] = useState<"idle"|"submitting"|"success"|"error">("idle");
+
+const [showCtas, setShowCtas] = useState(false);
+
+// ... after successful POST:
+
+setSubmitState("success");
+
+// ... in JSX:
+
+{submitState === "success" && (
+
+  <div className="success-wrap">
+
+    <SeedToHarvestSuccess onDone={() => setShowCtas(true)} />
+
+    {showCtas && (
+
+      <div className="mt-4 flex gap-2">
+
+        {/* Replace with design system buttons */}
+
+        <a className="btn-ghost" href="/">Back to site</a>
+
+        <a className="btn-primary" href="/products">Explore products</a>
+
+      </div>
+
+    )}
+
+  </div>
+
+)}
+
+```
+
+---
+
+### Tasks for you (Agent)
+
+1. **Token mapping:**
+
+   * Find our **brand tokens** (in theme files and/or global CSS).
+
+   * Replace `--placeholder-*` references in the component wrapper with **mapped references** to our existing tokens (background, text, copper/accent, stroke).
+
+   * Do **not** rename or duplicate global tokens. If needed, set the component wrapper style to `background: var(--our-surface-token)`, etc.
+
+2. **Framer Motion check:**
+
+   * Verify Framer Motion is installed for our package manager.
+
+   * Verify React version compatibility.
+
+   * Add minimal unit tests (RTL) asserting final attributes and a11y roles.
+
+3. **Form integration:**
+
+   * Hook the component into the **actual success path** only.
+
+   * Ensure validation errors do **not** trigger the animation.
+
+   * Keep total timeline under ~4s (use default durations unless design requests otherwise).
+
+4. **Premium quality checks:**
+
+   * Subtle easing, no bounce/cartoon effects.
+
+   * Confirm contrast meets our accessibility standards on the actual background token.
+
+   * Ensure component scales gracefully if the container width is responsive (don't stretch SVG out of aspect; keep the 320×80 intrinsic size inside a centered wrapper).
+
+5. **Docs:**
+
+   * Add a short comment block at the top of the component explaining tokens, timings, and how to override durations via props.
+
+   * Note the analytics hook location if our project tracks success interactions (e.g., fire `contact_submit_success_animated` when `onDone` runs).
+
+**Deliver this as a PR** with the component, integration, tests, and any token mappings applied. Treat the code above as a **starting point**, not hard rules—adjust to fit our codebase patterns and theme system.
+
+---
+
 # 📋 DETAILED EXECUTION PLAN
 
 ## Prerequisites & Setup
@@ -300,46 +976,6 @@
    - Move PNG to archive folder (don't delete)
    - Test display in components
 
-## Task 3: Combine Brands Section (Priority: High)
-
-### Step-by-Step Implementation:
-
-1. **Analyze Current Brand Sections**:
-   - Examine `src/sections/Brands2.tsx` - currently used on home page
-   - Review `src/sections/CraftBrandSection.tsx` and `src/sections/MissionBrandSection.tsx` from brands page
-   - Check `src/data/brands.ts` for brand data structure
-
-2. **Create New Unified Brands Section**:
-   - Create `src/sections/BrandsUnified.tsx`
-   - Import brand data: `import { brands } from "@/data/brands"`
-   - Structure: Hero section + Brand cards grid + CTA button to `/brands`
-
-3. **Component Architecture**:
-   ```tsx
-   // New BrandsUnified component structure
-   export default function BrandsUnified() {
-     return (
-       <section className="py-16 md:py-20 bg-(--surface-olive)">
-         <div className="container mx-auto px-4">
-           {/* Hero content similar to Brands2 */}
-           {/* Brand cards grid */}
-           {/* CTA button to /brands */}
-         </div>
-       </section>
-     );
-   }
-   ```
-
-4. **Replace in Home Page**:
-   - Update `src/app/page.tsx`
-   - Replace `<Brands2 brands={defaultBrands} />` with `<BrandsUnified />`
-   - Remove unused `Brands2` import
-
-5. **Test & Verify**:
-   - Ensure all brand data displays correctly
-   - Test responsive design
-   - Verify CTA button navigation
-
 ## Task 5: Clean Up Mission Brand Section Spacing (Priority: Medium)
 
 ### Current Issues Analysis:
@@ -376,192 +1012,6 @@
      gridGap: "gap-12 md:gap-16 lg:gap-20", // More consistent gaps
      cardGrid: "gap-6 md:grid-cols-2 lg:grid-cols-1", // Better card spacing
    };
-   ```
-
-## Task 7: Fix Header Logo Rendering in Production (Priority: High)
-
-### Root Cause Analysis:
-
-1. **Path Resolution Issues**:
-   - Logo uses `/hero/logo%20+%20text.png` and `/hero/transparentlogo.png`
-   - Production builds may not resolve these paths correctly
-   - Check if files exist in `public/hero/` directory
-
-2. **Image Optimization**:
-   - Next.js Image component may behave differently in production
-   - Check build logs for image optimization errors
-
-3. **Build Process Differences**:
-   - Development vs production asset handling
-   - Static file serving differences
-
-### Implementation Steps:
-
-1. **Verify Asset Existence**:
-   - Confirm files exist: `public/hero/logo + text.png`, `public/hero/transparentlogo.png`
-   - Check file permissions and encoding
-
-2. **Update Logo Paths**:
-   ```tsx
-   // In Header.tsx, change:
-   logoImageSrc = "/hero/logo%20+%20text.png"
-   // To:
-   logoImageSrc = "/hero/logo%2B%20text.png" // URL-encoded +
-   // Or rename file to remove spaces/special chars
-   ```
-
-3. **Add Error Handling**:
-   ```tsx
-   // In Logo.tsx, add fallback
-   <AppImage
-     src={imageSrc}
-     alt="Apigen logo"
-     onError={(e) => {
-       e.currentTarget.src = '/fallback-logo.png'; // Add fallback image
-     }}
-     // ... other props
-   />
-   ```
-
-4. **Test Production Build**:
-   - Run `npm run build && npm run start`
-   - Check browser network tab for 404 errors
-   - Test on multiple browsers
-
-## Task 9: Wire Up Contact Modal to Email Service (Priority: High)
-
-### Implementation Plan:
-
-1. **Choose Email Service**: Use EmailJS (free tier, no backend required)
-   - Sign up at emailjs.com
-   - Create email service and template
-
-2. **Install Dependencies**:
-   ```bash
-   npm install @emailjs/browser
-   ```
-
-3. **Create EmailJS Configuration**:
-   ```tsx
-   // In ContactModal.tsx
-   import emailjs from '@emailjs/browser';
-
-   // EmailJS configuration
-   const SERVICE_ID = 'your_service_id';
-   const TEMPLATE_ID = 'your_template_id';
-   const PUBLIC_KEY = 'your_public_key';
-   ```
-
-4. **Update Form Submission**:
-   ```tsx
-   const handleSubmit = async (e: React.FormEvent) => {
-     e.preventDefault();
-     setStatus("submitting");
-
-     try {
-       await emailjs.send(
-         SERVICE_ID,
-         TEMPLATE_ID,
-         {
-           name: formData.name,
-           company: formData.company,
-           email: formData.email,
-           country: formData.country,
-           message: formData.message,
-         },
-         PUBLIC_KEY
-       );
-
-       setStatus("success");
-       // Reset form and close modal
-     } catch (error) {
-       console.error('Email send failed:', error);
-       setStatus("error");
-     }
-   };
-   ```
-
-5. **Add Error Handling**:
-   - Show error message on failed submission
-   - Retry mechanism for failed sends
-   - Rate limiting protection
-
-6. **Email Template Setup**:
-   - Create template in EmailJS dashboard
-   - Include all form fields
-   - Format for professional delivery
-
-## Task 11: Standardize Framer Motion Appear Settings (Priority: Medium)
-
-### Analysis Phase:
-
-1. **Audit Current Usage**:
-   - Check all files using `<Appear>` component
-   - Compare animation parameters across components
-   - Identify inconsistencies
-
-2. **Home Page Standard**:
-   - Review how `Appear` is used in home page sections
-   - Note timing, easing, and motion preferences
-
-### Implementation Steps:
-
-1. **Create Centralized Animation Config**:
-   ```tsx
-   // src/lib/animations.ts
-   export const appearConfig = {
-     duration: 0.6,
-     ease: "easeOut",
-     delay: 0.1,
-     // Add other standardized settings
-   };
-   ```
-
-2. **Update Appear Component**:
-   - Modify `src/components/motion/Appear.tsx` to use centralized config
-   - Ensure `prefers-reduced-motion` is respected everywhere
-
-3. **Update All Components**:
-   - Replace hardcoded animation values with config
-   - Test each page for consistent behavior
-   - Verify reduced motion preferences work
-
-## Task 13: Audit and Clean Up Docs Folder (Priority: Low)
-
-### Cleanup Plan:
-
-1. **Categorize Files**:
-   - **Keep**: Architecture docs, component guides, current plans
-   - **Archive**: Old chat summaries, outdated client notes
-   - **Delete**: Temporary files, duplicates, unused assets
-
-2. **Files to Keep**:
-   - `Architecture.md`
-   - `future-tasks.md`
-   - Component guides and style docs
-   - Current active plans
-
-3. **Files to Remove**:
-   - `chat-summaries.md`
-   - `client updates/` folder (old meeting notes)
-   - `notes/` folder (temporary notes)
-   - `prompts/` (empty)
-   - `questions.md` (old questions)
-
-4. **Organize Structure**:
-   ```
-   docs/
-   ├── architecture/
-   │   ├── site-architecture.md
-   │   └── component-structure.md
-   ├── guides/
-   │   ├── buttons-guide.md
-   │   └── header-tuning-guide.md
-   ├── plans/
-   │   └── future-tasks.md
-   └── style/
-       ├── ui-layout-guide.md
-       └── style-audit.md
    ```
 
 ## Task 14: Update Brands Section Background (Priority: Medium)

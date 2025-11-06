@@ -101,10 +101,13 @@ export default function HeroWordmarkAnimated({
             shape.style.fillOpacity = "1";
           }
         });
+
+        // Ensure SVG is visible (should be visible by default, but being explicit)
+        svg.style.opacity = "1";
       })
       .catch(() => {
         if (cancelled || !ref.current) return;
-        // Fallback to plain image
+        // Fallback to plain image if SVG fails to load
         ref.current.innerHTML = `<img src="${src}" alt="${alt ?? ""}" style="display:block;width:100%;height:auto;" />`;
       });
 
@@ -116,19 +119,7 @@ export default function HeroWordmarkAnimated({
   return (
     <div className={className} style={style} aria-label={alt} role="img">
       <div ref={ref} className={`${styles.root} ${isInline ? styles.rootInline : ""}`}>
-        <img
-          src={fallbackSrc ?? src}
-          alt=""
-          aria-hidden="true"
-          style={{
-            display: isInline ? "inline-block" : "block",
-            width: isInline ? "auto" : "100%",
-            height: "100%",
-            verticalAlign: "baseline",
-            margin: 0,
-            transform: style?.transform ?? "translateY(var(--wordmark-inline-offset, 0))",
-          }}
-        />
+        {/* No fallback image - completely empty initially for debugging */}
       </div>
     </div>
   );
