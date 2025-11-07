@@ -37,7 +37,7 @@ export default function BrandsUnified({ preview }: Props) {
           </Appear>
           <Appear preview={preview}>
             <p
-              className="mx-auto max-w-2xl text-base uppercase text-(--primary)/70"
+              className="mx-auto max-w-2xl text-base uppercase [color:color-mix(in_oklab,white_78%,transparent)]"
               style={{
                 fontFamily: "var(--font-mono)",
                 letterSpacing: "0.35em",

@@ -3,6 +3,7 @@ import ProductShowcase from "@/sections/ProductShowcase";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { products, productsContent } from "@/data/products";
 import { galleryImages } from "@/data/gallery";
+import GlassEffect from "@/components/ui/liquid-glass";
 
 export const metadata: Metadata = {
   title: productsContent.pageTitle,
@@ -28,8 +29,22 @@ export default function ProductsPage() {
         />
       ))}
 
+      <section className="py-10 md:py-12">
+        <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
+          <div className="relative h-24 sm:h-28 w-full overflow-hidden">
+            <div className="absolute inset-0 bg-[#5E624C]/18" />
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#5E624C]/28 via-[#5E624C]/18 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#5E624C]/24 via-[#5E624C]/12 to-transparent" />
+            <div className="absolute left-0 top-0 h-full w-[35%] bg-gradient-to-r from-[#373a2c]/35 via-transparent to-transparent" />
+            <div className="absolute right-0 top-0 h-full w-[35%] bg-gradient-to-l from-[#373a2c]/35 via-transparent to-transparent" />
+            <div className="absolute inset-x-[15%] top-1/2 h-16 -translate-y-1/2 rounded-full bg-[#5E624C]/24 blur-3xl" />
+            <div className="absolute inset-x-[10%] top-1/2 h-20 -translate-y-1/2 rounded-full bg-[#5E624C]/12 blur-2xl" />
+          </div>
+        </div>
+      </section>
+
       {/* Product Carousel */}
-      <div className="py-16">
+      <div className="pt-4 pb-16 md:pt-16">
         <ProductCarousel3D
           images={galleryImages}
           autoPlay={true}
