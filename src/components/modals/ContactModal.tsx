@@ -11,7 +11,6 @@ import {
 import { validateContactForm, type ContactFormData, type ValidationErrors } from "@/lib/validation";
 import { buttonClass } from "@/lib/utils";
 import countries from "world-countries";
-import emailjs from '@emailjs/browser';
 import SeedToHarvestSuccess from "@/components/SeedToHarvestSuccess";
 
 interface ContactModalProps {
@@ -91,130 +90,30 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
     setStatus("submitting");
 
-    // Check if EmailJS is properly configured
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-    const isDevelopment = process.env.NODE_ENV === "development";
-    const emailJsConfigured = serviceId && templateId && publicKey;
-
-    // Development mode: simulate success if EmailJS not configured
-    // This allows testing the success animation without EmailJS setup
-    if (isDevelopment && !emailJsConfigured) {
-      console.log("[DEV MODE] EmailJS not configured - simulating successful submission for testing");
-      console.log("[DEV MODE] Form data that would be sent:", {
-        from_name: formData.name,
-        from_company: formData.company,
-        from_email: formData.email,
-        from_country: formData.country,
-        message: formData.message,
-        reply_to: formData.email,
-      });
-      
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      
-      setStatus("success");
-      setShowCtas(false);
-      return;
-    }
-
-    // Production: require EmailJS configuration
-    if (!emailJsConfigured) {
-      console.error('EmailJS configuration missing:', {
-        serviceId: !!serviceId,
-        templateId: !!templateId,
-        publicKey: !!publicKey,
-      });
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 3000);
-      return;
-    }
-
     try {
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: formData.name,
-          from_company: formData.company,
-          from_email: formData.email,
-          from_country: formData.country,
-          message: formData.message,
-          reply_to: formData.email,
+      // Submit to our API route which handles email + storage
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-
-      console.log('Email sent successfully:', result);
-      console.log('Email data sent:', {
-        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        data: {
-          from_name: formData.name,
-          from_company: formData.company,
-          from_email: formData.email,
-          from_country: formData.country,
-          message: formData.message,
-          reply_to: formData.email,
-        }
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to submit form");
+      }
+
+      const result = await response.json();
+      console.log("Form submitted successfully:", result);
+      
       setStatus("success");
       setShowCtas(false); // Reset CTAs when new success state starts
 
     } catch (error: unknown) {
-      // Check if it's a specific EmailJS error
-      const emailError = error as { status?: number; text?: string; statusText?: string };
+      console.error("Form submission error:", error);
       
-      // In development mode, if EmailJS returns 422 (configuration issue), simulate success
-      // This allows testing the animation while EmailJS is being set up
-      if (isDevelopment && emailError?.status === 422) {
-        console.warn("[DEV MODE] EmailJS returned 422 error - simulating success for testing");
-        console.warn("[DEV MODE] Error details:", {
-          status: emailError.status,
-          text: emailError.text,
-          message: "EmailJS template/service needs configuration. Simulating success in dev mode.",
-        });
-        console.warn("[DEV MODE] Form data that would be sent:", {
-          from_name: formData.name,
-          from_company: formData.company,
-          from_email: formData.email,
-          from_country: formData.country,
-          message: formData.message,
-          reply_to: formData.email,
-        });
-        
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
-        
-        setStatus("success");
-        setShowCtas(false);
-        return;
-      }
-
-      // Production or non-422 errors: show actual error
-      console.error('Email send failed:', error);
-      
-      if (emailError?.status === 422) {
-        console.error('EmailJS 422 Error - Template/Service configuration issue:');
-        console.error('- Check that template variables match: from_name, from_company, from_email, from_country, message, reply_to');
-        console.error('- Verify EmailJS service is properly connected to an email account');
-        console.error('- Ensure template is active and not in draft mode');
-        console.error(`- Error message: ${emailError.text || 'Unknown error'}`);
-      }
-
-      // Log more specific error information
-      console.error('Error details:', {
-        error: JSON.stringify(error),
-        status: emailError?.status,
-        text: emailError?.text,
-        statusText: emailError?.statusText,
-        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
-        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing',
-        publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ? 'Set' : 'Missing',
-      });
-
       setStatus("error");
 
       // Reset to idle after showing error for 3 seconds

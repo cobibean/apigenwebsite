@@ -1,5 +1,19 @@
 # Future Development Tasks
 
+## 📋 Current Status Summary
+
+**Recently Completed:**
+- ✅ **Task 6:** Contact form with Resend email service + JSON storage + CSV export
+- ✅ **Task 15:** Premium success animation (SeedToHarvestSuccess) with three-step micro-animation
+- ✅ **Task 14:** Brand section header color (copper) + carousel width adjustments
+
+**Next Recommended Tasks:**
+1. **Task 2:** Clean Up Mission Brand Section Spacing (already in progress)
+2. **Task 4:** Finalize 3-Column Carousel content (needs client approval on card text)
+3. **Tasks 9-11:** Deployment setup (Vercel, domain, repository privacy)
+
+---
+
 ## High Priority
 
 ### 1. Combine Brands Section ✅ COMPLETE
@@ -78,16 +92,23 @@
 
 ---
 
-### 6. Wire Up Contact Modal to Email Service 🔄 MOSTLY COMPLETE
+### 6. Wire Up Contact Modal to Email Service ✅ COMPLETE
 **Goal:** Connect the contact modal to a real email inbox using a simple, free service.
 
-**Status:** 🔄 MOSTLY COMPLETE
-- EmailJS integration implemented in ContactModal
-- Email delivery working
-- Basic validation and success feedback
-- EmailJS Setup Guide created
+**Status:** ✅ COMPLETED
+- Migrated from EmailJS to Resend API (free tier: 3,000 emails/month)
+- Next.js API route created (`/api/contact`) that handles email + data storage
+- All submissions saved to `data/submissions.json` (JSON format)
+- CSV export script created (`scripts/export-submissions.ts`)
+- Premium success animation integrated (SeedToHarvestSuccess component)
+- Contact form fully functional with proper error handling
+- Setup guide created (`docs/Contact-Form-Setup.md`)
 
-**Remaining:** Need to retry testing with new info from Sunny
+**Implementation Details:**
+- Uses Resend test domain (`onboarding@resend.dev`) for now (no DNS verification needed)
+- Can verify domain later to use `noreply@apigen.ca`
+- All form fields including country are captured and sent
+- Submissions stored locally in JSON, can export to CSV anytime
 
 ---
 
@@ -195,39 +216,38 @@
 
 ---
 
-### 14. Update Brand Section Header Color & Adjust Carousel Width
+### 14. Update Brand Section Header Color & Adjust Carousel Width ✅ COMPLETE
 **Goal:** Change the brand section header on homepage to copper color (from brand theme file) and make carousel images slightly wider with adjustable spacing.
 
-**Status:** ❌ NOT STARTED
-- Need to locate copper color token in brand theme file
-- Adjust carousel image dimensions to be slightly wider
-- Create spacing constants or props for easy width adjustment
-- Ideally make front card size adapt to actual image dimensions
+**Status:** ✅ COMPLETED
+- Brand section header updated to use copper color (`var(--accent)`) instead of `var(--primary)`
+- Carousel card width increased from `w-56 md:w-64` to `w-60 md:w-72` (240px mobile, 288px desktop)
+- Image dimensions updated to match new card width (288px width)
+- Spacing constants already in place for easy future adjustments
 
-**Requirements:**
-- Update header text color to copper (find token in theme file)
-- Make carousel images on homepage slightly wider
-- Add adjustable spacing/constants/props for easy tweaking
-- Consider dynamic sizing based on real image dimensions (if feasible)
+**Changes Made:**
+- `src/sections/BrandsUnified.tsx`: Changed header color from `var(--primary)` to `var(--accent)` (copper #AE5521)
+- `src/components/ProductCarousel3D.tsx`: Updated `cardWidth` constant and image width prop
 
 ---
 
-### 15. Create Immersive Contact Form Success Animation 🎯 EXTRA CREDIT / NICE TO HAVE
+### 15. Create Immersive Contact Form Success Animation ✅ COMPLETE
 **Goal:** Create a premium, brand-aligned success animation that plays after contact form submission with three-step text-led micro-animation.
 
-**Status:** 🎯 EXTRA CREDIT / NICE TO HAVE
-- Should only be completed AFTER everything else is done
-- Including deploying to production and setting up domain/hosting
-- Premium enhancement for user experience
+**Status:** ✅ COMPLETED
+- SeedToHarvestSuccess component created and integrated
+- Three-step animation working: "Planting the Seed" → "Cultivating the Connection" → "Harvesting the Response"
+- Inline SVG + Framer Motion implementation
+- Respects prefers-reduced-motion with instant final state
+- Triggers only on successful POST completion
+- Uses existing brand tokens (copper accent, card background, foreground text)
+- 320×80 SVG with baseline line, 3 nodes, shimmer sweep
+- Final confirmation message: "Thank you for reaching out. We've received your message and will get back to you within 1–2 business days."
+- CTAs appear after animation completes ("Back to site" and "Explore products")
+- Unit tests created and passing
+- Fully accessible with `role="status"` and `aria-live="polite"`
 
-**Requirements:**
-- Three-step animation (≤4s total): "Planting the Seed" → "Cultivating the Connection" → "Harvesting the Response"
-- Inline SVG + Framer Motion (no raster assets)
-- Respect prefers-reduced-motion with instant final state
-- Trigger only on successful POST completion
-- Use existing brand tokens (copper, background, text colors)
-- 320×80 SVG with baseline line, 3 nodes, hidden checkmark path
-- Animate with stroke dash, node scale/opacity, copper shimmer sweep
+**Note:** Checkmark removed per client feedback - cleaner, more minimal design
 
 **Saved Agent Prompt:**
 

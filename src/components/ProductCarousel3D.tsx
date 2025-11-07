@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback, useRef, useContext } from "rea
 import { useRouter } from "next/navigation";
 import { m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 import AppImage from "@/components/AppImage";
+import AppLink from "@/components/AppLink";
+import { buttonClass } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrolled";
 import { useHeader } from "@/components/navigation/Header";
 
@@ -19,35 +21,63 @@ interface ProductCarousel3DProps {
   autoPlay?: boolean;
   autoPlayDelay?: number;
   className?: string;
+  // Optional CTA button below carousel
+  ctaButton?: {
+    label: string;
+    href: string;
+    variant?: "brown" | "olive" | "neutral";
+  };
+  // Spacing controls
+  // Note: Visual editors (Builder.io, etc.) should pass these props explicitly.
+  // Component defaults are for standalone/Storybook use only.
+  dotsSpacing?: string; // Distance from carousel bottom to dots (e.g., "bottom-6", "bottom-8")
+  buttonSpacing?: string; // Distance from carousel to button (e.g., "pt-8", "pt-12", "48px", "var(--spacing-xl)")
 }
 
 // Spacing constants for easy adjustment
 // To adjust carousel positioning:
-// - dotsBottom: Controls distance from bottom of carousel to navigation dots
 // - containerMinHeight: Controls overall carousel height
 // - cardWidth/cardHeight: Controls individual card dimensions
 //
-// Note: Button positioning below carousel is controlled in src/app/page.tsx
-// Look for the "Products Link Button" section to adjust button spacing
+// Note: Dots and button spacing are now controlled via props (dotsSpacing, buttonSpacing)
 const SPACING = {
   // Container dimensions
   containerMinHeight: "min-h-[500px] md:min-h-[600px]",
   containerMaxWidth: "max-w-6xl",
 
   // Card dimensions and positioning
-  cardWidth: "w-56 md:w-64",
+  // Increased width: w-60 (240px) mobile, w-72 (288px) desktop for better visibility
+  cardWidth: "w-60 md:w-72",
   cardHeight: "h-[20px] md:h-[480px]",
   cardBorderRadius: "rounded-[24px]",
-
-  // Navigation elements positioning
-  dotsBottom: "bottom-4",
 } as const;
 
+/**
+ * ProductCarousel3D - 3D carousel component with optional CTA button
+ * 
+ * Visual Editor Pattern:
+ * - Visual editors (Builder.io, etc.) should pass all props explicitly
+ * - Component defaults are for standalone/Storybook use only
+ * - Props are designed to be easily mapped from visual editor UI controls
+ * 
+ * @example
+ * // Visual editor usage - always pass props explicitly
+ * <ProductCarousel3D
+ *   images={images}
+ *   autoPlay={true}
+ *   dotsSpacing="bottom-6"
+ *   buttonSpacing="48px"
+ *   ctaButton={{ label: "See Products", href: "/products", variant: "olive" }}
+ * />
+ */
 export default function ProductCarousel3D({
   images,
   autoPlay = true,
   autoPlayDelay = 4000,
   className = "",
+  ctaButton,
+  dotsSpacing = "bottom-6", // Default for standalone use only
+  buttonSpacing = "48px", // Default for standalone use only
 }: ProductCarousel3DProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
@@ -276,7 +306,7 @@ export default function ProductCarousel3D({
       role="region"
       aria-label="Product carousel"
     >
-      <div className={`relative flex items-center justify-center ${SPACING.containerMinHeight}`}>
+      <div className={`relative flex items-center justify-center ${SPACING.containerMinHeight} pb-12`}>
         <LazyMotion features={domAnimation} strict>
           <div className={`relative flex items-center justify-center w-full ${SPACING.containerMaxWidth} mx-auto`}>
             {images.map((image, index) => {
@@ -314,7 +344,7 @@ export default function ProductCarousel3D({
                     <AppImage
                       src={image.src}
                       alt={image.alt}
-                      width={256}
+                      width={288}
                       height={480}
                       className="w-full h-full object-cover"
                       priority={image.priority || index === 0}
@@ -333,7 +363,7 @@ export default function ProductCarousel3D({
 
         {/* Navigation Dots */}
         {images.length > 1 && (
-          <div className={`absolute ${SPACING.dotsBottom} left-1/2 -translate-x-1/2 flex space-x-2 z-30`}>
+          <div className={`absolute ${dotsSpacing} left-1/2 -translate-x-1/2 flex space-x-2 z-30`}>
             {images.map((_, index) => (
               <button
                 key={index}
@@ -373,6 +403,38 @@ export default function ProductCarousel3D({
           </>
         )}
       </div>
+
+      {/* Optional CTA Button */}
+      {ctaButton && (() => {
+        // Convert Tailwind classes to rem values, or use direct CSS values
+        let paddingTopValue: string | undefined;
+        if (buttonSpacing.includes('px') || buttonSpacing.includes('rem') || buttonSpacing.includes('em') || buttonSpacing.includes('%') || buttonSpacing.includes('var(')) {
+          paddingTopValue = buttonSpacing;
+        } else if (buttonSpacing.startsWith('pt-') || buttonSpacing.startsWith('mt-')) {
+          const num = parseInt(buttonSpacing.replace(/^(pt|mt)-/, ''));
+          if (!isNaN(num)) {
+            paddingTopValue = `${num * 0.25}rem`; // Tailwind spacing: 1 = 0.25rem = 4px
+          }
+        } else {
+          paddingTopValue = buttonSpacing; // Fallback - try as-is
+        }
+        
+        return (
+          <div 
+            className="container mx-auto px-4 sm:px-6 lg:px-8"
+            style={{ paddingTop: paddingTopValue }}
+          >
+            <div className="flex justify-center py-3">
+              <AppLink 
+                href={ctaButton.href} 
+                className={buttonClass({ variant: ctaButton.variant || "olive", size: "lg" })}
+              >
+                {ctaButton.label}
+              </AppLink>
+            </div>
+          </div>
+        );
+      })()}
     </section>
   );
 }

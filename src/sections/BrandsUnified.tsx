@@ -23,7 +23,7 @@ export default function BrandsUnified({ preview }: Props) {
         <div className="text-center mb-8 md:mb-10">
           <Appear preview={preview}>
             <h1
-              className="mb-4 uppercase [color:var(--primary)]"
+              className="mb-4 uppercase [color:var(--accent)]"
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 800,

@@ -10,8 +10,6 @@ import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { galleryImages } from "@/data/gallery";
 import CTA from "@/sections/CTA";
 import { homeContent } from "@/data/home";
-import AppLink from "@/components/AppLink";
-import { buttonClass } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: homeContent.metadata.title,
@@ -29,10 +27,10 @@ export default function Home() {
       <Hero
         content={homeContent.hero}
         subtitleGap="var(--spacing-xl)"
-        subtitleHorizontalPadding="var(--content-padding-sm)"
-        subtitleMaxWidth="600px"
-        subtitleOffsetX="1rem)"
-        subtitleStyle="button"
+        subtitleHorizontalPadding="0px"
+        subtitleMaxWidth="none"
+        subtitleOffsetX="0px"
+        subtitleStyle="text"
       />
       <MissionSection_1 content={homeContent.mission} />
       <AboutStory content={aboutContent} />
@@ -54,20 +52,19 @@ export default function Home() {
         );
       })} */}
 
+      {/* ProductCarousel3D - Props passed explicitly (visual editor pattern) */}
       <ProductCarousel3D
         images={galleryImages}
         autoPlay={true}
         autoPlayDelay={4000}
+        dotsSpacing="bottom-6"
+        ctaButton={{
+          label: "See Our Products",
+          href: "/products",
+          variant: "olive",
+        }}
+        buttonSpacing="pt-2"
       />
-
-      {/* Products Link Button */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 -mt-2 py-2">
-        <div className="flex justify-center">
-          <AppLink href="/products" className={buttonClass({ variant: "olive", size: "lg" })}>
-            See Our Products
-          </AppLink>
-        </div>
-      </div>
 
       <CTA content={homeContent.cta} />
     </>

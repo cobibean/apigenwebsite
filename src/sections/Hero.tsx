@@ -141,15 +141,15 @@ export default function Hero({
         <Appear preview={preview} className="w-full flex justify-center">
           <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center" style={{ transform: `translateY(${contentOffsetY})` }}>
             {subtitle && (
-              <div className="mt-1 sm:mt-2" style={{ marginBottom: subtitleGap, paddingLeft: subtitleHorizontalPadding, paddingRight: subtitleHorizontalPadding, transform: `translateX(${subtitleOffsetX})` }}>
+              <div className="mt-1 sm:mt-2 flex justify-center" style={{ marginBottom: subtitleGap, marginLeft: 'clamp(0px, 2vw, 1.5rem)' }}>
                 {subtitleStyle === "button" ? (
-                  <div className={buttonClass({ variant: "olive", size: "lg" })}>
+                  <div className={`${buttonClass({ variant: "olive", size: "lg" })} !whitespace-normal sm:!whitespace-nowrap flex sm:inline-flex text-center max-w-full w-full sm:w-auto`}>
                     {subtitle}
                   </div>
                 ) : (
                   <span
-                    className="mx-auto block text-center text-[clamp(1.18rem,3.2vw,1.65rem)] leading-tight tracking-[-0.05em] uppercase sm:max-w-none sm:inline-block sm:text-[clamp(1.32rem,2.8vw,1.85rem)] sm:whitespace-nowrap lg:text-[clamp(1.4rem,2.2vw,2rem)]"
-                    style={{ fontFamily: "var(--font-mono)", maxWidth: subtitleMaxWidth }}
+                    className="text-center text-[clamp(0.7rem,2vw,0.79rem)] leading-tight tracking-[0.12em] uppercase sm:text-[clamp(0.855rem,2vw,1.125rem)] sm:tracking-[0.15em] sm:whitespace-nowrap lg:text-[clamp(0.9rem,1.6vw,1.26rem)] px-2.5 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[var(--btn-olive)]/15 sm:bg-[var(--btn-olive)]/20 text-[var(--fg-on-olive)]/90 sm:text-[var(--fg-on-olive)] backdrop-blur-sm border border-[var(--btn-olive)]/20 sm:border-[var(--btn-olive)]/30 w-fit max-w-[68%] sm:max-w-none"
+                    style={{ fontFamily: "var(--font-mono)" }}
                   >
                     {subtitle}
                   </span>
@@ -170,7 +170,7 @@ export default function Hero({
               </>
             )}
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-5" style={{ marginTop: ctaGap }}>
-              <AppLink href={ctaHref} className={buttonClass({ variant: "olive", size: "lg" })}>
+              <AppLink href={ctaHref} className={`${buttonClass({ variant: "olive", size: "lg" })} text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 w-fit mx-auto sm:mx-0`}>
                 {ctaLabel}
               </AppLink>
               {secondaryCtas?.map((b) => (
