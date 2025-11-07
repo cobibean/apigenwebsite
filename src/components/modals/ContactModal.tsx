@@ -12,6 +12,7 @@ import { validateContactForm, type ContactFormData, type ValidationErrors } from
 import { buttonClass } from "@/lib/utils";
 import countries from "world-countries";
 import emailjs from '@emailjs/browser';
+import SeedToHarvestSuccess from "@/components/SeedToHarvestSuccess";
 
 interface ContactModalProps {
   open: boolean;
@@ -30,6 +31,16 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
   });
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [status, setStatus] = useState<FormStatus>("idle");
+  const [showCtas, setShowCtas] = useState(false);
+
+  // Memoize the onDone callback to prevent SeedToHarvestSuccess from re-running its effect
+  const handleAnimationDone = React.useCallback(() => {
+    setShowCtas(true);
+    // Optional: Fire analytics event here
+    // if (typeof window !== 'undefined' && window.gtag) {
+    //   window.gtag('event', 'contact_submit_success_animated');
+    // }
+  }, []);
 
   // Prepare country list with Canada, US, UK at top
   const countryOptions = useMemo(() => {
@@ -84,8 +95,32 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+    const isDevelopment = process.env.NODE_ENV === "development";
+    const emailJsConfigured = serviceId && templateId && publicKey;
 
-    if (!serviceId || !templateId || !publicKey) {
+    // Development mode: simulate success if EmailJS not configured
+    // This allows testing the success animation without EmailJS setup
+    if (isDevelopment && !emailJsConfigured) {
+      console.log("[DEV MODE] EmailJS not configured - simulating successful submission for testing");
+      console.log("[DEV MODE] Form data that would be sent:", {
+        from_name: formData.name,
+        from_company: formData.company,
+        from_email: formData.email,
+        from_country: formData.country,
+        message: formData.message,
+        reply_to: formData.email,
+      });
+      
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      
+      setStatus("success");
+      setShowCtas(false);
+      return;
+    }
+
+    // Production: require EmailJS configuration
+    if (!emailJsConfigured) {
       console.error('EmailJS configuration missing:', {
         serviceId: !!serviceId,
         templateId: !!templateId,
@@ -126,36 +161,54 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
         }
       });
       setStatus("success");
-
-      // Reset form after 2 seconds and close modal
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          company: "",
-          email: "",
-          country: "",
-          message: "",
-        });
-        setStatus("idle");
-        onOpenChange(false);
-      }, 2000);
+      setShowCtas(false); // Reset CTAs when new success state starts
 
     } catch (error: unknown) {
-      console.error('Email send failed:', error);
-
       // Check if it's a specific EmailJS error
-      const emailError = error as { status?: number; statusText?: string };
+      const emailError = error as { status?: number; text?: string; statusText?: string };
+      
+      // In development mode, if EmailJS returns 422 (configuration issue), simulate success
+      // This allows testing the animation while EmailJS is being set up
+      if (isDevelopment && emailError?.status === 422) {
+        console.warn("[DEV MODE] EmailJS returned 422 error - simulating success for testing");
+        console.warn("[DEV MODE] Error details:", {
+          status: emailError.status,
+          text: emailError.text,
+          message: "EmailJS template/service needs configuration. Simulating success in dev mode.",
+        });
+        console.warn("[DEV MODE] Form data that would be sent:", {
+          from_name: formData.name,
+          from_company: formData.company,
+          from_email: formData.email,
+          from_country: formData.country,
+          message: formData.message,
+          reply_to: formData.email,
+        });
+        
+        // Simulate network delay
+        await new Promise((resolve) => setTimeout(resolve, 800));
+        
+        setStatus("success");
+        setShowCtas(false);
+        return;
+      }
+
+      // Production or non-422 errors: show actual error
+      console.error('Email send failed:', error);
+      
       if (emailError?.status === 422) {
         console.error('EmailJS 422 Error - Template/Service configuration issue:');
         console.error('- Check that template variables match: from_name, from_company, from_email, from_country, message, reply_to');
         console.error('- Verify EmailJS service is properly connected to an email account');
         console.error('- Ensure template is active and not in draft mode');
+        console.error(`- Error message: ${emailError.text || 'Unknown error'}`);
       }
 
       // Log more specific error information
       console.error('Error details:', {
         error: JSON.stringify(error),
         status: emailError?.status,
+        text: emailError?.text,
         statusText: emailError?.statusText,
         serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
         templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing',
@@ -179,18 +232,47 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="w-full max-w-[min(92vw,360px)] sm:max-w-[480px]">
-          <div className="flex flex-col items-center justify-center py-8 text-center">
-            <div className="mb-4 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-              <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "var(--font-sans)" }}>
-              Thank you!
-            </h3>
-            <p className="text-[var(--secondary)]" style={{ fontFamily: "var(--font-body)" }}>
-              We&apos;ll be in touch soon.
-            </p>
+          <div className="flex flex-col items-center justify-center py-6 sm:py-8">
+            <SeedToHarvestSuccess onDone={handleAnimationDone} />
+            {showCtas && (
+              <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full">
+                <button
+                  onClick={() => {
+                    setFormData({
+                      name: "",
+                      company: "",
+                      email: "",
+                      country: "",
+                      message: "",
+                    });
+                    setStatus("idle");
+                    setShowCtas(false);
+                    onOpenChange(false);
+                  }}
+                  className={buttonClass({ variant: "neutral", size: "lg" })}
+                >
+                  Back to site
+                </button>
+                <a
+                  href="/products"
+                  className={buttonClass({ variant: "olive", size: "lg" })}
+                  onClick={() => {
+                    setFormData({
+                      name: "",
+                      company: "",
+                      email: "",
+                      country: "",
+                      message: "",
+                    });
+                    setStatus("idle");
+                    setShowCtas(false);
+                    onOpenChange(false);
+                  }}
+                >
+                  Explore products
+                </a>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
