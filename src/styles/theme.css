@@ -111,7 +111,7 @@
 /* Navbar offset utilities - matches Header component spacing */
 .navbar-offset {
   /* Mobile: Header pt-3 (12px) + nav h-16 (64px) = 76px from viewport top */
-  padding-top: 76px;
+  padding-top: clamp(56px, 14vw, 76px);
 }
 
 @media (min-width: 768px) {

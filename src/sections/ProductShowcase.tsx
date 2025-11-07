@@ -24,16 +24,16 @@ interface ProductShowcaseProps {
 }
 
 const SPACING = {
-  // let desktop breathe
-  section: "py-12 md:py-16 lg:py-20",
+  // balanced rhythm: breathing room above card, matched energy below
+  section: "pt-12 pb-6 md:py-16 lg:py-20",
   // space under header card before tasting notes
-  headerBelow: "mb-8 md:mb-14 lg:mb-10",
-  gridGap: "gap-8 md:gap-10 lg:gap-14",
+  headerBelow: "mb-4 md:mb-14 lg:mb-10",
+  gridGap: "gap-y-6 gap-x-5 md:gap-x-10 md:gap-y-10 lg:gap-x-14 lg:gap-y-14",
   gridAlign: "items-start",
   contentVerticalOffset: "mt-0",
   // keep gap consistent on desktop
-  contentGap: "gap-6 md:gap-7 lg:gap-7",
-  // center image vertically between header and chemistry box
+  contentGap: "gap-4 md:gap-7 lg:gap-7",
+  // align image stack without extra top nudges on mobile
   imageVerticalOffset: "mt-0 md:mt-4 lg:mt-6",
   imageRadius: "rounded-2xl",
 } as const;
