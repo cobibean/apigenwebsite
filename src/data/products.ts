@@ -45,9 +45,9 @@ export const products: Strain[] = [
     eyebrow: "Reserve Dried Flower",
     provenance: "Mission, British Columbia",
     tasting: {
-      nose: ["candied citrus peel", "pine resin", "white pepper"],
-      palate: ["ripe mango", "sweet cream", "cedar nuance"],
-      finish: ["bright zest with a gentle spice trail"],
+      nose: ["Sweet fruit candy with cherry + citrus", "diesel gas base", "subtle garlic funk"],
+      palate: ["Lemon-diesel", "sweet berry candy", "light herbal / savory hints"],
+      finish: ["Sour lemon candy + gas", "faint garlic that lingers clean"],
     },
     growersNote:
       "Selected from a broad sift for dense structure and a vivid limonene signature; slow-cured for a satin, even burn.",
@@ -111,9 +111,9 @@ export const products: Strain[] = [
     eyebrow: "Reserve Dried Flower",
     provenance: "Mission, British Columbia",
     tasting: {
-      nose: ["dark stone fruit", "cocoa husk", "hint of anise"],
-      palate: ["black cherry", "baked spice", "resinous depth"],
-      finish: ["long, warm finish with cedar and pepper"],
+      nose: ["Vanilla cream dessert", "berry gelato", "subtle purple gas"],
+      palate: ["Sweet black cherry + grape candy", "creamy cookie dough tones", "light mint"],
+      finish: ["Smooth sweet cream", "purple candy", "cooling mint that hangs on"],
     },
     growersNote:
       "Chosen for its layered caryophyllene profile and structure that carries flavor through the cure; balanced for a clean, steady burn.",

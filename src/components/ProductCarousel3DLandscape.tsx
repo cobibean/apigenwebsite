@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef, useContext } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { m, LazyMotion, domAnimation, useReducedMotion } from "framer-motion";
 import AppImage from "@/components/AppImage";
 import AppLink from "@/components/AppLink";
 import { buttonClass } from "@/lib/utils";
-import { useScrollDirection } from "@/hooks/useScrolled";
-import { useHeader } from "@/components/navigation/Header";
 
 export interface CarouselImage {
   src: string;
@@ -16,7 +14,7 @@ export interface CarouselImage {
   priority?: boolean;
 }
 
-interface ProductCarousel3DProps {
+interface ProductCarousel3DLandscapeProps {
   images: CarouselImage[];
   autoPlay?: boolean;
   autoPlayDelay?: number;
@@ -41,28 +39,28 @@ interface ProductCarousel3DProps {
 //
 // Note: Dots and button spacing are now controlled via props (dotsSpacing, buttonSpacing)
 const SPACING = {
-  // Container dimensions
-  containerMinHeight: "min-h-[500px] md:min-h-[600px]",
-  containerMaxWidth: "max-w-6xl",
+  // Container dimensions - shorter for landscape
+  containerMinHeight: "min-h-[300px] md:min-h-[400px]",
+  containerMaxWidth: "max-w-7xl",
 
-  // Card dimensions and positioning
-  // Increased width: w-60 (240px) mobile, w-72 (288px) desktop for better visibility
-  cardWidth: "w-60 md:w-72",
-  cardHeight: "h-[360px] md:h-[480px]",
-  cardBorderRadius: "rounded-[24px]",
+  // Card dimensions and positioning - landscape orientation
+  // Wider cards: w-80 (320px) mobile, w-[480px] (480px) desktop for landscape feel
+  cardWidth: "w-80 md:w-[480px]",
+  cardHeight: "h-[240px] md:h-[320px]",
+  cardBorderRadius: "rounded-[20px]",
 } as const;
 
 /**
- * ProductCarousel3D - 3D carousel component with optional CTA button
- * 
+ * ProductCarousel3DLandscape - Landscape 3D carousel component with optional CTA button
+ *
  * Visual Editor Pattern:
  * - Visual editors (Builder.io, etc.) should pass all props explicitly
  * - Component defaults are for standalone/Storybook use only
  * - Props are designed to be easily mapped from visual editor UI controls
- * 
+ *
  * @example
  * // Visual editor usage - always pass props explicitly
- * <ProductCarousel3D
+ * <ProductCarousel3DLandscape
  *   images={images}
  *   autoPlay={true}
  *   dotsSpacing="bottom-6"
@@ -70,25 +68,21 @@ const SPACING = {
  *   ctaButton={{ label: "See Products", href: "/products", variant: "olive" }}
  * />
  */
-export default function ProductCarousel3D({
+export default function ProductCarousel3DLandscape({
   images,
   autoPlay = true,
   autoPlayDelay = 4000,
   className = "",
   ctaButton,
-  dotsSpacing = "bottom-6", // Default for standalone use only
-  buttonSpacing = "48px", // Default for standalone use only
-}: ProductCarousel3DProps) {
+  dotsSpacing = "bottom-4", // Closer spacing for landscape
+  buttonSpacing = "32px", // Closer spacing for landscape
+}: ProductCarousel3DLandscapeProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
-  const [isInView, setIsInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
   const reduced = !!prefersReducedMotion;
-  const scrollDirection = useScrollDirection();
-  const headerContext = useHeader();
-  const { setHidden } = headerContext;
   const carouselRef = useRef<HTMLDivElement>(null);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartRef = useRef<number>(0);
@@ -107,42 +101,6 @@ export default function ProductCarousel3D({
     window.addEventListener('resize', checkIsMobile);
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
-
-  // Intersection observer for carousel visibility
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1, // Trigger when 10% of carousel is visible
-        rootMargin: "0px 0px -10% 0px" // Trigger slightly before fully in view
-      }
-    );
-
-    if (carouselRef.current) {
-      observer.observe(carouselRef.current);
-    }
-
-    return () => {
-      if (carouselRef.current) {
-        observer.unobserve(carouselRef.current);
-      }
-    };
-  }, []);
-
-  // Header visibility control based on scroll direction and carousel visibility
-  useEffect(() => {
-    if (isInView && scrollDirection) {
-      if (scrollDirection === "down") {
-        setHidden(true); // Hide header when scrolling down into carousel
-      } else if (scrollDirection === "up") {
-        setHidden(false); // Show header when scrolling up
-      }
-    } else if (!isInView) {
-      setHidden(false); // Show header when carousel is not in view
-    }
-  }, [isInView, scrollDirection, setHidden]);
 
   // Auto-play functionality
   useEffect(() => {
@@ -235,13 +193,13 @@ export default function ProductCarousel3D({
     router.push("/products");
   }, [router]);
 
-  // Get card styling based on position - 5 card layout (2 left, center, 2 right)
+  // Get card styling based on position - horizontal layout for landscape
   const getCardStyle = useCallback((index: number) => {
     const position = (index - currentIndex + images.length) % images.length;
-    
-    // Responsive offsets: smaller on mobile, larger on desktop
-    const firstOffset = isMobile ? 100 : 140;
-    const secondOffset = isMobile ? 180 : 240;
+
+    // Horizontal offsets: cards spread out horizontally
+    const firstOffset = isMobile ? 120 : 180;
+    const secondOffset = isMobile ? 200 : 280;
 
     if (position === 0) {
       // Center card - full size, no blur, highest z-index
@@ -251,26 +209,29 @@ export default function ProductCarousel3D({
         blur: 0,
         zIndex: 30,
         x: 0,
+        y: 0, // Keep centered vertically
         pointerEvents: "auto" as const,
       };
     } else if (position === 1) {
-      // First card to the right - smaller, slightly blurred
+      // Card to the right - smaller, slightly blurred
       return {
         scale: 0.85,
         opacity: 0.7,
         blur: 3,
         zIndex: 20,
         x: firstOffset,
+        y: 0,
         pointerEvents: "none" as const,
       };
     } else if (position === images.length - 1) {
-      // First card to the left - smaller, slightly blurred
+      // Card to the left - smaller, slightly blurred
       return {
         scale: 0.85,
         opacity: 0.7,
         blur: 3,
         zIndex: 20,
         x: -firstOffset,
+        y: 0,
         pointerEvents: "none" as const,
       };
     } else if (position === 2) {
@@ -281,6 +242,7 @@ export default function ProductCarousel3D({
         blur: 8,
         zIndex: 10,
         x: secondOffset,
+        y: 0,
         pointerEvents: "none" as const,
       };
     } else if (position === images.length - 2) {
@@ -291,6 +253,7 @@ export default function ProductCarousel3D({
         blur: 8,
         zIndex: 10,
         x: -secondOffset,
+        y: 0,
         pointerEvents: "none" as const,
       };
     } else {
@@ -301,6 +264,7 @@ export default function ProductCarousel3D({
         blur: 12,
         zIndex: 0,
         x: 0,
+        y: 0,
         pointerEvents: "none" as const,
       };
     }
@@ -316,27 +280,27 @@ export default function ProductCarousel3D({
     // On mobile with many dots, show only dots around current index
     const maxVisible = 7; // Show max 7 dots on mobile
     const halfVisible = Math.floor(maxVisible / 2);
-    
+
     const dots: number[] = [];
-    
+
     // Always show first dot
     dots.push(0);
-    
+
     // Show dots around current index
     const start = Math.max(1, currentIndex - halfVisible);
     const end = Math.min(images.length - 2, currentIndex + halfVisible);
-    
+
     for (let i = start; i <= end; i++) {
       if (!dots.includes(i)) {
         dots.push(i);
       }
     }
-    
+
     // Always show last dot
     if (!dots.includes(images.length - 1)) {
       dots.push(images.length - 1);
     }
-    
+
     return dots.sort((a, b) => a - b);
   }, [images.length, currentIndex, isMobile]);
 
@@ -358,7 +322,7 @@ export default function ProductCarousel3D({
       role="region"
       aria-label="Product carousel"
     >
-      <div className={`relative flex items-center justify-center ${SPACING.containerMinHeight} pb-12`}>
+      <div className={`relative flex items-center justify-center ${SPACING.containerMinHeight} pb-8`}>
         <LazyMotion features={domAnimation} strict>
           <div className={`relative flex items-center justify-center w-full ${SPACING.containerMaxWidth} mx-auto`}>
             {images.map((image, index) => {
@@ -377,6 +341,7 @@ export default function ProductCarousel3D({
                     opacity: style.opacity,
                     filter: `blur(${style.blur}px)`,
                     x: style.x,
+                    y: style.y,
                   }}
                   transition={{
                     duration: 0.4,
@@ -396,8 +361,8 @@ export default function ProductCarousel3D({
                     <AppImage
                       src={image.src}
                       alt={image.alt}
-                      width={288}
-                      height={480}
+                      width={480}
+                      height={320}
                       className="w-full h-full object-cover"
                       priority={image.priority || index === 0}
                     />
@@ -420,7 +385,7 @@ export default function ProductCarousel3D({
               {visibleDots.map((dotIndex, idx) => {
                 const isActive = dotIndex === currentIndex;
                 const showEllipsis = idx > 0 && dotIndex - visibleDots[idx - 1] > 1;
-                
+
                 return (
                   <React.Fragment key={dotIndex}>
                     {showEllipsis && (
@@ -481,15 +446,15 @@ export default function ProductCarousel3D({
         } else {
           paddingTopValue = buttonSpacing; // Fallback - try as-is
         }
-        
+
         return (
-          <div 
+          <div
             className="container mx-auto px-4 sm:px-6 lg:px-8"
             style={{ paddingTop: paddingTopValue }}
           >
             <div className="flex justify-center py-3">
-              <AppLink 
-                href={ctaButton.href} 
+              <AppLink
+                href={ctaButton.href}
                 className={buttonClass({ variant: ctaButton.variant || "olive", size: "lg" })}
               >
                 {ctaButton.label}

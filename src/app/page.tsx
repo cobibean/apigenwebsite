@@ -27,10 +27,15 @@ export default function Home() {
       <Hero
         content={homeContent.hero}
         subtitleGap="var(--spacing-xl)"
+        mobileSubtitleGap="20px"
+        mobileContainerPadding="16px"
+        mobileContentMaxWidth="98%"
         subtitleHorizontalPadding="0px"
         subtitleMaxWidth="none"
         subtitleOffsetX="0px"
         subtitleStyle="text"
+        mobileContentOffsetY="-100px"
+        mobileCtaGap="24px"
       />
       <MissionSection_1 content={homeContent.mission} />
       <AboutStory content={aboutContent} />

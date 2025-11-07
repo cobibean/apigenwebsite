@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
-import { m, LazyMotion, domAnimation, useReducedMotion, AnimatePresence } from "framer-motion";
+import React from "react";
 import type { Strain } from "@/data/products";
 import AppImage from "@/components/AppImage";
+import ProductCarousel3DLandscape from "@/components/ProductCarousel3DLandscape";
 import Appear from "@/components/motion/Appear";
 
 interface ProductShowcaseProps {
@@ -27,14 +27,14 @@ const SPACING = {
   // let desktop breathe
   section: "py-12 md:py-16 lg:py-20",
   // space under header card before tasting notes
-  headerBelow: "mb-12 md:mb-14 lg:mb-10",
+  headerBelow: "mb-8 md:mb-14 lg:mb-10",
   gridGap: "gap-8 md:gap-10 lg:gap-14",
   gridAlign: "items-start",
   contentVerticalOffset: "mt-0",
   // keep gap consistent on desktop
   contentGap: "gap-6 md:gap-7 lg:gap-7",
-  // remove image push-down on lg
-  imageVerticalOffset: "mt-0",
+  // center image vertically between header and chemistry box
+  imageVerticalOffset: "mt-0 md:mt-4 lg:mt-6",
   imageRadius: "rounded-2xl",
 } as const;
 
@@ -49,45 +49,6 @@ export default function ProductShowcase({
   cardBorderColor = "default",
 }: ProductShowcaseProps) {
   const isImageLeft = layoutDirection === "left";
-
-  // Carousel state and logic
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const prefersReducedMotion = useReducedMotion();
-  const reduced = !!prefersReducedMotion;
-
-  const nextImage = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % strain.images.length);
-  }, [strain.images.length]);
-
-  const prevImage = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + strain.images.length) % strain.images.length);
-  }, [strain.images.length]);
-
-  const goToImage = useCallback((index: number) => {
-    setCurrentIndex(index);
-  }, []);
-
-  // Preload adjacent images for instant navigation
-  useEffect(() => {
-    const preloadImages = () => {
-      const imagesToPreload = [];
-
-      // Previous image
-      const prevIndex = currentIndex === 0 ? strain.images.length - 1 : currentIndex - 1;
-      imagesToPreload.push(strain.images[prevIndex].src);
-
-      // Next image
-      const nextIndex = (currentIndex + 1) % strain.images.length;
-      imagesToPreload.push(strain.images[nextIndex].src);
-
-      imagesToPreload.forEach(src => {
-        const img = new Image();
-        img.src = src;
-      });
-    };
-
-    preloadImages();
-  }, [currentIndex, strain.images]);
 
   // Determine section background
   const sectionBg = sectionBgColor === "olive" ? "bg-[#545943]" : "bg-background";
@@ -120,10 +81,29 @@ export default function ProductShowcase({
           <div className="mx-auto max-w-7xl">
             {/* Main content grid - header + content on one side, image on the other */}
             <div className={`grid md:grid-cols-2 ${SPACING.gridAlign} ${SPACING.gridGap}`}>
-              {/* Content Column: Header + Body */}
-              <div className={isImageLeft ? "md:order-2" : "md:order-1"}>
-                {/* Header */}
-                <div className={`${SPACING.headerBelow} flex flex-col gap-2 px-6 py-5 md:px-7 md:py-6 rounded-xl ${headerBorder} bg-[#545943]`}>
+              {/* Header - Mobile: shows first, Desktop: part of content column */}
+              <div className={`order-1 ${isImageLeft ? "md:order-2" : "md:order-1"} md:hidden ${SPACING.headerBelow}`}>
+                <div className={`flex flex-col gap-2 px-6 py-5 rounded-xl ${headerBorder} bg-[#545943]`}>
+              {strain.eyebrow && (
+                    <p className="text-[0.7rem] uppercase tracking-[0.25em] text-white/80 font-mono">
+                  {strain.eyebrow}
+                </p>
+              )}
+                  <h2 className="text-3xl font-semibold text-white text-balance font-sans">
+                {strain.title}
+              </h2>
+              {strain.provenance && (
+                    <p className="mt-1 text-sm text-white/70 font-body">
+                  {strain.provenance}
+                </p>
+              )}
+            </div>
+              </div>
+
+              {/* Content Column: Header (desktop only) + Body */}
+              <div className={`order-3 ${isImageLeft ? "md:order-2" : "md:order-1"}`}>
+                {/* Header - Desktop only */}
+                <div className={`hidden md:flex ${SPACING.headerBelow} flex-col gap-2 px-6 py-5 md:px-7 md:py-6 rounded-xl ${headerBorder} bg-[#545943]`}>
               {strain.eyebrow && (
                     <p className="text-[0.7rem] uppercase tracking-[0.25em] text-white/80 font-mono">
                   {strain.eyebrow}
@@ -152,8 +132,8 @@ export default function ProductShowcase({
                           <dt className={`text-xs uppercase tracking-[0.2em] ${textSecondary} font-mono`}>
                           Nose
                         </dt>
-                          <dd className={`text-sm leading-relaxed ${textBody} font-body`}>
-                          {strain.tasting.nose.join(", ")}
+                          <dd className={`text-sm leading-relaxed ${textBody} font-body whitespace-pre-line`}>
+                          {strain.tasting.nose.join("\n")}
                         </dd>
                       </div>
 
@@ -161,8 +141,8 @@ export default function ProductShowcase({
                           <dt className={`text-xs uppercase tracking-[0.2em] ${textSecondary} font-mono`}>
                           Palate
                         </dt>
-                          <dd className={`text-sm leading-relaxed ${textBody} font-body`}>
-                          {strain.tasting.palate.join(", ")}
+                          <dd className={`text-sm leading-relaxed ${textBody} font-body whitespace-pre-line`}>
+                          {strain.tasting.palate.join("\n")}
                         </dd>
                       </div>
 
@@ -170,8 +150,8 @@ export default function ProductShowcase({
                           <dt className={`text-xs uppercase tracking-[0.2em] ${textSecondary} font-mono`}>
                           Finish
                         </dt>
-                          <dd className={`text-sm leading-relaxed ${textBody} font-body`}>
-                          {strain.tasting.finish.join(", ")}
+                          <dd className={`text-sm leading-relaxed ${textBody} font-body whitespace-pre-line`}>
+                          {strain.tasting.finish.join("\n")}
                         </dd>
                       </div>
                     </div>
@@ -251,7 +231,7 @@ export default function ProductShowcase({
 
               {/* Image Column */}
               <div
-                className={`${SPACING.imageVerticalOffset} ${
+                className={`order-2 ${SPACING.imageVerticalOffset} ${
                   isImageLeft ? "md:order-1" : "md:order-2"
                 }`}
               >
@@ -275,112 +255,13 @@ export default function ProductShowcase({
             {/* Product Image Carousel */}
             {!hideSupporting && strain.images.length > 0 && (
               <div className="mt-12 md:mt-16">
-                <div className="relative max-w-2xl mx-auto">
-                  {/* Main Carousel Display */}
-                  <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-lg aspect-[4/3] md:aspect-[16/10]">
-                    <LazyMotion features={domAnimation} strict>
-                      <AnimatePresence mode="wait">
-                        <m.div
-                          key={currentIndex}
-                          initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
-                          animate={reduced ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-                          exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.05 }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="w-full h-full"
-                        >
-                          <AppImage
-                            src={strain.images[currentIndex].src}
-                            alt={strain.images[currentIndex].alt}
-                            width={800}
-                            height={600}
-                            className="w-full h-full object-cover"
-                            priority={strain.images[currentIndex].priority}
-                          />
-                        </m.div>
-                      </AnimatePresence>
-                    </LazyMotion>
-
-                    {/* Navigation Arrows */}
-                    {strain.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
-                          aria-label="Previous image"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
-                          aria-label="Next image"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </button>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Image Counter */}
-                  <div className="text-center mt-3">
-                    <span
-                      className="text-sm text-secondary font-mono"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      {currentIndex + 1} / {strain.images.length}
-                    </span>
-                  </div>
-
-                  {/* Dot Indicators */}
-                  {strain.images.length > 1 && (
-                    <div className="flex justify-center mt-3 space-x-2">
-                      {strain.images.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => goToImage(index)}
-                          className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
-                            index === currentIndex
-                              ? "bg-primary scale-125"
-                              : "bg-secondary hover:bg-secondary/80"
-                          }`}
-                          aria-label={`Go to image ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Thumbnail Strip */}
-                  {strain.images.length > 1 && (
-                    <div className="hidden md:block mt-6">
-                      <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
-                        {strain.images.map((image, index) => (
-                          <button
-                            key={index}
-                            onClick={() => goToImage(index)}
-                            className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                              index === currentIndex
-                                ? "border-primary scale-105"
-                                : "border-border hover:border-secondary"
-                            }`}
-                            aria-label={`View image ${index + 1}`}
-                          >
-                            <AppImage
-                              src={image.src}
-                              alt=""
-                              width={56}
-                              height={56}
-                              className="w-full h-full object-cover"
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <ProductCarousel3DLandscape
+                  images={strain.images}
+                  autoPlay={true}
+                  autoPlayDelay={5000}
+                  dotsSpacing="bottom-4"
+                  buttonSpacing="16px"
+                />
               </div>
             )}
           </div>

@@ -12,12 +12,17 @@ type Props = {
   secondaryCtas?: Array<{ label: string; href: string; variant?: "brown" | "olive" | "neutral" }>;
   wordmarkMaxWidth?: string; // e.g., "900px" or "65%"; controls textImage scaling
   contentOffsetY?: string; // e.g., "12px" or "1rem"; positive moves cluster down
+  mobileContentOffsetY?: string; // mobile-specific vertical positioning
+  mobileContainerPadding?: string; // mobile-specific container horizontal padding
+  mobileContentMaxWidth?: string; // mobile-specific content max width
   subtitleGap?: string; // bottom margin under subtitle
+  mobileSubtitleGap?: string; // mobile-specific spacing between subtitle and title
   subtitleHorizontalPadding?: string; // left/right padding around subtitle
   subtitleMaxWidth?: string; // max width constraint for subtitle
   subtitleOffsetX?: string; // horizontal offset from center (e.g., "-1rem" or "0.5rem")
   subtitleStyle?: "text" | "button"; // style the subtitle as text or button
   ctaGap?: string; // top margin above CTA row
+  mobileCtaGap?: string; // mobile-specific spacing between title and CTA
   imageUrl?: string;
   imageAlt?: string;
   videoSrc?: string;
@@ -32,12 +37,17 @@ export default function Hero({
   secondaryCtas,
   wordmarkMaxWidth = "70%",
   contentOffsetY = "0px",
+  mobileContentOffsetY,
+  mobileContainerPadding,
+  mobileContentMaxWidth,
   subtitleGap = "1.5rem", // 24px default
+  mobileSubtitleGap,
   subtitleHorizontalPadding = "0px",
   subtitleMaxWidth = "min(88%,380px)",
   subtitleOffsetX = "0px",
   subtitleStyle = "text",
   ctaGap = "2rem", // 32px default (matches mt-8 approx)
+  mobileCtaGap,
   imageUrl,
   imageAlt = "",
   videoSrc = "/hero/herovid1.mp4",
@@ -48,7 +58,19 @@ export default function Hero({
 }: Props) {
   const { eyebrow, subtitle, title, copy, ctaLabel, ctaHref, styling } = content;
   const [useVideo, setUseVideo] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const poster = useMemo(() => posterSrc || imageUrl || "/hero/APIGEN hero text.png", [posterSrc, imageUrl]);
+
+  // Dynamically detect mobile vs desktop
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px breakpoint
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // Respect reduced motion and allow graceful fallback
   useEffect(() => {
@@ -137,11 +159,29 @@ export default function Hero({
       </div>
 
       {/* Content overlay - uses flex centering without viewport units */}
-      <div className="relative flex w-full items-center justify-center px-6 sm:px-8 lg:px-4 min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-8 sm:py-10 md:py-12">
+      <div
+        className={`relative flex w-full items-center justify-center min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-92px)] py-8 sm:py-10 md:py-12 ${isMobile && mobileContainerPadding ? '' : 'px-6 sm:px-8 lg:px-4'}`}
+        style={{
+          paddingLeft: isMobile && mobileContainerPadding ? mobileContainerPadding : undefined,
+          paddingRight: isMobile && mobileContainerPadding ? mobileContainerPadding : undefined,
+        }}
+      >
         <Appear preview={preview} className="w-full flex justify-center">
-          <div className="w-full max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px] text-center" style={{ transform: `translateY(${contentOffsetY})` }}>
+          <div
+            className={`w-full text-center ${isMobile && mobileContentMaxWidth ? '' : 'max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px]'}`}
+            style={{
+              transform: `translateY(${isMobile && mobileContentOffsetY ? mobileContentOffsetY : contentOffsetY})`,
+              maxWidth: isMobile && mobileContentMaxWidth ? mobileContentMaxWidth : undefined,
+            }}
+          >
             {subtitle && (
-              <div className="mt-1 sm:mt-2 flex justify-center" style={{ marginBottom: subtitleGap, marginLeft: 'clamp(0px, 2vw, 1.5rem)' }}>
+              <div
+                className="mt-1 sm:mt-2 flex justify-center"
+                style={{
+                  marginBottom: isMobile && mobileSubtitleGap ? mobileSubtitleGap : subtitleGap,
+                  marginLeft: 'clamp(0px, 2vw, 1.5rem)'
+                }}
+              >
                 {subtitleStyle === "button" ? (
                   <div className={`${buttonClass({ variant: "olive", size: "lg" })} !whitespace-normal sm:!whitespace-nowrap flex sm:inline-flex text-center max-w-full w-full sm:w-auto`}>
                     {subtitle}
@@ -169,7 +209,12 @@ export default function Hero({
                 <p className="mt-3 max-w-2xl mx-auto text-[var(--secondary-foreground)]">{copy}</p>
               </>
             )}
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-5" style={{ marginTop: ctaGap }}>
+            <div
+              className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-5"
+              style={{
+                marginTop: isMobile && mobileCtaGap ? mobileCtaGap : ctaGap
+              }}
+            >
               <AppLink href={ctaHref} className={`${buttonClass({ variant: "olive", size: "lg" })} text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 w-fit mx-auto sm:mx-0`}>
                 {ctaLabel}
               </AppLink>
