@@ -86,48 +86,46 @@ export default function Footer({ content }: Props) {
         </div>
 
         {/* Desktop: Grid layout with properly centered disclaimer pills */}
-        <div className="hidden md:block">
-          <div className="grid grid-cols-3 items-center">
-            {/* Left: Navigation Links - left-aligned */}
-            <nav className={`flex ${SPACING.desktopNavGap} justify-start`}>
-              {navigationLinks.map((l, i) => (
-                <AppLink
-                  key={i}
-                  href={l.href}
-                  className={`text-white/80 text-center transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943] rounded ${SPACING.linkPadding} text-sm`}
+        <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center">
+          {/* Left: Navigation Links - left-aligned */}
+          <nav className={`flex ${SPACING.desktopNavGap} justify-start`}>
+            {navigationLinks.map((l, i) => (
+              <AppLink
+                key={i}
+                href={l.href}
+                className={`text-white/80 text-center transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943] rounded ${SPACING.linkPadding} text-sm`}
+              >
+                {l.label}
+              </AppLink>
+            ))}
+          </nav>
+
+          {/* Center: Disclaimer Pills - perfectly centered */}
+          <div className="justify-self-center flex gap-2 md:translate-x-3 lg:translate-x-4">
+            {disclaimers.map((disclaimer, i) => (
+              <div key={i} className="relative group">
+                <button
+                  type="button"
+                  onClick={() => handleDisclaimerClick(disclaimer.type)}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-transparent px-3 py-1 text-xs uppercase tracking-wide transition-colors focus:outline-none text-white/70 hover:border-white hover:text-white focus-visible:border-white focus-visible:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943] whitespace-nowrap"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                  aria-label={`Open ${disclaimer.label}`}
                 >
-                  {l.label}
-                </AppLink>
-              ))}
-            </nav>
+                  <span className="font-semibold italic">{disclaimer.label}</span>
+                </button>
+                <span
+                  className="pointer-events-none absolute left-1/2 bottom-full z-20 mb-2 w-64 -translate-x-1/2 -translate-y-1 rounded-md px-3 py-2 text-[11px] font-medium italic leading-snug opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 text-white/90 bg-[#1a1a1a]"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  Click or tap to read the full {disclaimer.label.toLowerCase()}.
+                </span>
+              </div>
+            ))}
+          </div>
 
-            {/* Center: Disclaimer Pills - perfectly centered */}
-            <div className="flex gap-2 justify-center">
-              {disclaimers.map((disclaimer, i) => (
-                <div key={i} className="relative group">
-                  <button
-                    type="button"
-                    onClick={() => handleDisclaimerClick(disclaimer.type)}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-transparent px-3 py-1 text-xs uppercase tracking-wide transition-colors focus:outline-none text-white/70 hover:border-white hover:text-white focus-visible:border-white focus-visible:text-white focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#545943] whitespace-nowrap"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                    aria-label={`Open ${disclaimer.label}`}
-                  >
-                    <span className="font-semibold italic">{disclaimer.label}</span>
-                  </button>
-                  <span
-                    className="pointer-events-none absolute left-1/2 bottom-full z-20 mb-2 w-64 -translate-x-1/2 -translate-y-1 rounded-md px-3 py-2 text-[11px] font-medium italic leading-snug opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 text-white/90 bg-[#1a1a1a]"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    Click or tap to read the full {disclaimer.label.toLowerCase()}.
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Right: Copyright - right-aligned */}
-            <div className="text-sm text-white/80 justify-self-end">
-              {copyright}
-            </div>
+          {/* Right: Copyright - right-aligned */}
+          <div className="justify-self-end text-sm text-white/80">
+            {copyright}
           </div>
         </div>
       </div>
