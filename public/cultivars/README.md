@@ -1,11 +1,11 @@
-# Product Images
+# Cultivar Images
 
-This directory contains product images organized by strain.
+This directory contains cultivar images organized by strain.
 
 ## Directory Structure
 
 ```
-/products/
+/cultivars/
 ├── cadillac-rainbow/
 │   ├── hero.jpg          (primary hero image, ~800x800 or larger)
 │   ├── detail-1.jpg      (supporting detail shot, macro/trichomes)
@@ -25,13 +25,13 @@ This directory contains product images organized by strain.
 
 ## Naming Convention
 
-Keep filenames lowercase and use hyphens for readability. The `/products/page.tsx` references these paths:
-- `/products/cadillac-rainbow/hero.jpg`
-- `/products/cadillac-rainbow/detail-1.jpg`
-- `/products/cadillac-rainbow/detail-2.jpg`
-- `/products/dantes-inferno/hero.jpg`
-- `/products/dantes-inferno/detail-1.jpg`
-- `/products/dantes-inferno/detail-2.jpg`
+Keep filenames lowercase and use hyphens for readability. The `/cultivars/page.tsx` references these paths:
+- `/cultivars/cadillac-rainbow/hero.jpg`
+- `/cultivars/cadillac-rainbow/detail-1.jpg`
+- `/cultivars/cadillac-rainbow/detail-2.jpg`
+- `/cultivars/dantes-inferno/hero.jpg`
+- `/cultivars/dantes-inferno/detail-1.jpg`
+- `/cultivars/dantes-inferno/detail-2.jpg`
 
 ## Image Descriptions (Alt Text)
 
@@ -53,4 +53,4 @@ To replace or add new images:
 
 ## COA Links
 
-Certificate of Analysis (COA) links can be added in `/src/data/products.ts` under the `coaUrl` field for each strain.
+Certificate of Analysis (COA) links can be added in `/src/data/cultivars.ts` under the `coaUrl` field for each strain.

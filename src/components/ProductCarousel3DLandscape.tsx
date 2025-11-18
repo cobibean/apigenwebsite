@@ -65,7 +65,7 @@ const SPACING = {
  *   autoPlay={true}
  *   dotsSpacing="bottom-6"
  *   buttonSpacing="48px"
- *   ctaButton={{ label: "See Products", href: "/products", variant: "olive" }}
+ *   ctaButton={{ label: "See Cultivars", href: "/cultivars", variant: "olive" }}
  * />
  */
 export default function ProductCarousel3DLandscape({
@@ -188,9 +188,9 @@ export default function ProductCarousel3DLandscape({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToNext, goToPrev]);
 
-  // Click handler to navigate to products page
+  // Click handler to navigate to cultivars page
   const handleCardClick = useCallback(() => {
-    router.push("/products");
+    router.push("/cultivars");
   }, [router]);
 
   // Get card styling based on position - horizontal layout for landscape
@@ -320,7 +320,7 @@ export default function ProductCarousel3DLandscape({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       role="region"
-      aria-label="Product carousel"
+      aria-label="Cultivar carousel"
     >
       <div className={`relative flex items-center justify-center ${SPACING.containerMinHeight} pb-8`}>
         <LazyMotion features={domAnimation} strict>
@@ -350,7 +350,7 @@ export default function ProductCarousel3DLandscape({
                   onClick={isCenter ? handleCardClick : undefined}
                   role="button"
                   tabIndex={isCenter ? 0 : -1}
-                  aria-label={isCenter ? `View ${image.alt}. Click to explore our products.` : image.alt}
+                  aria-label={isCenter ? `View ${image.alt}. Click to explore our cultivars.` : image.alt}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && isCenter) {
                       handleCardClick();

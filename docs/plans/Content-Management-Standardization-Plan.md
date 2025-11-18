@@ -14,9 +14,9 @@ Standardize content management across all pages (except home) using the brands p
 - **Current**: `AboutStory.tsx` has hardcoded `DEFAULT_TITLE` and `DEFAULT_CARDS` constants
 - **Page**: `src/app/about/page.tsx` (simple wrapper around `AboutStory`)
 
-#### Products Page
-- **Current**: Uses `src/data/products.ts` and `src/data/gallery.ts` ✅, but hardcodes gallery title/subtitle
-- **Page**: `src/app/products/page.tsx`
+-#### Cultivars Page
+- **Current**: Uses `src/data/cultivars.ts` and `src/data/gallery.ts` ✅, but hardcodes gallery title/subtitle
+- **Page**: `src/app/cultivars/page.tsx`
 
 #### Other Pages
 - **Footer**: Has hardcoded `defaults` array for links
@@ -89,17 +89,17 @@ export default function AboutPage() {
 
 ### Phase 2: Products Page Migration
 
-#### 2.1 Extend Products Data File
-**File**: `src/data/products.ts`
+#### 2.1 Extend Cultivars Data File
+**File**: `src/data/cultivars.ts`
 ```typescript
-export interface ProductsContent {
+export interface CultivarsContent {
   galleryTitle: string;
   gallerySubtitle: string;
   pageTitle: string;
   pageDescription: string;
 }
 
-export const productsContent: ProductsContent = {
+export const cultivarsContent: CultivarsContent = {
   galleryTitle: "Product Gallery",
   gallerySubtitle: "Explore our premium dried cannabis flowers up close",
   pageTitle: "Products | Apigen",
@@ -108,13 +108,13 @@ export const productsContent: ProductsContent = {
 ```
 
 #### 2.2 Refactor GalleryCarousel Usage
-**File**: `src/app/products/page.tsx`
+**File**: `src/app/cultivars/page.tsx`
 ```typescript
-import { products, productsContent } from "@/data/products";
+import { cultivars, cultivarsContent } from "@/data/cultivars";
 // Remove hardcoded title/subtitle, use from data
 <GalleryCarousel
-  title={productsContent.galleryTitle}
-  subtitle={productsContent.gallerySubtitle}
+  title={cultivarsContent.galleryTitle}
+  subtitle={cultivarsContent.gallerySubtitle}
   images={galleryImages}
 />
 ```
@@ -150,7 +150,7 @@ export const footerContent: FooterContent = {
   navigationLinks: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Products", href: "/products" },
+    { label: "Cultivars", href: "/cultivars" },
     { label: "Brands", href: "/brands" },
     { label: "Contact", href: "/contact" },
   ],

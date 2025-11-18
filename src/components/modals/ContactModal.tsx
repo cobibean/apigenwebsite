@@ -153,7 +153,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
                   Back to site
                 </button>
                 <a
-                  href="/products"
+                  href="/cultivars"
                   className={buttonClass({ variant: "olive", size: "lg" })}
                   onClick={() => {
                     setFormData({
@@ -168,7 +168,7 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
                     onOpenChange(false);
                   }}
                 >
-                  Explore products
+                  Explore Cultivars
                 </a>
               </div>
             )}

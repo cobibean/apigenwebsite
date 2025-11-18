@@ -24,21 +24,21 @@ export type Strain = {
   coaUrl?: string;
 };
 
-export interface ProductsContent {
+export interface CultivarsContent {
   galleryTitle: string;
   gallerySubtitle: string;
   pageTitle: string;
   pageDescription: string;
 }
 
-export const productsContent: ProductsContent = {
-  galleryTitle: "Product Gallery",
+export const cultivarsContent: CultivarsContent = {
+  galleryTitle: "Cultivar Gallery",
   gallerySubtitle: "Explore our premium dried cannabis flowers up close",
-  pageTitle: "Products | Apigen",
+  pageTitle: "Cultivars | Apigen",
   pageDescription: "Discover Apigen's reserve dried cannabis strains: Cadillac Rainbow and Dantes Inferno. Premium cultivars crafted in British Columbia for discerning wholesale partners.",
 };
 
-export const products: Strain[] = [
+export const cultivars: Strain[] = [
   {
     id: "cadillac-rainbow",
     title: "Cadillac Rainbow",
@@ -66,40 +66,40 @@ export const products: Strain[] = [
     trim: "Hand-trimmed",
     images: [
       {
-        src: "/products/cadillac-rainbow/1.jpeg",
+        src: "/cultivars/cadillac-rainbow/1.jpeg",
         alt: "Cadillac Rainbow premium cannabis flower showcasing dense structure and vibrant color",
         priority: true,
       },
       {
-        src: "/products/cadillac-rainbow/2.jpeg",
+        src: "/cultivars/cadillac-rainbow/2.jpeg",
         alt: "Close-up detail of Cadillac Rainbow trichomes and crystal structure",
       },
       {
-        src: "/products/cadillac-rainbow/3.jpeg",
+        src: "/cultivars/cadillac-rainbow/3.jpeg",
         alt: "Cadillac Rainbow flower highlighting hand-trim precision and quality",
       },
       {
-        src: "/products/cadillac-rainbow/4.jpeg",
+        src: "/cultivars/cadillac-rainbow/4.jpeg",
         alt: "Detailed view of Cadillac Rainbow buds showing limonene-rich profile",
       },
       {
-        src: "/products/cadillac-rainbow/5.jpeg",
+        src: "/cultivars/cadillac-rainbow/5.jpeg",
         alt: "Cadillac Rainbow premium dried flower close examination",
       },
       {
-        src: "/products/cadillac-rainbow/6.jpeg",
+        src: "/cultivars/cadillac-rainbow/6.jpeg",
         alt: "Macro shot of Cadillac Rainbow showcasing trichome density",
       },
       {
-        src: "/products/cadillac-rainbow/7.jpeg",
+        src: "/cultivars/cadillac-rainbow/7.jpeg",
         alt: "Cadillac Rainbow flower structure and color complexity",
       },
       {
-        src: "/products/cadillac-rainbow/8.jpeg",
+        src: "/cultivars/cadillac-rainbow/8.jpeg",
         alt: "Premium Cadillac Rainbow reserve dried flower presentation",
       },
       {
-        src: "/products/cadillac-rainbow/9.jpeg",
+        src: "/cultivars/cadillac-rainbow/9.jpeg",
         alt: "Cadillac Rainbow cultivation excellence and quality showcase",
       },
     ],
@@ -132,100 +132,100 @@ export const products: Strain[] = [
     trim: "Hand-trimmed",
     images: [
       {
-        src: "/products/dantes-inferno/hero.jpg",
+        src: "/cultivars/dantes-inferno/hero.jpg",
         alt: "Dante's Inferno premium cannabis flower showcasing dark stone fruit, cocoa husk, and anise characteristics",
         priority: true,
       },
       {
-        src: "/products/dantes-inferno/Dante1.jpeg",
+        src: "/cultivars/dantes-inferno/Dante1.jpeg",
         alt: "Close-up detail of Dante's Inferno trichomes and crystal structure",
       },
       {
-        src: "/products/dantes-inferno/detail-1.jpg",
+        src: "/cultivars/dantes-inferno/detail-1.jpg",
         alt: "Dante's Inferno flower highlighting hand-trim precision and quality",
       },
       {
-        src: "/products/dantes-inferno/detail-2.jpg",
+        src: "/cultivars/dantes-inferno/detail-2.jpg",
         alt: "Detailed view of Dante's Inferno buds showing caryophyllene-rich profile",
       },
       {
-        src: "/products/dantes-inferno/dantewhiteplain.jpeg",
+        src: "/cultivars/dantes-inferno/dantewhiteplain.jpeg",
         alt: "Dante's Inferno premium dried flower close examination",
       },
       {
-        src: "/products/dantes-inferno/vertical_close_up_flower_1.jpeg",
+        src: "/cultivars/dantes-inferno/vertical_close_up_flower_1.jpeg",
         alt: "Macro shot of Dante's Inferno showcasing trichome density",
       },
       {
-        src: "/products/dantes-inferno/vertical_close_up_flower_2.jpeg",
+        src: "/cultivars/dantes-inferno/vertical_close_up_flower_2.jpeg",
         alt: "Dante's Inferno flower structure and color complexity",
       },
       {
-        src: "/products/dantes-inferno/vertical_close_up_flower_3.jpeg",
+        src: "/cultivars/dantes-inferno/vertical_close_up_flower_3.jpeg",
         alt: "Premium Dante's Inferno reserve dried flower presentation",
       },
       {
-        src: "/products/dantes-inferno/wide_close_up_flower_1.jpeg",
+        src: "/cultivars/dantes-inferno/wide_close_up_flower_1.jpeg",
         alt: "Dante's Inferno cultivation excellence and quality showcase",
       },
       {
-        src: "/products/dantes-inferno/wide_grow_room_2.jpeg",
+        src: "/cultivars/dantes-inferno/wide_grow_room_2.jpeg",
         alt: "Dante's Inferno growing environment",
       },
       {
-        src: "/products/dantes-inferno/wide_grow_room_3.jpeg",
+        src: "/cultivars/dantes-inferno/wide_grow_room_3.jpeg",
         alt: "Professional grow room showcasing Dante's Inferno cultivation",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.11.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.11.jpeg",
         alt: "Dante's Inferno cannabis flower detail shot",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.22.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.22.jpeg",
         alt: "Premium Dante's Inferno flower presentation",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.35.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.35.jpeg",
         alt: "Dante's Inferno quality showcase",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.47.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.47.jpeg",
         alt: "Detailed view of Dante's Inferno buds",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.05.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.05.jpeg",
         alt: "Dante's Inferno flower close examination",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.19.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.19.jpeg",
         alt: "Premium dried Dante's Inferno flower",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.35.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.35.jpeg",
         alt: "Dante's Inferno cultivation excellence",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.47.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.47.jpeg",
         alt: "High-quality Dante's Inferno flower",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.14.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.14.jpeg",
         alt: "Dante's Inferno premium reserve flower",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.26.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.26.jpeg",
         alt: "Detailed Dante's Inferno flower structure",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.37.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.37.jpeg",
         alt: "Dante's Inferno quality inspection",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.48.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.48.jpeg",
         alt: "Premium Dante's Inferno dried flower",
       },
       {
-        src: "/products/dantes-inferno/WhatsApp Image 2025-10-23 at 12.20.09.jpeg",
+        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.20.09.jpeg",
         alt: "Dante's Inferno flower excellence",
       },
     ],

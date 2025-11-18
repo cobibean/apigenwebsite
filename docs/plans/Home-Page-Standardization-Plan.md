@@ -33,8 +33,8 @@ The home page currently has **7 distinct sections** with mixed content handling:
   <AboutStory content={aboutContent} />  // ✅ already standardized
   <Brands2 brands={defaultBrands} />  // ✅ already standardized
 
-  {/* Complex product mapping with hardcoded logic */}
-  {products.map((strain, idx) => (
+  {/* Complex cultivar mapping with hardcoded logic */}
+  {cultivars.map((strain, idx) => (
     <ProductShowcase
       key={strain.id}
       strain={strain}
@@ -62,7 +62,7 @@ The home page currently has **7 distinct sections** with mixed content handling:
 #### ✅ Already Standardized
 - **AboutStory**: Uses `aboutContent` from `src/data/about.ts`
 - **Brands2**: Uses `brands` data from `src/data/brands.ts`
-- **ProductShowcase**: Uses `products` data from `src/data/products.ts`
+- **ProductShowcase**: Uses `cultivars` data from `src/data/cultivars.ts`
 - **GalleryCarousel**: Uses `galleryImages` from `src/data/gallery.ts`
 
 #### ❌ Needs Standardization
@@ -77,7 +77,7 @@ The home page currently has **7 distinct sections** with mixed content handling:
 
 ### 1. Complex Composition Logic
 - **Multiple sections** with different data sources
-- **Conditional rendering** (products.map with alternating layouts)
+- **Conditional rendering** (cultivars.map with alternating layouts)
 - **Styling variations** per section
 - **Section ordering** and arrangement
 
@@ -134,7 +134,7 @@ export interface CTAContent {
 }
 
 export interface ProductShowcaseConfig {
-  /** Which products to showcase (by ID) */
+  /** Which cultivars to showcase (by ID) */
   productIds: string[];
   /** Layout pattern for alternating sections */
   layoutPattern: ("left" | "right")[];
@@ -207,8 +207,8 @@ export const homeContent: HomeContent = {
     }
   },
   productShowcases: {
-    productIds: ["cadillac-rainbow", "dantes-inferno"], // Use all products or specific ones
-    layoutPattern: ["left", "right"], // Pattern repeats for any number of products
+    productIds: ["cadillac-rainbow", "dantes-inferno"], // Use all cultivars or specific ones
+    layoutPattern: ["left", "right"], // Pattern repeats for any number of cultivars
     styling: {
       hideSupporting: true,
       sectionBgColor: "olive", // Olive background for product sections
@@ -254,7 +254,7 @@ export const homeContent: HomeContent = {
 **File**: `src/app/page.tsx`
 ```typescript
 import { homeContent } from "@/data/home";
-import { products } from "@/data/products";
+import { cultivars } from "@/data/cultivars";
 import { galleryImages } from "@/data/gallery";
 
 export const metadata: Metadata = {
@@ -263,9 +263,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  // Get products for showcases
-  const showcaseProducts = homeContent.productShowcases.productIds
-    .map(id => products.find(p => p.id === id))
+  // Get cultivars for showcases
+  const showcaseCultivars = homeContent.productShowcases.productIds
+    .map(id => cultivars.find(p => p.id === id))
     .filter(Boolean);
 
   return (

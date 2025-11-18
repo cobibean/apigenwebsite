@@ -24,7 +24,7 @@ export const footerContent: FooterContent = {
   navigationLinks: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Products", href: "/products" },
+    { label: "Cultivars", href: "/cultivars" },
     { label: "Brands", href: "/brands" },
     { label: "Contact", href: "/contact" },
   ]

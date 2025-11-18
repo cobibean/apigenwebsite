@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Strain } from "@/data/products";
+import type { Strain } from "@/data/cultivars";
 import AppImage from "@/components/AppImage";
 import ProductCarousel3DLandscape from "@/components/ProductCarousel3DLandscape";
 import Appear from "@/components/motion/Appear";

@@ -64,7 +64,7 @@ export default function GalleryCarousel({
   }, [currentIndex, images]);
 
   const handleImageClick = useCallback(() => {
-    router.push("/products");
+    router.push("/cultivars");
   }, [router]);
 
   if (images.length === 0) {

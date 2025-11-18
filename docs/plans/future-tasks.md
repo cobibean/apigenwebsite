@@ -237,7 +237,7 @@
 - Uses existing brand tokens (copper accent, card background, foreground text)
 - 320×80 SVG with baseline line, 3 nodes, shimmer sweep
 - Final confirmation message: "Thank you for reaching out. We've received your message and will get back to you within 1–2 business days."
-- CTAs appear after animation completes ("Back to site" and "Explore products")
+- CTAs appear after animation completes ("Back to site" and "Explore cultivars")
 - Unit tests created and passing
 - Fully accessible with `role="status"` and `aria-live="polite"`
 
@@ -819,7 +819,7 @@ setSubmitState("success");
 
         <a className="btn-ghost" href="/">Back to site</a>
 
-        <a className="btn-primary" href="/products">Explore products</a>
+        <a className="btn-primary" href="/cultivars">Explore cultivars</a>
 
       </div>
 
@@ -952,7 +952,7 @@ setSubmitState("success");
 4. **Replace Existing Carousels**:
    - Update `src/app/page.tsx` - replace `GalleryCarousel` with `ProductCarousel3D`
    - Update `src/app/brands/page.tsx` - replace any existing carousel
-   - Pass product images from `src/data/products.ts`
+   - Pass product images from `src/data/cultivars.ts`
 
 5. **Test & Optimize**:
    - Test touch gestures on mobile devices
@@ -1089,7 +1089,7 @@ setSubmitState("success");
    │   └── 📄 See Products Button
    ├── 📁 about/
    ├── 📁 brands/
-   └── 📁 products/
+   └── 📁 cultivars/
    ```
 
 5. **Include in Documentation**:

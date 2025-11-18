@@ -25,7 +25,7 @@ Data File → Section Component → Page Component
 ```
 src/data/
 ├── brands.ts          # Brand content (existing)
-├── products.ts        # Product + page content
+├── cultivars.ts       # Cultivar + page content
 ├── about.ts           # About page content
 └── footer.ts          # Footer content
 ```
@@ -40,7 +40,7 @@ src/sections/
 ├── Footer.tsx                 # Footer (data-driven)
 ├── Hero.tsx                   # Home page hero (not standardized)
 ├── MissionSection_1.tsx       # Home page section (not standardized)
-├── ProductShowcase.tsx        # Product showcase components
+├── ProductShowcase.tsx        # Cultivar showcase components
 ├── GalleryCarousel.tsx        # Image gallery component
 └── [other components...]
 ```
@@ -53,8 +53,8 @@ src/app/
 ├── page.tsx           # Home page (not standardized)
 ├── brands/
 │   └── page.tsx       # Uses brand data
-├── products/
-│   └── page.tsx       # Uses product data
+├── cultivars/
+│   └── page.tsx       # Uses cultivars data
 ├── about/
 │   └── page.tsx       # Uses about data
 └── [...slug]/
@@ -78,7 +78,7 @@ export interface Brand {
 export const brands: Brand[] = [/* brand data */];
 ```
 
-### products.ts
+### cultivars.ts
 ```typescript
 export interface Strain {
   id: string;
@@ -99,15 +99,15 @@ export interface Strain {
   coaUrl?: string;
 }
 
-export interface ProductsContent {
+export interface CultivarsContent {
   galleryTitle: string;
   gallerySubtitle: string;
   pageTitle: string;
   pageDescription: string;
 }
 
-export const products: Strain[] = [/* product data */];
-export const productsContent: ProductsContent = {/* page content */};
+export const cultivars: Strain[] = [/* cultivar data */];
+export const cultivarsContent: CultivarsContent = {/* page content */};
 ```
 
 ### about.ts
@@ -171,7 +171,7 @@ export default function PageName() {
 ## Implementation Status
 
 - ✅ **Brands Page**: Fully standardized (existing)
-- ✅ **Products Page**: Fully standardized
+- ✅ **Cultivars Page**: Fully standardized
 - ✅ **About Page**: Fully standardized
 - ✅ **Footer**: Fully standardized
 - ❌ **Home Page**: Not standardized (uses mixed content approach)
@@ -232,7 +232,7 @@ The data-driven approach makes i18n straightforward by creating language-specifi
 This architecture was implemented in phases:
 
 1. **Phase 1**: About page standardization
-2. **Phase 2**: Products page standardization
+2. **Phase 2**: Cultivars page standardization
 3. **Phase 3**: Footer standardization (high priority)
 4. **Phase 4**: Dynamic pages infrastructure (future)
 

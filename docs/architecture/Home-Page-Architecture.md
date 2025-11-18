@@ -16,7 +16,7 @@ Data Definition → Page Logic → Component Rendering
 - **Complex Composition**: Multiple sections with different data sources
 - **Layout Variations**: Configurable alternating layouts (left/right patterns)
 - **Theme Overrides**: Section-specific styling while preserving defaults
-- **Content Aggregation**: Combines data from multiple sources (brands, products, gallery, home-specific content)
+- **Content Aggregation**: Combines data from multiple sources (brands, cultivars, gallery, home-specific content)
 - **Dynamic Rendering**: Logic-based component selection and configuration
 
 ## Data Structure
@@ -119,9 +119,9 @@ The home page implements sophisticated composition logic that transforms structu
 
 ```typescript
 export default function Home() {
-  // Step 1: Aggregate product data based on configuration
-  const showcaseProducts = homeContent.productShowcases.productIds
-    .map(id => products.find(p => p.id === id))
+  // Step 1: Aggregate cultivar data based on configuration
+  const showcaseCultivars = homeContent.productShowcases.productIds
+    .map(id => cultivars.find(p => p.id === id))
     .filter(Boolean);
 
   return (
@@ -132,8 +132,8 @@ export default function Home() {
       <AboutStory content={aboutContent} />
       <Brands2 brands={defaultBrands} />
 
-      {/* Step 3: Complex product showcase rendering */}
-      {showcaseProducts.map((strain, idx) => {
+      {/* Step 3: Complex cultivar showcase rendering */}
+      {showcaseCultivars.map((strain, idx) => {
         const layoutDirection = homeContent.productShowcases.layoutPattern[
           idx % homeContent.productShowcases.layoutPattern.length
         ];
@@ -202,13 +202,13 @@ const layoutDirection = homeContent.productShowcases.layoutPattern[
   idx % homeContent.productShowcases.layoutPattern.length
 ];
 
-// Result: Product 0 = left, Product 1 = right, Product 2 = left, etc.
+// Result: Cultivar 0 = left, Cultivar 1 = right, Cultivar 2 = left, etc.
 ```
 
 ### Benefits
 - **Predictable Layouts**: Consistent alternation patterns
 - **Configurable**: Easy to change patterns (e.g., `["left", "left", "right"]`)
-- **Scalable**: Works with any number of products
+- **Scalable**: Works with any number of cultivars
 - **Maintainable**: Layout logic centralized in data
 
 ## Data Aggregation Strategy
@@ -224,19 +224,19 @@ import { homeContent } from "@/data/home";
 // Shared content sources
 import { aboutContent } from "@/data/about";
 import { defaultBrands } from "@/data/brands";
-import { products } from "@/data/products";
+import { cultivars } from "@/data/cultivars";
 import { galleryImages } from "@/data/gallery";
 ```
 
 ### Content Selection Logic
 
 ```typescript
-// Selective product inclusion
-const showcaseProducts = homeContent.productShowcases.productIds
-  .map(id => products.find(p => p.id === id))
+// Selective cultivar inclusion
+const showcaseCultivars = homeContent.productShowcases.productIds
+  .map(id => cultivars.find(p => p.id === id))
   .filter(Boolean);
 
-// Result: Only specified products appear on home page
+// Result: Only specified cultivars appear on home page
 ```
 
 ## Component Architecture

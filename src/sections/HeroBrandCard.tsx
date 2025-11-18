@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Strain } from "@/data/products";
+import type { Strain } from "@/data/cultivars";
 import AppImage from "@/components/AppImage";
 import AppLink from "@/components/AppLink";
 import { buttonClass } from "@/lib/utils";
@@ -133,7 +133,7 @@ export default function HeroBrandCard({
                 {/* CTA */}
                 <div className="pt-2">
                   <AppLink
-                    href={`/products#${strain.id}`}
+                    href={`/cultivars#${strain.id}`}
                     className={buttonClass({ variant: "olive", size: "md" })}
                   >
                     View Details

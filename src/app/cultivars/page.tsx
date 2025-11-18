@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import ProductShowcase from "@/sections/ProductShowcase";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
-import { products, productsContent } from "@/data/products";
+import { cultivars, cultivarsContent } from "@/data/cultivars";
 import { galleryImages } from "@/data/gallery";
 import GlassEffect from "@/components/ui/liquid-glass";
 
 export const metadata: Metadata = {
-  title: productsContent.pageTitle,
-  description: productsContent.pageDescription,
+  title: cultivarsContent.pageTitle,
+  description: cultivarsContent.pageDescription,
 };
 
-export default function ProductsPage() {
+export default function CultivarsPage() {
   return (
     <div className="relative isolate overflow-hidden bg-background text-foreground">
       {/* Viewport-fixed background washes */}
@@ -20,8 +20,8 @@ export default function ProductsPage() {
         <div className="absolute right-[-15%] bottom-[-12%] h-[560px] w-[560px] rounded-full bg-[radial-gradient(circle_at_center,_rgb(31_39_38_/_0.16)_0%,_transparent_80%)] blur-3xl" />
       </div>
 
-      {/* Product showcase sections */}
-      {products.map((strain, idx) => (
+      {/* Cultivar showcase sections */}
+      {cultivars.map((strain, idx) => (
         <ProductShowcase 
           key={strain.id} 
           strain={strain} 
@@ -43,7 +43,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Product Carousel */}
+      {/* Cultivar Carousel */}
       <div className="pt-4 pb-16 md:pt-16">
         <ProductCarousel3D
           images={galleryImages}

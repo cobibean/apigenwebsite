@@ -5,7 +5,7 @@ import AboutStory from "@/sections/AboutStory";
 import BrandsUnified from "@/sections/BrandsUnified";
 import { aboutContent } from "@/data/about";
 import ProductShowcase from "@/sections/ProductShowcase";
-import { products } from "@/data/products";
+import { cultivars } from "@/data/cultivars";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { galleryImages } from "@/data/gallery";
 import CTA from "@/sections/CTA";
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  // Get products for showcases based on configured IDs
-  const showcaseProducts = homeContent.productShowcases.productIds
-    .map(id => products.find(p => p.id === id))
+  // Get cultivars for showcases based on configured IDs
+  const showcaseCultivars = homeContent.productShowcases.productIds
+    .map(id => cultivars.find(p => p.id === id))
     .filter(Boolean);
 
   return (
@@ -42,7 +42,7 @@ export default function Home() {
       <BrandsUnified />
 
       {/* Data-driven Product Showcase Cards - TEMPORARILY COMMENTED OUT */}
-      {/* {showcaseProducts.map((strain, idx) => {
+      {/* {showcaseCultivars.map((strain, idx) => {
         const layoutDirection = homeContent.productShowcases.layoutPattern[
           idx % homeContent.productShowcases.layoutPattern.length
         ];
@@ -64,8 +64,8 @@ export default function Home() {
         autoPlayDelay={4000}
         dotsSpacing="bottom-6"
         ctaButton={{
-          label: "See Our Products",
-          href: "/products",
+          label: "See Our Cultivars",
+          href: "/cultivars",
           variant: "olive",
         }}
         buttonSpacing="pt-2"
