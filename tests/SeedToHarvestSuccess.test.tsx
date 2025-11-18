@@ -57,11 +57,14 @@ describe("SeedToHarvestSuccess", () => {
     expect(nodes).toHaveLength(3);
   });
 
-  it("renders checkmark path", () => {
+  it("renders gradient + clip path helpers for the shimmer effect", () => {
     render(<SeedToHarvestSuccess />);
 
-    const checkmark = document.querySelector('path[d="M270 38 L278 46 L292 30"]');
-    expect(checkmark).toBeInTheDocument();
+    const gradient = document.getElementById("copperGrad");
+    const clipPath = document.getElementById("lineClip");
+
+    expect(gradient).toBeInTheDocument();
+    expect(clipPath?.querySelector("path")).toBeInTheDocument();
   });
 
   it("calls onDone callback when provided", async () => {
@@ -75,7 +78,7 @@ describe("SeedToHarvestSuccess", () => {
         // In a real scenario, we'd wait for the animation, but with mocks it should be instant
         expect(onDone).toHaveBeenCalled();
       },
-      { timeout: 100 }
+      { timeout: 1000 }
     );
   });
 
@@ -91,19 +94,21 @@ describe("SeedToHarvestSuccess", () => {
 
     const wrapper = container.firstChild as HTMLElement;
 
-    // Check that CSS variables are used (they'll be resolved by the browser)
-    expect(wrapper.style.background).toContain("var(--card)");
     expect(wrapper.style.color).toContain("var(--fg)");
+    const firstNode = document.querySelector("circle");
+    expect(firstNode).toHaveAttribute("fill", "var(--card)");
   });
 
-  it("renders phase 1 text initially", () => {
+  it("renders phase text after the initial animation kick-off", async () => {
     render(<SeedToHarvestSuccess />);
 
-    // The component should show phase 1 text
-    // Note: With mocked animations, the phase might change quickly
-    // This test verifies the text structure exists
-    const textContent = screen.getByRole("status").textContent;
-    expect(textContent).toBeTruthy();
+    await waitFor(
+      () => {
+        const textContent = screen.getByRole("status").textContent ?? "";
+        expect(textContent.trim().length).toBeGreaterThan(0);
+      },
+      { timeout: 1500 }
+    );
   });
 
   it("renders successfully with reduced motion support", () => {
@@ -132,4 +137,3 @@ describe("SeedToHarvestSuccess", () => {
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 });
-

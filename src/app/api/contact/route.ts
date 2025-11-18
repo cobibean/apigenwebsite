@@ -141,12 +141,15 @@ export async function POST(request: Request) {
     // Save to JSON file
     const submission = await saveSubmission(data);
 
-    // Send email (don't fail if email fails, but log it)
+    // Send email and surface failures so the UI can prompt the user to retry
     try {
       await sendEmail(data);
     } catch (emailError) {
       console.error("Email send failed:", emailError);
-      // Still return success since we saved the submission
+      return NextResponse.json(
+        { error: "Failed to send notification email" },
+        { status: 502 }
+      );
     }
 
     return NextResponse.json({ 
@@ -161,4 +164,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
