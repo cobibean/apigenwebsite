@@ -10,15 +10,18 @@ interface ContactFormData {
   message: string;
 }
 
-// Store submissions in a JSON file
-const SUBMISSIONS_FILE = path.join(process.cwd(), "data", "submissions.json");
+// Store submissions in a JSON file (Vercel file system is read-only except /tmp)
+const DATA_DIR =
+  process.env.VERCEL === "1"
+    ? path.join("/tmp", "apigen-data")
+    : path.join(process.cwd(), "data");
+const SUBMISSIONS_FILE = path.join(DATA_DIR, "submissions.json");
 
 async function ensureSubmissionsFile() {
-  const dataDir = path.join(process.cwd(), "data");
   try {
-    await fs.access(dataDir);
+    await fs.access(DATA_DIR);
   } catch {
-    await fs.mkdir(dataDir, { recursive: true });
+    await fs.mkdir(DATA_DIR, { recursive: true });
   }
   
   try {
