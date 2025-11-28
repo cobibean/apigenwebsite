@@ -5,9 +5,9 @@
 **Context:** Mobile header, hamburger menu, contact modal, initial load.
 
 - [ ] **(1) Mobile dropdown menu visibility**
-  - Problem: Dropdown menu (hamburger) is hard to see on all pages except home.
-  - Change: Set a consistent **olive green** background on the mobile nav panel and ensure text/icons have proper contrast.
-  - Goal: Mobile nav looks the same and is readable across all pages.
+  - Problem: Dropdown menu (hamburger) is hard to see on all pages except home AFTER clicking the hamburger and the modal pops up. The header and button are fine as is. It's just the visibility of the menu after it opens. 
+  - Change: Set a consistent **olive green** (from theme file) background on the mobile nav panel and ensure text/icons have proper contrast.
+  - Goal: Mobile drop down modal looks the same and is readable across all pages.
 
 - [ ] **(3) Contact modal not centered on some mobiles (e.g. Galaxy S24)**
   - Problem: Contact modal appears off-center on certain devices.

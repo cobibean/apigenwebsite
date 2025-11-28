@@ -94,12 +94,10 @@ export function MobileSidebar({
         <DialogPrimitive.Content
           id={panelId}
           ref={contentRef}
-          aria-labelledby="mobile-nav-title"
           className={cn(
             "fixed left-[50%] top-[50%] z-50 w-full max-w-sm translate-x-[-50%] translate-y-[-50%]",
             "h-auto max-h-[85vh] overflow-y-auto",
-            "rounded-[32px] border border-white/14",
-            "p-6 flex flex-col gap-6",
+            "rounded-[32px] border p-6 flex flex-col gap-6 text-[var(--fg-on-olive)]",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
             "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
@@ -108,16 +106,16 @@ export function MobileSidebar({
             "md:hidden"
           )}
           style={{
-            background:
-              "linear-gradient(145deg, color-mix(in_oklab, #3bc1a0 78%, transparent) 0%, color-mix(in_oklab, #0f3b33 92%, transparent) 55%, #031d1a 100%)",
+            background: "var(--surface-olive)",
+            borderColor: "color-mix(in_oklab,var(--fg-on-olive)_24%,transparent)",
             fontFamily: "var(--font-sans)",
             backdropFilter: "blur(24px)",
           }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0)_65%)] pointer-events-none rounded-[32px]" />
-          <VisuallyHidden asChild>
-            <DialogPrimitive.Title id="mobile-nav-title">Mobile navigation</DialogPrimitive.Title>
-          </VisuallyHidden>
+          <DialogPrimitive.Title id="mobile-nav-title" asChild>
+            <VisuallyHidden>Mobile navigation</VisuallyHidden>
+          </DialogPrimitive.Title>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0)_65%)] pointer-events-none rounded-[32px]" aria-hidden="true" />
           <div className="relative z-10 flex h-full flex-col gap-6">
             <div className="flex items-center justify-between gap-3">
               <AppImage
@@ -130,7 +128,7 @@ export function MobileSidebar({
               />
               <DialogPrimitive.Close
                 aria-label="Close menu"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(222,218,216,0.35)] bg-[rgba(19,21,21,0.35)] text-[#DEDAD8] backdrop-blur-sm transition hover:bg-[rgba(19,21,21,0.55)]"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color-mix(in_oklab,var(--fg-on-olive)_35%,transparent)] bg-[color-mix(in_oklab,var(--surface-olive)_65%,black)] text-[var(--fg-on-olive)] backdrop-blur-sm transition hover:bg-[color-mix(in_oklab,var(--surface-olive)_80%,black)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color-mix(in_oklab,var(--surface-olive)_85%,black)]"
               >
                 <span className="sr-only">Close</span>
                 <svg width="16" height="16" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,9 +150,10 @@ export function MobileSidebar({
                     href={link.href}
                     className={cn(
                       "w-full rounded-2xl px-3 py-2.5 text-left text-sm font-medium transition",
-                      "bg-[rgba(222,218,216,0.35)] border border-[rgba(213,205,199,0.25)]",
-                      "text-[#FAFAFA] hover:bg-[rgba(222,218,216,0.5)]",
-                      isActive ? "bg-[var(--accent,#AE5521)] text-[var(--accent-foreground,#FAFAFA)]" : undefined
+                      "border text-[var(--fg-on-olive)]",
+                      "bg-[color-mix(in_oklab,var(--surface-olive)_62%,black)] border-[color-mix(in_oklab,var(--fg-on-olive)_20%,transparent)]",
+                      "hover:bg-[color-mix(in_oklab,var(--surface-olive)_78%,black)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color-mix(in_oklab,var(--surface-olive)_82%,black)]",
+                      isActive ? "bg-[var(--accent)] text-[var(--accent-foreground)] border-transparent shadow-[0_12px_30px_rgba(174,85,33,0.35)]" : undefined
                     )}
                     onClick={() => onOpenChange(false)}
                   >
@@ -181,7 +180,7 @@ export function MobileSidebar({
                 {cta.label}
               </button>
             </div>
-            <footer className="mt-2 pt-3 text-[11px] text-[#DEDAD8]/60" style={{ fontFamily: "var(--font-mono)" }}>
+            <footer className="mt-2 pt-3 text-[11px] text-[color-mix(in_oklab,var(--fg-on-olive)_65%,black)]" style={{ fontFamily: "var(--font-mono)" }}>
               © {new Date().getFullYear()} Apigen. All rights reserved.
             </footer>
           </div>

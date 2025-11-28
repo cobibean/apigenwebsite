@@ -95,9 +95,6 @@ export default function Header({
               </span>
             </div>
             
-            {/* Mobile APIGEN text - Center */}
-            <span className="md:hidden pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-base font-semibold">APIGEN</span>
-            
             {/* Desktop Navigation - Center column (true centered) */}
             <div className="hidden md:flex items-center gap-6 justify-self-center">
               {links.map((l) => (
