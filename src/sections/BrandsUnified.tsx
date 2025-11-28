@@ -88,6 +88,16 @@ export default function BrandsUnified({ preview }: Props) {
 
 function BrandFlipCard({ brand }: { brand: Brand }) {
   const [isFlipped, setIsFlipped] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  // Detect mobile on mount
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const keyAttributes = brand.attributes.filter(
     (attribute) => attribute.label === "Category" || attribute.label === "Market focus"
   );
@@ -102,31 +112,50 @@ function BrandFlipCard({ brand }: { brand: Brand }) {
       ? "MISSION grows small-batch flower rooted in Mission, BC—heritage craftsmanship for today's discerning retailers."
       : brand.body[0];
 
-  const handleFlip = () => setIsFlipped(!isFlipped);
+  // Mobile: click toggles; Desktop: hover controls
+  const handleClick = () => {
+    if (isMobile) setIsFlipped(!isFlipped);
+  };
+
+  const handleMouseEnter = () => {
+    if (!isMobile) setIsFlipped(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobile) setIsFlipped(false);
+  };
 
   return (
     <div
       className={cn(
-        "group relative mx-auto w-full max-w-[520px] cursor-pointer focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.35)] [perspective:1600px]"
+        "relative mx-auto w-full max-w-[520px] cursor-pointer focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.35)]"
       )}
+      style={{ perspective: "1600px" }}
       tabIndex={0}
       role="button"
       aria-label={`Flip card to view details for ${brand.name}`}
-      onClick={handleFlip}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleFlip(); } }}
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsFlipped(!isFlipped); } }}
     >
-      <div className={cn(
-        "relative w-full min-h-[400px] rounded-[24px] shadow-[0_28px_64px_rgba(24,32,20,0.18)] transition-transform duration-700 [transform-style:preserve-3d] md:min-h-[420px]",
-        // Mobile: use click state; Desktop: hover overrides
-        isFlipped ? "[transform:rotateY(180deg)]" : "[transform:rotateY(0deg)]",
-        // Desktop hover/focus still works (overrides click state visually)
-        "md:hover:[transform:rotateY(180deg)] md:focus-visible:[transform:rotateY(180deg)]"
-      )}>
+      <div
+        className="relative w-full min-h-[400px] rounded-[24px] shadow-[0_28px_64px_rgba(24,32,20,0.18)] md:min-h-[420px]"
+        style={{
+          transformStyle: "preserve-3d",
+          transition: "transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+        }}
+      >
         {/* Front side */}
-        <div className="absolute inset-0 overflow-hidden rounded-[24px] border border-(--border)/35 bg-black/5 [backface-visibility:hidden]">
+        <div
+          className="absolute inset-0 overflow-hidden rounded-[24px] border border-(--border)/35 bg-black/5"
+          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+        >
           {brand.id === "mission" ? (
             <video
               className="absolute inset-0 h-full w-full rounded-[24px] object-cover"
+              style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
               autoPlay
               muted
               loop
@@ -161,7 +190,10 @@ function BrandFlipCard({ brand }: { brand: Brand }) {
         </div>
 
         {/* Back side */}
-        <div className="absolute inset-0 flex h-full flex-col rounded-[24px] border border-(--border)/60 bg-(--card) px-7 py-7 text-left md:px-8 md:py-8 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <div
+          className="absolute inset-0 flex h-full flex-col rounded-[24px] border border-(--border)/60 bg-(--card) px-7 py-7 text-left md:px-8 md:py-8"
+          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        >
           <div className="flex flex-col gap-4">
             <h3
               className="text-xl font-semibold leading-snug text-(--primary) md:text-2xl"
