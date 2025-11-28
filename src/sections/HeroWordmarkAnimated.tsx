@@ -32,7 +32,12 @@ export default function HeroWordmarkAnimated({
       .then((r) => r.text())
       .then((svgText) => {
         if (cancelled || !ref.current) return;
-        ref.current.innerHTML = svgText;
+        // Add inline constraints to prevent flash at native SVG size before CSS kicks in
+        const constrainedSvg = svgText.replace(
+          '<svg ',
+          '<svg style="width:100%;height:auto;max-width:inherit;display:block;" '
+        );
+        ref.current.innerHTML = constrainedSvg;
         const svg = ref.current.querySelector("svg");
         if (!svg) return;
         svg.setAttribute("preserveAspectRatio", "xMidYMid meet");

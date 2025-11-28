@@ -4,26 +4,29 @@
 
 **Context:** Mobile header, hamburger menu, contact modal, initial load.
 
-- [ ] **(1) Mobile dropdown menu visibility**
+- [X] **(1) Mobile dropdown menu visibility** ✅ RE-DONE
   - Problem: Dropdown menu (hamburger) is hard to see on all pages except home AFTER clicking the hamburger and the modal pops up. The header and button are fine as is. It's just the visibility of the menu after it opens. 
-  - Change: Set a consistent **olive green** (from theme file) background on the mobile nav panel and ensure text/icons have proper contrast.
-  - Goal: Mobile drop down modal looks the same and is readable across all pages.
+  - ~~Change: Set a consistent **olive green** (from theme file) background on the mobile nav panel and ensure text/icons have proper contrast.~~
+  - **New Change:** Restyled MobileSidebar to match ContactModal vibe — now uses `--card` background, standard `--fg` text colors, cleaner borders/shadows. Same centered modal layout.
+  - Goal: Mobile drop down modal looks the same and is readable across all pages, matching contact modal aesthetic.
 
-- [ ] **(3) Contact modal not centered on some mobiles (e.g. Galaxy S24)**
+- [X] **(3) Contact modal not centered on some mobiles (e.g. Galaxy S24)**
   - Problem: Contact modal appears off-center on certain devices.
   - Change: Use a fixed, flex-centered layout (e.g. `position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;`) and remove any hard-coded `top` offsets that break on different heights.
   - Goal: Modal is centered vertically + horizontally on modern devices, no clipping.
 
-- [ ] **(4) Simplify mobile header**
-  - Problem: “APIGEN” wordmark in header on mobile is unnecessary.
+- [X] **(4) Simplify mobile header** ✅ RE-DONE (Logo Fix)
+  - Problem: "APIGEN" wordmark in header on mobile is unnecessary.
   - Change: On mobile breakpoint, header layout should be:  
     `[logo]   [empty space]   [hamburger]`  
-    Remove the “APIGEN” text.
-  - Goal: Cleaner mobile header with logo + hamburger only.
+    Remove the "APIGEN" text.
+  - **Additional Fix:** Logo.tsx fallback logic fixed — now always shows "APIGEN" text if image fails. Also renamed `logo + text.png` → `logo-text.png` (avoids URL encoding issues). Header defaults to `logoText="APIGEN"` as fallback.
+  - Goal: Cleaner mobile header with logo + hamburger only. Desktop logo always visible (image or text fallback).
 
-- [ ] **(16) Initial load glitch from fallback PNG**
-  - Problem: On initial load, there’s a visual glitch likely from a PNG fallback for an SVG.
-  - Change: Find the component using an SVG with PNG fallback, remove the fallback (or fix the logic so only one asset renders cleanly).
+- [X] **(16) Initial load glitch from fallback PNG** ✅ RE-DONE
+  - Problem: On initial load, there's a visual glitch — huge dark "APIGEN" text appears before CSS constrains the SVG.
+  - ~~Change: Find the component using an SVG with PNG fallback, remove the fallback (or fix the logic so only one asset renders cleanly).~~
+  - **New Change:** In `HeroWordmarkAnimated.tsx`, now inject inline styles (`width:100%;height:auto;max-width:inherit;display:block;`) directly into the SVG string before setting innerHTML. This prevents the SVG from rendering at its native 1992×412 viewBox size before CSS kicks in.
   - Goal: No image/logo flicker on first page load.
 
 ---

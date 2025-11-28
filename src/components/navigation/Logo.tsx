@@ -4,7 +4,7 @@ import AppLink from "@/components/AppLink";
 import AppImage from "@/components/AppImage";
 
 export function Logo({
-  text = "",
+  text = "APIGEN",
   imageSrc = "/hero/logo-header.png",
   showImage = true,
 }: {
@@ -31,9 +31,10 @@ export function Logo({
           />
         </span>
       ) : null}
-      {(!showImage || imageError) && text ? (
+      {/* Fallback text when image fails or showImage is false - always shows APIGEN as fallback */}
+      {(!showImage || imageError) ? (
         <span className="text-lg font-semibold tracking-[0.3em]" style={{ fontFamily: "var(--font-mono)" }}>
-          {text || "APIGEN"}
+          {text}
         </span>
       ) : null}
     </AppLink>

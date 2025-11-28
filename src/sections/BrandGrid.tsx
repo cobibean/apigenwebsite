@@ -14,7 +14,7 @@ type Props = {
 
 const defaults: Brand[] = [
   { name: "Cannada Craft", logo: "/brands/Cannada%20Craft%20No%20BG.png", href: "/brands#cannada-craft" },
-  { name: "Apigen Labs", logo: "/hero/logo%20+%20text.png", href: "/contact" },
+  { name: "Apigen Labs", logo: "/hero/logo-text.png", href: "/contact" },
   { name: "White Label Partners", logo: "/hero/transparentlogo.png", href: "/contact" },
   { name: "Medical Export", logo: "/vercel.svg", href: "/contact" },
 ];
