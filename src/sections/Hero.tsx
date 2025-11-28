@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Appear from "@/components/motion/Appear";
 import AppLink from "@/components/AppLink";
 import AppImage from "@/components/AppImage";
@@ -59,7 +59,8 @@ export default function Hero({
   const { eyebrow, subtitle, title, copy, ctaLabel, ctaHref, styling } = content;
   const [useVideo, setUseVideo] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const poster = useMemo(() => posterSrc || imageUrl || "/hero/APIGEN hero text.png", [posterSrc, imageUrl]);
+  // Only use poster if explicitly provided - don't default to APIGEN text PNG which causes flash
+  const poster = posterSrc || imageUrl || undefined;
 
   // Dynamically detect mobile vs desktop
   useEffect(() => {
@@ -137,7 +138,7 @@ export default function Hero({
   return (
     <section data-block="Hero" data-variant="video" className="relative w-full overflow-hidden">
       {/* Fixed background layer - prevents viewport relayout issues */}
-      <div className="fixed inset-0 -z-10 w-full h-full">
+      <div className="fixed inset-0 -z-10 w-full h-full bg-[#0a1612]">
         {useVideo ? (
           <video
             key={videoSrc}
@@ -146,14 +147,16 @@ export default function Hero({
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             poster={poster}
             onError={() => setUseVideo(false)}
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
-        ) : (
+        ) : poster ? (
           <AppImage src={poster} alt={imageAlt || ""} fill sizes="100vw" className="object-cover object-center" />
+        ) : (
+          <div className="absolute inset-0 bg-[#0a1612]" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
       </div>

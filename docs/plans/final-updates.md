@@ -28,14 +28,15 @@
   - **Additional Fix:** Logo.tsx fallback logic fixed — now always shows "APIGEN" text if image fails. Also renamed `logo + text.png` → `logo-text.png` (avoids URL encoding issues). Header defaults to `logoText="APIGEN"` as fallback.
   - Goal: Cleaner mobile header with logo + hamburger only. Desktop logo always visible (image or text fallback).
 
-- [X] **(16) Initial load glitch from fallback PNG** ✅ PROPERLY FIXED
-  - Problem: On initial load, there's a visual glitch — huge dark "APIGEN" text appears before CSS constrains the SVG.
-  - ~~Change: Find the component using an SVG with PNG fallback, remove the fallback (or fix the logic so only one asset renders cleanly).~~
-  - **Final Fix:** In `HeroWordmarkAnimated.tsx`:
-    1. Added `useState` to track when SVG is loaded and ready
-    2. Component renders with `opacity: 0` until SVG is fully loaded and styled
-    3. Smooth 150ms fade-in transition once ready
-    4. This prevents ANY flash because nothing is visible until the SVG is properly constrained
+- [X] **(16) Initial load glitch from fallback PNG** ✅ ROOT CAUSE FOUND & FIXED
+  - Problem: On initial load, there's a visual glitch — huge "APIGEN" text on white background flashes.
+  - **Root Cause:** The video `poster` prop in `Hero.tsx` defaulted to `/hero/APIGEN hero text.png` — this PNG was shown while the video loaded, causing the flash. NOT the HeroWordmarkAnimated component.
+  - **Final Fix:** In `Hero.tsx`:
+    1. Removed the problematic default poster (`/hero/APIGEN hero text.png`)
+    2. Poster is now only used if explicitly provided via props
+    3. Added dark background color (`#0a1612`) to video container so it's dark while loading instead of white
+    4. Changed `preload="metadata"` to `preload="auto"` for faster video load
+    5. HeroWordmarkAnimated also has opacity:0 until ready (belt and suspenders)
   - Goal: No image/logo flicker on first page load.
 
 ---
