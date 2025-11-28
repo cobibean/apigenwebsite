@@ -25,7 +25,7 @@ export default function ScrollIndicator({ scrollProgress, className }: Props) {
 
   return (
     <m.div
-      className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 ${className ?? ""}`}
+      className={`absolute bottom-24 sm:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 ${className ?? ""}`}
       style={{ opacity }}
       aria-hidden="true"
     >
