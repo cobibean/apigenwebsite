@@ -4,11 +4,16 @@
 
 **Context:** Mobile header, hamburger menu, contact modal, initial load.
 
-- [X] **(1) Mobile dropdown menu visibility** ✅ RE-DONE
+- [X] **(1) Mobile dropdown menu visibility** ✅ RE-DONE + SPACING FIX
   - Problem: Dropdown menu (hamburger) is hard to see on all pages except home AFTER clicking the hamburger and the modal pops up. The header and button are fine as is. It's just the visibility of the menu after it opens. 
   - ~~Change: Set a consistent **olive green** (from theme file) background on the mobile nav panel and ensure text/icons have proper contrast.~~
   - **New Change:** Restyled MobileSidebar to match ContactModal vibe — now uses `--card` background, standard `--fg` text colors, cleaner borders/shadows. Same centered modal layout.
-  - Goal: Mobile drop down modal looks the same and is readable across all pages, matching contact modal aesthetic.
+  - **Spacing Fix:** 
+    1. Added `px-3` to header row so APIGEN wordmark aligns with nav links below
+    2. Improved CTA button section: `mt-auto pt-4` for proper breathing room, `py-3` for better button touch target
+    3. Centered footer text
+    4. Tightened nav link gap from `gap-2` to `gap-1` for better visual rhythm
+  - Goal: Mobile drop down modal looks the same and is readable across all pages, matching contact modal aesthetic with proper alignment.
 
 - [X] **(3) Contact modal not centered on some mobiles (e.g. Galaxy S24)**
   - Problem: Contact modal appears off-center on certain devices.
@@ -23,10 +28,14 @@
   - **Additional Fix:** Logo.tsx fallback logic fixed — now always shows "APIGEN" text if image fails. Also renamed `logo + text.png` → `logo-text.png` (avoids URL encoding issues). Header defaults to `logoText="APIGEN"` as fallback.
   - Goal: Cleaner mobile header with logo + hamburger only. Desktop logo always visible (image or text fallback).
 
-- [X] **(16) Initial load glitch from fallback PNG** ✅ RE-DONE
+- [X] **(16) Initial load glitch from fallback PNG** ✅ PROPERLY FIXED
   - Problem: On initial load, there's a visual glitch — huge dark "APIGEN" text appears before CSS constrains the SVG.
   - ~~Change: Find the component using an SVG with PNG fallback, remove the fallback (or fix the logic so only one asset renders cleanly).~~
-  - **New Change:** In `HeroWordmarkAnimated.tsx`, now inject inline styles (`width:100%;height:auto;max-width:inherit;display:block;`) directly into the SVG string before setting innerHTML. This prevents the SVG from rendering at its native 1992×412 viewBox size before CSS kicks in.
+  - **Final Fix:** In `HeroWordmarkAnimated.tsx`:
+    1. Added `useState` to track when SVG is loaded and ready
+    2. Component renders with `opacity: 0` until SVG is fully loaded and styled
+    3. Smooth 150ms fade-in transition once ready
+    4. This prevents ANY flash because nothing is visible until the SVG is properly constrained
   - Goal: No image/logo flicker on first page load.
 
 ---

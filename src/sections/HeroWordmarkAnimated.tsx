@@ -1,5 +1,5 @@
 "use client";
-import React, { CSSProperties, useEffect, useRef } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import styles from "./HeroWordmarkAnimated.module.css";
 
 type Props = {
@@ -15,9 +15,9 @@ export default function HeroWordmarkAnimated({
   alt = "Apigen hero text",
   className,
   style,
-  fallbackSrc,
 }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const [isReady, setIsReady] = useState(false);
   
   // Determine if inline mode based on props
   const isInline = className?.includes("inline-block") || style?.display === "inline-block";
@@ -32,7 +32,8 @@ export default function HeroWordmarkAnimated({
       .then((r) => r.text())
       .then((svgText) => {
         if (cancelled || !ref.current) return;
-        // Add inline constraints to prevent flash at native SVG size before CSS kicks in
+        
+        // Add inline constraints to prevent flash at native SVG size
         const constrainedSvg = svgText.replace(
           '<svg ',
           '<svg style="width:100%;height:auto;max-width:inherit;display:block;" '
@@ -44,20 +45,19 @@ export default function HeroWordmarkAnimated({
         svg.setAttribute("role", "img");
         svg.setAttribute("aria-label", alt);
         svg.classList.add(styles.svgRoot);
+        
         // Apply inline styles if in inline mode
         if (isInline) {
           svg.classList.add(styles.svgRootInline);
-          // Ensure SVG respects parent height constraint but allows overflow
           svg.style.height = "100%";
           svg.style.width = "auto";
           svg.style.overflow = "visible";
-          // Ensure parent container allows overflow
           if (ref.current) {
             ref.current.style.overflow = "visible";
           }
         }
 
-        // Align SVG with any provided inline offset so there is no flash
+        // Align SVG with any provided inline offset
         const computedStyle = window.getComputedStyle(el);
         const offset = computedStyle.getPropertyValue("--wordmark-inline-offset")?.trim();
         if (offset) {
@@ -72,9 +72,9 @@ export default function HeroWordmarkAnimated({
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
         const reduce = mq.matches;
 
-        const baseDrawDur = 1.0; // seconds
-        const perItemDelay = 0.03; // seconds per path
-        const fillLag = 0.85; // fill starts after most of the stroke draws
+        const baseDrawDur = 1.0;
+        const perItemDelay = 0.03;
+        const fillLag = 0.85;
 
         shapes.forEach((shape, i) => {
           shape.classList.add(styles.strokePath, styles.animate);
@@ -99,7 +99,6 @@ export default function HeroWordmarkAnimated({
             shape.style.setProperty("--draw-delay", `${drawDelay}s`);
             shape.style.setProperty("--fill-delay", `${fillDelay}s`);
           } else {
-            // Reduced motion: snap to final state
             shape.style.animation = "none";
             shape.style.strokeDasharray = "none";
             shape.style.strokeDashoffset = "0";
@@ -107,13 +106,14 @@ export default function HeroWordmarkAnimated({
           }
         });
 
-        // Ensure SVG is visible (should be visible by default, but being explicit)
-        svg.style.opacity = "1";
+        // Mark as ready - this reveals the component
+        setIsReady(true);
       })
       .catch(() => {
         if (cancelled || !ref.current) return;
         // Fallback to plain image if SVG fails to load
         ref.current.innerHTML = `<img src="${src}" alt="${alt ?? ""}" style="display:block;width:100%;height:auto;" />`;
+        setIsReady(true);
       });
 
     return () => {
@@ -122,10 +122,18 @@ export default function HeroWordmarkAnimated({
   }, [src, alt, isInline]);
   
   return (
-    <div className={className} style={style} aria-label={alt} role="img">
-      <div ref={ref} className={`${styles.root} ${isInline ? styles.rootInline : ""}`}>
-        {/* No fallback image - completely empty initially for debugging */}
-      </div>
+    <div 
+      className={className} 
+      style={{ 
+        ...style, 
+        // Hide until SVG is loaded and ready - prevents flash
+        opacity: isReady ? 1 : 0,
+        transition: 'opacity 0.15s ease-out',
+      }} 
+      aria-label={alt} 
+      role="img"
+    >
+      <div ref={ref} className={`${styles.root} ${isInline ? styles.rootInline : ""}`} />
     </div>
   );
 }

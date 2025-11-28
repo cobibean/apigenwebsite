@@ -111,8 +111,9 @@ export function MobileSidebar({
           <DialogPrimitive.Title id="mobile-nav-title" asChild>
             <VisuallyHidden>Mobile navigation</VisuallyHidden>
           </DialogPrimitive.Title>
-          <div className="flex h-full flex-col gap-6">
-            <div className="flex items-center justify-between gap-3">
+          <div className="flex h-full flex-col gap-5">
+            {/* Header row - wordmark aligned with nav links below (px-3 matches nav link padding) */}
+            <div className="flex items-center justify-between px-3">
               <AppImage
                 src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
                 alt="Apigen wordmark"
@@ -136,7 +137,9 @@ export function MobileSidebar({
                 </svg>
               </DialogPrimitive.Close>
             </div>
-            <nav aria-label="Mobile" className="flex flex-col gap-2">
+            
+            {/* Navigation links */}
+            <nav aria-label="Mobile" className="flex flex-col gap-1">
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
                 return (
@@ -156,11 +159,13 @@ export function MobileSidebar({
                 );
               })}
             </nav>
-            <div className="pt-2 border-t border-[var(--border)]">
+            
+            {/* CTA button with proper spacing */}
+            <div className="mt-auto pt-4 border-t border-[var(--border)]">
               <button
                 type="button"
                 className={cn(
-                  "w-full rounded-md px-3 py-2.5 text-sm font-semibold text-center",
+                  "w-full rounded-md px-4 py-3 text-sm font-semibold text-center",
                   "bg-[var(--btn-olive)] text-[var(--btn-olive-foreground)]",
                   "transition hover:bg-[var(--btn-olive-hover)]",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
@@ -173,7 +178,9 @@ export function MobileSidebar({
                 {cta.label}
               </button>
             </div>
-            <footer className="pt-3 text-[11px] text-[var(--secondary)]" style={{ fontFamily: "var(--font-mono)" }}>
+            
+            {/* Footer */}
+            <footer className="text-[11px] text-[var(--secondary)] text-center" style={{ fontFamily: "var(--font-mono)" }}>
               © {new Date().getFullYear()} Apigen. All rights reserved.
             </footer>
           </div>
