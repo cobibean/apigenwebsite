@@ -14,6 +14,7 @@ type Props = {
   content: HeroContent & { styling?: SectionStyling };
   secondaryCtas?: Array<{ label: string; href: string; variant?: "brown" | "olive" | "neutral" }>;
   wordmarkMaxWidth?: string; // e.g., "900px" or "65%"; controls textImage scaling
+  mobileWordmarkMaxWidth?: string; // mobile-specific wordmark max width
   contentOffsetY?: string; // e.g., "12px" or "1rem"; positive moves cluster down
   mobileContentOffsetY?: string; // mobile-specific vertical positioning
   mobileContainerPadding?: string; // mobile-specific container horizontal padding
@@ -39,6 +40,7 @@ export default function Hero({
   content,
   secondaryCtas,
   wordmarkMaxWidth = "70%",
+  mobileWordmarkMaxWidth,
   contentOffsetY = "0px",
   mobileContentOffsetY,
   mobileContainerPadding,
@@ -226,7 +228,7 @@ export default function Hero({
                     </div>
                   ) : (
                     <span
-                      className="text-center text-[clamp(0.7rem,2vw,0.79rem)] leading-tight tracking-[0.12em] uppercase sm:text-[clamp(0.855rem,2vw,1.125rem)] sm:tracking-[0.15em] sm:whitespace-nowrap lg:text-[clamp(0.9rem,1.6vw,1.26rem)] px-2.5 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[var(--btn-olive)]/15 sm:bg-[var(--btn-olive)]/20 text-[var(--fg-on-olive)]/90 sm:text-[var(--fg-on-olive)] backdrop-blur-sm border border-[var(--btn-olive)]/20 sm:border-[var(--btn-olive)]/30 w-fit max-w-[68%] sm:max-w-none"
+                      className="text-center text-[0.85rem] leading-tight tracking-[0.14em] uppercase sm:text-[clamp(0.855rem,2vw,1.125rem)] sm:tracking-[0.15em] sm:whitespace-nowrap lg:text-[clamp(0.9rem,1.6vw,1.26rem)] px-4 py-2.5 sm:px-5 sm:py-2 rounded-full bg-[var(--btn-olive)]/20 text-[var(--fg-on-olive)] backdrop-blur-sm border border-[var(--btn-olive)]/25 sm:border-[var(--btn-olive)]/30 w-fit max-w-[90%] sm:max-w-none"
                       style={{ fontFamily: "var(--font-mono)" }}
                     >
                       {subtitle}
@@ -239,9 +241,9 @@ export default function Hero({
               <m.div style={{ y: prefersReducedMotion ? 0 : wordmarkY }}>
                 {textImageUrl ? (
                   textImageUrl.endsWith(".svg") ? (
-                    <HeroWordmarkAnimated src={textImageUrl} alt="Apigen hero text" className="w-full h-auto mx-auto" style={{ maxWidth: wordmarkMaxWidth }} />
+                    <HeroWordmarkAnimated src={textImageUrl} alt="Apigen hero text" className="w-full h-auto mx-auto" style={{ maxWidth: isMobile && mobileWordmarkMaxWidth ? mobileWordmarkMaxWidth : wordmarkMaxWidth }} />
                   ) : (
-                    <AppImage src={textImageUrl} alt="Apigen hero text" width={1600} height={350} className="w-full h-auto mx-auto" style={{ maxWidth: wordmarkMaxWidth }} />
+                    <AppImage src={textImageUrl} alt="Apigen hero text" width={1600} height={350} className="w-full h-auto mx-auto" style={{ maxWidth: isMobile && mobileWordmarkMaxWidth ? mobileWordmarkMaxWidth : wordmarkMaxWidth }} />
                   )
                 ) : (
                   <>
@@ -254,17 +256,17 @@ export default function Hero({
               
               {/* CTA with parallax */}
               <m.div
-                className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-5"
+                className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 md:gap-5 w-full sm:w-auto px-4 sm:px-0"
                 style={{
                   y: prefersReducedMotion ? 0 : ctaY,
                   marginTop: isMobile && mobileCtaGap ? mobileCtaGap : ctaGap
                 }}
               >
-                <AppLink href={ctaHref} className={`${buttonClass({ variant: "olive", size: "lg" })} text-xs sm:text-sm md:text-base px-4 py-2.5 sm:px-6 sm:py-3 w-fit mx-auto sm:mx-0`}>
+                <AppLink href={ctaHref} className={`${buttonClass({ variant: "olive", size: "lg" })} text-sm px-8 py-3.5 sm:text-sm sm:px-6 sm:py-3 md:text-base w-full sm:w-fit max-w-[300px] sm:max-w-none`}>
                   {ctaLabel}
                 </AppLink>
                 {secondaryCtas?.map((b) => (
-                  <AppLink key={b.href + b.label} href={b.href} className={buttonClass({ variant: b.variant || "brown", size: "lg" })}>
+                  <AppLink key={b.href + b.label} href={b.href} className={`${buttonClass({ variant: b.variant || "brown", size: "lg" })} text-sm px-8 py-3.5 sm:text-sm sm:px-6 sm:py-3 md:text-base w-full sm:w-fit max-w-[300px] sm:max-w-none`}>
                     {b.label}
                   </AppLink>
                 ))}
