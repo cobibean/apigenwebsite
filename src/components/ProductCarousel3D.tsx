@@ -41,14 +41,14 @@ interface ProductCarousel3DProps {
 //
 // Note: Dots and button spacing are now controlled via props (dotsSpacing, buttonSpacing)
 const SPACING = {
-  // Container dimensions
-  containerMinHeight: "min-h-[500px] md:min-h-[600px]",
+  // Container dimensions - increased to accommodate taller images
+  containerMinHeight: "min-h-[520px] md:min-h-[640px]",
   containerMaxWidth: "max-w-6xl",
 
   // Card dimensions and positioning
-  // Increased width: w-60 (240px) mobile, w-72 (288px) desktop for better visibility
+  // Width: w-60 (240px) mobile, w-72 (288px) desktop
+  // Height is now dynamic based on image aspect ratio
   cardWidth: "w-60 md:w-72",
-  cardHeight: "h-[360px] md:h-[480px]",
   cardBorderRadius: "rounded-[24px]",
 } as const;
 
@@ -83,6 +83,8 @@ export default function ProductCarousel3D({
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [isInView, setIsInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  // Dynamic aspect ratio: store each image's natural dimensions
+  const [imageDimensions, setImageDimensions] = useState<Record<number, { width: number; height: number }>>({});
   const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
   const reduced = !!prefersReducedMotion;
@@ -93,6 +95,34 @@ export default function ProductCarousel3D({
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartRef = useRef<number>(0);
   const touchEndRef = useRef<number>(0);
+
+  // Handle image load to capture natural dimensions
+  const handleImageLoad = useCallback((index: number, event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    setImageDimensions(prev => ({
+      ...prev,
+      [index]: { width: img.naturalWidth, height: img.naturalHeight }
+    }));
+  }, []);
+
+  // Calculate current card height based on center image's aspect ratio
+  const getCardHeight = useCallback(() => {
+    const baseWidth = isMobile ? 240 : 288; // w-60 = 240px, w-72 = 288px
+    const minHeight = isMobile ? 280 : 360;
+    const maxHeight = isMobile ? 420 : 520;
+    const defaultHeight = isMobile ? 360 : 480;
+
+    const dims = imageDimensions[currentIndex];
+    if (!dims) return defaultHeight;
+
+    const aspectRatio = dims.height / dims.width;
+    const calculatedHeight = baseWidth * aspectRatio;
+    
+    // Clamp to min/max
+    return Math.min(maxHeight, Math.max(minHeight, calculatedHeight));
+  }, [currentIndex, imageDimensions, isMobile]);
+
+  const cardHeight = getCardHeight();
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -392,21 +422,27 @@ export default function ProductCarousel3D({
                     }
                   }}
                 >
-                  <div className={`relative ${SPACING.cardWidth} ${SPACING.cardHeight} ${SPACING.cardBorderRadius} overflow-hidden shadow-2xl`}>
+                  {/* Dynamic height card - animates based on center image aspect ratio */}
+                  <m.div 
+                    className={`relative ${SPACING.cardWidth} ${SPACING.cardBorderRadius} overflow-hidden shadow-2xl`}
+                    animate={{ height: cardHeight }}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  >
                     <AppImage
                       src={image.src}
                       alt={image.alt}
                       width={288}
-                      height={480}
+                      height={520}
                       className="w-full h-full object-cover"
                       priority={image.priority || index === 0}
+                      onLoad={(e) => handleImageLoad(index, e)}
                     />
 
                     {/* Overlay for non-center cards */}
                     {!isCenter && (
                       <div className="absolute inset-0 bg-black/30" />
                     )}
-                  </div>
+                  </m.div>
                 </m.div>
               );
             })}

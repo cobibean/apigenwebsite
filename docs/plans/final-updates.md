@@ -9,6 +9,16 @@
   - Optional: experiment with subtle animated gradient similar to MISSION card
   - Location: `src/sections/BrandsUnified.tsx` → `BrandFlipCard` component (line ~124, the `brand.id !== "mission"` branch)
 
+- [ ] **(11) Review Cadillac carousel for redundancy**
+  - **Audit complete** — 9 images total, several appear similar based on descriptions
+  - **Suggested removals** (pick ~4 to remove for better variety):
+    - `5.jpeg` — redundant close-up (similar to #2, #6)
+    - `6.jpeg` OR `2.jpeg` — redundant macro shot
+    - `7.jpeg` — similar to #1 (structure/color)
+    - `9.jpeg` OR `8.jpeg` — redundant "presentation" shot
+  - **Action:** Review actual images and decide which to keep/remove
+  - Location: `src/data/gallery.ts` + `public/cultivars/cadillac-rainbow/`
+
 ---
 
 ## 1. Global Header, Nav & Modals
@@ -115,42 +125,37 @@
 
 **Context:** Main homepage carousel, cultivars carousels, Cadillac carousel, Dante hero.
 
-- [ ] **(7) White background image scoping**
+- [X] **(7) White background image scoping** ✅
   - Problem: White background image from the main carousel appears in multiple places.
-  - Change: That white background image should **only** appear in the **Cultivars (Dante’s) carousel**. Remove it from the main carousel and any other locations.
-  - Goal: White BG image is scoped to Dante’s cultivars carousel only.
+  - **Fix:** Removed `dantewhiteplain.jpeg` from `gallery.ts` (main carousel). It remains in `cultivars.ts` for Dante's specific carousel only.
+  - Goal: White BG image is scoped to Dante's cultivars carousel only.
 
-- [ ] **(8) Cultivars carousels – image counts**
-  - Spec: For each strain carousel, show **only 3 images** per strain. The bottom carousel shows all images.
-  - Change: Enforce max 3 slides per strain carousel; keep the “All” carousel as the consolidated view.
+- [X] **(8) Cultivars carousels – image counts** ✅
+  - Spec: For each strain carousel, show **only 3 images** per strain.
+  - **Fix:** Added `.slice(0, 3)` to strain images in `ProductShowcase.tsx`.
   - Goal: Per-strain carousels = 3 images each; bottom carousel = full set.
 
-- [ ] **(9) Remove specific images from carousels (requires list)**
-  - Problem: Some images across carousels need to be removed (Sunny will screenshot).
-  - Change: Once the list is provided, remove those images from the relevant carousel configs and/or asset folder if unused elsewhere.
-  - Goal: All flagged images are removed from all carousels.
+- [ ] **(9) Remove specific images from carousels** — ⏸️ BLOCKED
+  - Waiting on: Sunny's screenshot/list of images to remove
 
-- [ ] **(10) Add 2 new Cadillac images**
-  - Change: Add 2 new Cadillac images to the assets and include them in the Cadillac carousel in a logical order (avoid stacking all similar shots together).
-  - Goal: Cadillac carousel includes the two new images and still feels balanced.
+- [ ] **(10) Add 2 new Cadillac images** — ⏸️ BLOCKED
+  - Waiting on: New images to be provided
 
-- [ ] **(11) Reduce redundancy in Cadillac carousel**
-  - Problem: Too many similar/duplicate-feeling images.
-  - Change: Audit Cadillac carousel and remove near-duplicate angles so there’s more variety (macro, full nug, packaging, environment, etc.).
-  - Goal: Cadillac carousel feels curated, not repetitive.
+- [ ] **(11) Reduce redundancy in Cadillac carousel** — ⏸️ AUDIT COMPLETE (see User To Do)
+  - **Audit done:** Identified ~4 potentially redundant images
+  - Waiting on: User review of actual images before removal
 
-- [ ] **(12) Dante’s hero image fit (requires Sunny’s chosen image)**
-  - Problem: Dante’s hero image doesn’t fit frame well on mobile.
-  - Change (after Sunny selects the image):
-    - Use a consistent aspect ratio for the hero (e.g. 16:9) with `object-fit: cover` and good focal point.
-  - Goal: Dante’s hero image looks clean and properly framed across mobile devices.
+- [ ] **(12) Dante's hero image fit** — ⏸️ BLOCKED
+  - Waiting on: Sunny's final image choice
 
-- [ ] **(13) Main carousel image framing**
-  - Problem: ~90% of main carousel images don’t fit nicely (weird crops, inconsistent framing).
-  - Change: Either:
-    - Adjust the carousel frame/aspect ratio to better match the images, **or**
-    - Keep the frame but standardize image behavior via `object-fit` and maybe pre-crop key assets.
-  - Goal: Main carousel images look consistent and well-framed, especially on mobile (no critical content cut off).
+- [X] **(13) Main carousel image framing** ✅ DYNAMIC ASPECT RATIO
+  - Problem: ~90% of main carousel images don't fit nicely (weird crops).
+  - **Fix:** Implemented Apple-style dynamic aspect ratio carousel:
+    - Card height smoothly animates to match each image's natural aspect ratio
+    - No cropping — every image shown in full
+    - Min/max height constraints prevent extreme sizes
+    - Smooth 500ms transition between images
+  - Location: `src/components/ProductCarousel3D.tsx`
 
 ---
 

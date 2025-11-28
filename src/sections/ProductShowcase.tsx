@@ -243,11 +243,11 @@ export default function ProductShowcase({
               </div>
             </div>
 
-            {/* Product Image Carousel */}
+            {/* Product Image Carousel - limited to 3 images per strain (task 8) */}
             {!hideSupporting && strain.images.length > 0 && (
               <div className="mt-12 md:mt-16">
                 <ProductCarousel3DLandscape
-                  images={strain.images}
+                  images={strain.images.slice(0, 3)}
                   autoPlay={true}
                   autoPlayDelay={5000}
                   dotsSpacing="bottom-4"

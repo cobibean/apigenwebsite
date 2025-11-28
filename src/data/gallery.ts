@@ -74,11 +74,7 @@ export const galleryImages: GalleryImage[] = [
     alt: "Dante's Inferno finished flower with precise trim",
     category: "dantes-inferno",
   },
-  {
-    src: "/cultivars/dantes-inferno/dantewhiteplain.jpeg",
-    alt: "Dante's Inferno flower on clean background",
-    category: "dantes-inferno",
-  },
+  // NOTE: dantewhiteplain.jpeg removed from main carousel - kept only in Dante's cultivar-specific carousel (task 7)
   {
     src: "/cultivars/dantes-inferno/vertical_close_up_flower_1.jpeg",
     alt: "Vertical close-up view of Dante's Inferno flower",
