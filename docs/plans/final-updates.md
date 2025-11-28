@@ -1,5 +1,16 @@
 # Apigen Website – Mobile & UI Fixes
 
+---
+
+## 🔴 USER TO DO (Come Back Later)
+
+- [ ] **(17) Cannada Craft card gradient (+ optional animation)**
+  - Update background to a **3-stop gradient** (dark → light → dark)
+  - Optional: experiment with subtle animated gradient similar to MISSION card
+  - Location: `src/sections/BrandsUnified.tsx` → `BrandFlipCard` component (line ~124, the `brand.id !== "mission"` branch)
+
+---
+
 ## 1. Global Header, Nav & Modals
 
 **Context:** Mobile header, hamburger menu, contact modal, initial load.
@@ -64,40 +75,39 @@
 
 ## 3. Homepage Brand Cards & Text Sections
 
-**Context:** Home “brand cards,” Premium Brands, Our Mission, Cannada Craft card, Terpenes.
+**Context:** Home "brand cards," Premium Brands, Our Mission, Cannada Craft card, Terpenes.
 
-- [ ] **(5A) Brand cards don’t flip consistently**
-  - Problem: Brand cards don’t flip on some phones but do on others.
-  - Change: Ensure flip behavior is triggered by tap/click (not just hover). Confirm it works across common mobile browsers.
-  - Goal: Brand cards flip reliably on tap on mobile.
+- [X] **(5A) Brand cards don't flip consistently** ✅
+  - Problem: Brand cards don't flip on some phones but do on others.
+  - **Fix:** Added `onClick` handler with `useState` toggle for mobile tap. Desktop hover still works via CSS.
+  - Also added `cursor-pointer` and keyboard support (`Enter`/`Space`).
+  - Location: `src/sections/BrandsUnified.tsx`
 
-- [ ] **(5B) Brand card content overflowing**
-  - Problem: On some devices, content (Market Focus, Category) spills off the bottom of the card.
-  - Change: Adjust card min-height and/or inner layout so text wraps but does not overflow; ensure no text is clipped.
-  - Goal: All card content stays inside the card on mobile.
+- [X] **(5B) Brand card content overflowing** ✅
+  - Problem: On some devices, content spills off the bottom of the card.
+  - **Fix:** Increased mobile `min-h-[360px]` to `min-h-[400px]`.
+  - Location: `src/sections/BrandsUnified.tsx`
 
-- [ ] **(6) Premium Brands typography**
-  - Problem: Premium Brands section uses Roboto and feels disconnected from “Our Mission.”
-  - Change: Remove Roboto; match font family + sizing to “Our Mission” section (same type system), and scale slightly smaller so it “feels” like Our Mission.
-  - Goal: Premium Brands visually matches Our Mission in type style and proportion.
+- [X] **(6) Premium Brands typography** ✅
+  - Problem: Felt disconnected from "Our Mission" section.
+  - **Fix:** Matched typography to MissionSection_1:
+    - Added eyebrow "APIGEN BRANDS"
+    - Main heading + accent subheading with same font settings
+    - `fontSize: clamp(26px, 4.8vw, 56px)`, `lineHeight: 0.86`, `fontWeight: 800`
+  - Location: `src/sections/BrandsUnified.tsx`
 
-- [ ] **(14) Top Terpenes – remove metrics**
-  - Problem: Terpene numbers change per batch; metrics shouldn’t be hard-coded.
-  - Change: Remove numeric values (percentages, etc.) from “Top Terpenes”; display **names only**.
-  - Goal: Only terpene names are shown, no batch-specific numbers.
+- [X] **(14) Top Terpenes – remove metrics** ✅
+  - Problem: Terpene numbers change per batch; metrics shouldn't be hard-coded.
+  - **Fix:** Removed `mgG` and `sharePct` display — now shows terpene names only.
+  - Location: `src/sections/ProductShowcase.tsx` (used on Cultivars page)
 
-- [ ] **(15) Update Cannada Craft copy**
-  - Change the copy to exactly:
+- [X] **(15) Update Cannada Craft copy** ✅
+  - **Fix:** Updated `brands.ts` with new copy:
+    - Heading: "From Craft to Clinic."
+    - Body: Two paragraphs about flagship international brand, medical-grade standards, etc.
+  - Also updated `BrandsUnified.tsx` display heading to "Cannada Craft – From Craft to Clinic."
 
-    Cannada Craft – From Craft to Clinic.  
-    Apigen’s flagship international brand delivers premium Canadian craft cannabis from British Columbia, cultivated to medical-grade standards and perfected for patients around the world. Embodying the journey from craft to clinic, Cannada Craft’s precision-grown, indoor small-batch process produces consistent, terpene-rich flower cultivated under rigorous standards, ensuring clean, compliant, and high-quality cannabis for the global market.
-
-  - Goal: New copy renders cleanly on mobile (split into reasonable paragraphs if needed).
-
-- [ ] **(17) Cannada Craft card gradient (+ optional animation)**
-  - Problem: Current 2-color gradient should be updated.
-  - Change: Update background to a **3-stop gradient** (dark → light → dark). If time allows, experiment with a subtle animated gradient similar to the MISSION card.
-  - Goal: Card uses a 3-color gradient that stays on-brand; if animated, the motion is smooth and not distracting.
+- [ ] **(17) Cannada Craft card gradient (+ optional animation)** — ⏸️ SKIPPED (see User To Do at top)
 
 ---
 

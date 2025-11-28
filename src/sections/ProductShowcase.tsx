@@ -193,7 +193,7 @@ export default function ProductShowcase({
                         </div>
                     </div>
 
-                      {/* Terpenes Box */}
+                      {/* Terpenes Box - names only (metrics removed per task 14) */}
                     {strain.chemistry.terpenes && strain.chemistry.terpenes.length > 0 && (
                         <div className={`flex flex-col gap-3 p-4 rounded-lg border ${cardBorder} bg-card`}>
                           <dt className={`text-sm font-semibold ${textPrimary} font-mono`}>
@@ -203,15 +203,6 @@ export default function ProductShowcase({
                           {strain.chemistry.terpenes.map((terpene, idx) => (
                             <div key={idx}>
                               {terpene.name}
-                              {terpene.mgG && (
-                                <>
-                                  {" "}
-                                    <span className={contentTextColor === "white" ? "text-white/60" : "text-secondary"}>
-                                    {terpene.mgG} mg·g
-                                    {terpene.sharePct && ` (${terpene.sharePct}%)`}
-                                  </span>
-                                </>
-                              )}
                             </div>
                           ))}
                         </dd>

@@ -19,31 +19,42 @@ export default function BrandsUnified({ preview }: Props) {
   return (
     <section className="py-10 md:py-14 bg-(--surface-olive)">
       <div className="container mx-auto px-4">
-        {/* Hero Section - Premium Typography */}
+        {/* Hero Section - Typography matched to MissionSection_1 */}
         <div className="text-center mb-8 md:mb-10">
           <Appear preview={preview}>
-            <h1
-              className="mb-4 uppercase [color:var(--accent)]"
+            <p
+              className="text-sm mb-4 [color:color-mix(in_oklab,white_78%,transparent)]"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              APIGEN BRANDS
+            </p>
+          </Appear>
+          <Appear preview={preview}>
+            <h2
+              className="uppercase [color:var(--fg-on-olive)]"
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 800,
                 letterSpacing: "-0.01em",
-                lineHeight: 0.88,
-                fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
+                lineHeight: 0.86,
+                fontSize: "clamp(26px, 4.8vw, 56px)",
               }}
             >
               Premium Brands
-            </h1>
+            </h2>
           </Appear>
           <Appear preview={preview}>
             <p
-              className="mx-auto max-w-2xl text-base uppercase [color:color-mix(in_oklab,white_78%,transparent)]"
+              className="mt-3 uppercase [color:var(--accent)]"
               style={{
-                fontFamily: "var(--font-mono)",
-                letterSpacing: "0.35em",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 800,
+                letterSpacing: "-0.01em",
+                lineHeight: 0.86,
+                fontSize: "clamp(26px, 4.8vw, 56px)",
               }}
             >
-              Canadian craftsmanship meets premium quality
+              Crafted in Canada
             </p>
           </Appear>
         </div>
@@ -76,6 +87,7 @@ export default function BrandsUnified({ preview }: Props) {
 }
 
 function BrandFlipCard({ brand }: { brand: Brand }) {
+  const [isFlipped, setIsFlipped] = React.useState(false);
   const keyAttributes = brand.attributes.filter(
     (attribute) => attribute.label === "Category" || attribute.label === "Market focus"
   );
@@ -83,23 +95,33 @@ function BrandFlipCard({ brand }: { brand: Brand }) {
   const displayHeading =
     brand.id === "mission"
       ? "From Mission to Your Hands"
-      : "Proud to be Craft. Proud to be Canadian.";
+      : "Cannada Craft – From Craft to Clinic.";
 
   const displayBody =
     brand.id === "mission"
       ? "MISSION grows small-batch flower rooted in Mission, BC—heritage craftsmanship for today's discerning retailers."
       : brand.body[0];
 
+  const handleFlip = () => setIsFlipped(!isFlipped);
+
   return (
     <div
       className={cn(
-        "group relative mx-auto w-full max-w-[520px] focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.35)] [perspective:1600px]"
+        "group relative mx-auto w-full max-w-[520px] cursor-pointer focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(255,255,255,0.35)] [perspective:1600px]"
       )}
       tabIndex={0}
       role="button"
       aria-label={`Flip card to view details for ${brand.name}`}
+      onClick={handleFlip}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleFlip(); } }}
     >
-      <div className="relative w-full min-h-[360px] rounded-[24px] shadow-[0_28px_64px_rgba(24,32,20,0.18)] transition-transform duration-700 [transform-style:preserve-3d] [transform:rotateY(0deg)] group-hover:[transform:rotateY(180deg)] group-focus-visible:[transform:rotateY(180deg)] md:min-h-[420px]">
+      <div className={cn(
+        "relative w-full min-h-[400px] rounded-[24px] shadow-[0_28px_64px_rgba(24,32,20,0.18)] transition-transform duration-700 [transform-style:preserve-3d] md:min-h-[420px]",
+        // Mobile: use click state; Desktop: hover overrides
+        isFlipped ? "[transform:rotateY(180deg)]" : "[transform:rotateY(0deg)]",
+        // Desktop hover/focus still works (overrides click state visually)
+        "md:hover:[transform:rotateY(180deg)] md:focus-visible:[transform:rotateY(180deg)]"
+      )}>
         {/* Front side */}
         <div className="absolute inset-0 overflow-hidden rounded-[24px] border border-(--border)/35 bg-black/5 [backface-visibility:hidden]">
           {brand.id === "mission" ? (

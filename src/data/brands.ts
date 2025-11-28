@@ -13,11 +13,10 @@ export const brands: Brand[] = [
     id: "cannada-craft",
     name: "Cannada Craft",
     logo: "/brands/Cannada%20Craft%20No%20BG.png",
-    heading: "Proud to be Craft.\nProud to be Canadian.",
+    heading: "From Craft to Clinic.",
     body: [
-      "Our flagship dried flower brand, Cannada Craft, represents the heart of premium Canadian cannabis.",
-      "Focused exclusively on the export of dried flower, we bring the best of BC craft cultivation to the global stage.",
-      "Every jar of Cannada Craft reflects our dedication to quality, consistency, and the spirit of Canadian craftsmanship.",
+      "Apigen's flagship international brand delivers premium Canadian craft cannabis from British Columbia, cultivated to medical-grade standards and perfected for patients around the world.",
+      "Embodying the journey from craft to clinic, Cannada Craft's precision-grown, indoor small-batch process produces consistent, terpene-rich flower cultivated under rigorous standards, ensuring clean, compliant, and high-quality cannabis for the global market.",
     ],
     attributes: [
       { label: "Category", value: "Premium dried flower" },
