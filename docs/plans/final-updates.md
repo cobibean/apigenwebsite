@@ -45,10 +45,20 @@
 
 **Context:** Homepage hero section (eyebrow, heading, CTA spacing).
 
-- [ ] **(2) Adjust hero spacing on mobile**
+- [X] **(2) Adjust hero spacing on mobile** ✅ SCROLL-LINKED ANIMATION
   - Problem: Too much empty space below CTA in the home hero on mobile.
-  - Change: Reduce bottom padding in the hero and tighten margin below the CTA; ensure eyebrow → heading → body → CTA stack feels compact but not cramped.
-  - Goal: Hero feels balanced and intentional on mobile with minimal dead space below the button.
+  - ~~Change: Reduce bottom padding in the hero and tighten margin below the CTA.~~
+  - **Premium Solution:** Implemented Cultiva-style scroll-linked parallax animation:
+    1. Added `heroScrollConfig` to `src/lib/animations.ts` with parallax speeds
+    2. Created `ScrollIndicator` component with bounce animation that fades on scroll
+    3. Refactored `Hero.tsx` with Framer Motion scroll tracking:
+       - Subtitle moves at 0.8x speed (feels further back)
+       - Wordmark moves at 1.0x speed (base)
+       - CTA moves at 1.1x speed (feels closer)
+    4. Content smoothly slides upward as user scrolls (max 80px offset)
+    5. Removed static `mobileContentOffsetY="-100px"` — scroll handles positioning
+    6. Full `prefers-reduced-motion` support
+  - Goal: Premium interactive hero where content responds to scroll, reducing dead space feel.
 
 ---
 

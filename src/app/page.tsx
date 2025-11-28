@@ -34,7 +34,6 @@ export default function Home() {
         subtitleMaxWidth="none"
         subtitleOffsetX="0px"
         subtitleStyle="text"
-        mobileContentOffsetY="-100px"
         mobileCtaGap="24px"
       />
       <MissionSection_1 content={homeContent.mission} />

@@ -42,3 +42,26 @@ export const appearStackConfig = {
   // Slightly smaller vertical offset for stacks
   y: 12,
 } as const;
+
+/**
+ * Scroll-linked hero animation configuration
+ * Creates parallax effect as user scrolls, with different layers moving at different speeds
+ */
+export const heroScrollConfig = {
+  // Scroll range: 0% to 30% of hero height triggers the animation
+  scrollRange: [0, 0.3] as const,
+
+  // Parallax speeds for different content layers
+  // Lower = moves slower (feels further back), Higher = moves faster (feels closer)
+  parallax: {
+    subtitle: 0.8,
+    wordmark: 1.0,
+    cta: 1.1,
+  },
+
+  // Maximum upward offset in pixels at end of scroll range
+  maxOffset: 80,
+
+  // Easing curve for smooth movement (ease-out-cubic)
+  ease: [0.33, 1, 0.68, 1] as const,
+} as const;
