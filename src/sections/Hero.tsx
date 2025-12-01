@@ -210,6 +210,7 @@ export default function Hero({
               className={`w-full text-center ${isMobile && mobileContentMaxWidth ? '' : 'max-w-[95%] sm:max-w-[90%] md:max-w-[85%] lg:max-w-[70%] xl:max-w-[1100px]'}`}
               style={{
                 maxWidth: isMobile && mobileContentMaxWidth ? mobileContentMaxWidth : undefined,
+                transform: `translateY(${isMobile && mobileContentOffsetY ? mobileContentOffsetY : contentOffsetY})`,
               }}
             >
               {/* Subtitle with parallax */}
