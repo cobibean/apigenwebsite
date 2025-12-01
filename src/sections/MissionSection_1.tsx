@@ -39,27 +39,25 @@ export default function MissionSection_1({
                 {eyebrow}
               </div>
               <h2
-                className={`mt-5 uppercase ${textClass}`}
+                className={`mt-5 uppercase whitespace-normal md:whitespace-pre-line ${textClass}`}
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontWeight: 800,
                   letterSpacing: "-0.01em",
                   lineHeight: 0.86,
                   fontSize: "clamp(26px, 4.8vw, 60px)",
-                  whiteSpace: "pre-line",
                 }}
               >
                 {taglinePrimary}
               </h2>
               <div
-                className={`uppercase mt-3 ${mutedHeadlineClass}`}
+                className={`uppercase mt-3 whitespace-normal md:whitespace-pre-line ${mutedHeadlineClass}`}
                 style={{
                   fontFamily: "var(--font-sans)",
                   fontWeight: 800,
                   letterSpacing: "-0.01em",
                   lineHeight: 0.86,
                   fontSize: "clamp(26px, 4.8vw, 60px)",
-                  whiteSpace: "pre-line",
                 }}
               >
                 {taglineSecondary}

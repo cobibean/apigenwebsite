@@ -48,8 +48,7 @@ export default function CraftBrandSection({ brand, preview }: CraftBrandSectionP
         <div className="space-y-6 md:space-y-8">
           <span className="sr-only">{brand.name}</span>
           <h1
-            className="max-w-[20ch] font-semibold tracking-tight text-primary text-[clamp(2.35rem,3.6vw,3.3rem)] lg:text-[clamp(2.6rem,3.3vw,3.6rem)] font-sans"
-            style={{ whiteSpace: "pre-line" }}
+            className="max-w-[20ch] font-semibold tracking-tight text-primary text-[clamp(2.35rem,3.6vw,3.3rem)] lg:text-[clamp(2.6rem,3.3vw,3.6rem)] font-sans whitespace-normal md:whitespace-pre-line"
           >
             {brand.heading}
           </h1>

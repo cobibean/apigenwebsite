@@ -24,8 +24,7 @@ export default function MissionBrandSection({ brand, preview }: MissionBrandSect
         <div className="space-y-6 md:space-y-8">
           <span className="sr-only">{brand.name}</span>
           <h2
-            className="max-w-[24ch] font-semibold tracking-tight text-primary text-[clamp(2.0rem,3.2vw,3.0rem)] lg:text-[clamp(2.2rem,3.0vw,3.2rem)] font-sans"
-            style={{ whiteSpace: "pre-line" }}
+            className="max-w-[24ch] font-semibold tracking-tight text-primary text-[clamp(2.0rem,3.2vw,3.0rem)] lg:text-[clamp(2.2rem,3.0vw,3.2rem)] font-sans whitespace-normal md:whitespace-pre-line"
           >
             {brand.heading}
           </h2>
