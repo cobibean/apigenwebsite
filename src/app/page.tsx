@@ -28,7 +28,7 @@ export default function Home() {
         content={homeContent.hero}
         wordmarkMaxWidth="70%"
         mobileWordmarkMaxWidth="88%"
-        mobileContentOffsetY="-1rem"
+        mobileContentOffsetY="-3rem"
         subtitleGap="var(--spacing-xl)"
         mobileSubtitleGap="28px"
         mobileContainerPadding="16px"
