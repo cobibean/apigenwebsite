@@ -49,7 +49,7 @@ const DialogContent = React.forwardRef<
     >
       <div
         className={cn(
-          "pointer-events-auto relative grid w-full max-w-lg gap-4 rounded-lg border border-[var(--border)] bg-[var(--card)] p-6 text-left shadow-lg sm:rounded-xl md:w-full",
+          "pointer-events-auto relative grid w-full max-w-lg gap-3 sm:gap-4 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 sm:p-6 text-left shadow-lg sm:rounded-xl md:w-full",
           className
         )}
       >

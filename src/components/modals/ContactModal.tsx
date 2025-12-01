@@ -123,8 +123,8 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
     }
   };
 
-  const inputClass = "w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-3 py-2 text-sm ring-offset-[var(--bg)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
-  const labelClass = "block text-sm font-medium mb-1";
+  const inputClass = "w-full rounded-md border border-[var(--border)] bg-[var(--bg)] px-2.5 py-1.5 sm:px-3 sm:py-2 text-sm ring-offset-[var(--bg)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+  const labelClass = "block text-xs sm:text-sm font-medium mb-0.5 sm:mb-1";
   const errorClass = "text-xs text-red-500 mt-0.5";
 
   if (status === "success") {
@@ -208,17 +208,17 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full max-w-[min(92vw,380px)] sm:max-w-[520px] max-h-[92vh] overflow-y-auto">
-        <DialogHeader className="space-y-1.5">
-          <DialogTitle className="text-xl sm:text-2xl" style={{ fontFamily: "var(--font-sans)" }}>
+      <DialogContent className="w-full max-w-[min(94vw,380px)] sm:max-w-[520px] max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="space-y-1">
+          <DialogTitle className="text-lg sm:text-2xl" style={{ fontFamily: "var(--font-sans)" }}>
             Get in Touch
           </DialogTitle>
-          <DialogDescription className="text-sm" style={{ fontFamily: "var(--font-body)" }}>
+          <DialogDescription className="text-xs sm:text-sm" style={{ fontFamily: "var(--font-body)" }}>
             Tell us about your needs and we&apos;ll get back to you within 1–2 business days.
           </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-3.5 mt-3">
+        <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3.5 mt-2 sm:mt-3">
           <div>
             <label htmlFor="name" className={labelClass}>
               Name <span className="text-red-500">*</span>
@@ -301,26 +301,26 @@ export default function ContactModal({ open, onOpenChange }: ContactModalProps) 
               name="message"
               value={formData.message}
               onChange={handleChange}
-              rows={3}
-              className={inputClass}
+              rows={2}
+              className={`${inputClass} sm:min-h-[76px]`}
               placeholder="Tell us about your market, timeline, and what you&apos;re looking for..."
               disabled={status === "submitting"}
             />
             {errors.message && <p className={errorClass}>{errors.message}</p>}
           </div>
 
-          <div className="flex gap-3 pt-1.5">
+          <div className="flex gap-2 sm:gap-3 pt-1 sm:pt-1.5">
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className={buttonClass({ variant: "neutral", size: "lg" })}
+              className={`${buttonClass({ variant: "neutral", size: "lg" })} text-sm sm:text-base px-3 sm:px-4`}
               disabled={status === "submitting"}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={buttonClass({ variant: "olive", size: "lg" })}
+              className={`${buttonClass({ variant: "olive", size: "lg" })} text-sm sm:text-base px-3 sm:px-4`}
               disabled={status === "submitting"}
             >
               {status === "submitting" ? "Sending..." : "Send Message"}

@@ -95,9 +95,9 @@ export function MobileSidebar({
           id={panelId}
           ref={contentRef}
           className={cn(
-            "fixed left-[50%] top-[50%] z-50 w-full max-w-sm translate-x-[-50%] translate-y-[-50%]",
+            "fixed left-[50%] top-[50%] z-50 w-[92vw] max-w-sm translate-x-[-50%] translate-y-[-50%]",
             "h-auto max-h-[85vh] overflow-y-auto",
-            "rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 flex flex-col gap-6 text-[var(--fg)]",
+            "rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 text-[var(--fg)]",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
             "data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
@@ -111,9 +111,9 @@ export function MobileSidebar({
           <DialogPrimitive.Title id="mobile-nav-title" asChild>
             <VisuallyHidden>Mobile navigation</VisuallyHidden>
           </DialogPrimitive.Title>
-          <div className="flex h-full flex-col gap-5">
+          <div className="flex h-full flex-col gap-3 sm:gap-5">
             {/* Header row - wordmark aligned with nav links below (px-3 matches nav link padding) */}
-            <div className="flex items-center justify-between px-3">
+            <div className="flex items-center justify-between px-2 sm:px-3">
               <AppImage
                 src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
                 alt="Apigen wordmark"
@@ -143,11 +143,11 @@ export function MobileSidebar({
               {navLinks.map((link) => {
                 const isActive = activeHref === link.href;
                 return (
-                  <AppLink
+                    <AppLink
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "w-full rounded-md px-3 py-2.5 text-left text-sm font-medium transition",
+                      "w-full rounded-md px-2 py-2 sm:px-3 sm:py-2.5 text-left text-sm font-medium transition",
                       "text-[var(--fg)] hover:bg-[var(--muted)]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]",
                       isActive && "bg-[var(--accent)] text-[var(--accent-foreground)] hover:bg-[var(--accent)]"
@@ -161,11 +161,11 @@ export function MobileSidebar({
             </nav>
             
             {/* CTA button with proper spacing */}
-            <div className="mt-auto pt-4 border-t border-[var(--border)]">
+            <div className="mt-auto pt-3 sm:pt-4 border-t border-[var(--border)]">
               <button
                 type="button"
                 className={cn(
-                  "w-full rounded-md px-4 py-3 text-sm font-semibold text-center",
+                  "w-full rounded-md px-4 py-2.5 sm:py-3 text-sm font-semibold text-center",
                   "bg-[var(--btn-olive)] text-[var(--btn-olive-foreground)]",
                   "transition hover:bg-[var(--btn-olive-hover)]",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
