@@ -229,7 +229,7 @@ export default function Hero({
                     </div>
                   ) : (
                     <span
-                      className="text-center text-[0.85rem] leading-relaxed tracking-[0.14em] uppercase sm:text-[clamp(0.855rem,2vw,1.125rem)] sm:tracking-[0.15em] sm:whitespace-nowrap lg:text-[clamp(0.9rem,1.6vw,1.26rem)] px-5 py-2.5 sm:px-5 sm:py-2 rounded-2xl sm:rounded-full bg-[var(--btn-olive)]/20 text-[var(--fg-on-olive)] backdrop-blur-sm border border-[var(--btn-olive)]/25 sm:border-[var(--btn-olive)]/30 w-fit max-w-[68%] sm:max-w-none"
+                      className="text-center text-[clamp(0.68rem,2.8vw,0.85rem)] leading-snug tracking-[0.08em] uppercase sm:text-[clamp(0.855rem,2vw,1.125rem)] sm:tracking-[0.15em] sm:whitespace-nowrap sm:leading-relaxed lg:text-[clamp(0.9rem,1.6vw,1.26rem)] px-4 py-2 sm:px-5 sm:py-2 rounded-2xl sm:rounded-full bg-[var(--btn-olive)]/20 text-[var(--fg-on-olive)] backdrop-blur-sm border border-[var(--btn-olive)]/25 sm:border-[var(--btn-olive)]/30 w-fit max-w-[75%] sm:max-w-none"
                       style={{ fontFamily: "var(--font-mono)" }}
                     >
                       {subtitle}
