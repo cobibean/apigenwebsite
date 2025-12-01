@@ -87,12 +87,7 @@ export default function Header({
           <nav className={"relative h-16 md:h-20 grid grid-cols-[auto_1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-5 px-4 md:px-5"} aria-label="Primary">
             {/* Logo - Left side */}
             <div className="flex items-center gap-3">
-              <span className="hidden sm:block">
-                <Logo text={logoText} imageSrc={logoImageSrc} showImage={showLogoImage} />
-              </span>
-              <span className="sm:hidden block">
-                <Logo text="" imageSrc="/hero/transparentlogo.png" showImage={true} />
-              </span>
+              <Logo text={logoText} imageSrc={logoImageSrc} showImage={showLogoImage} />
             </div>
             
             {/* Desktop Navigation - Center column (true centered) */}
