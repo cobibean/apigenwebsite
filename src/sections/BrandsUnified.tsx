@@ -191,18 +191,18 @@ function BrandFlipCard({ brand }: { brand: Brand }) {
 
         {/* Back side */}
         <div
-          className="absolute inset-0 flex h-full flex-col rounded-[24px] border border-(--border)/60 bg-(--card) px-7 py-7 text-left md:px-8 md:py-8"
+          className="absolute inset-0 flex h-full flex-col overflow-hidden rounded-[24px] border border-(--border)/60 bg-(--card) px-5 py-5 text-left sm:px-7 sm:py-7 md:px-8 md:py-8"
           style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <div className="flex flex-col gap-4">
             <h3
-              className="text-xl font-semibold leading-snug text-(--primary) md:text-2xl"
+              className="text-lg font-semibold leading-snug text-(--primary) sm:text-xl md:text-2xl"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {displayHeading}
             </h3>
             <p
-              className="text-base leading-[1.6] text-(--primary)/75"
+              className="text-sm leading-[1.55] text-(--primary)/75 line-clamp-4 sm:text-base sm:leading-[1.6]"
               style={{ fontFamily: "var(--font-body)" }}
             >
               {displayBody}
