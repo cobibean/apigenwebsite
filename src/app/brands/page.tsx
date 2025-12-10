@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import CraftBrandSection from "@/sections/CraftBrandSection";
 import MissionBrandSection from "@/sections/MissionBrandSection";
+import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { brands } from "@/data/brands";
+import { galleryImages } from "@/data/gallery";
 
 export const metadata: Metadata = {
   title: "Brands | Apigen",
@@ -32,6 +34,15 @@ export default function BrandsPage() {
       {otherBrands.filter(Boolean).map((brand) => (
         <MissionBrandSection key={brand!.id} brand={brand!} />
       ))}
+      <div className="pt-8 pb-16 md:pt-12 md:pb-20">
+        <ProductCarousel3D
+          images={galleryImages}
+          autoPlay
+          autoPlayDelay={4000}
+          dotsSpacing="bottom-6"
+          buttonSpacing="pt-2"
+        />
+      </div>
     </div>
   );
 }
