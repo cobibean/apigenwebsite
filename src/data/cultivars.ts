@@ -165,24 +165,8 @@ export const cultivars: Strain[] = [
         alt: "Premium Dante's Inferno reserve dried flower presentation",
       },
       {
-        src: "/cultivars/dantes-inferno/wide_close_up_flower_1.jpeg",
-        alt: "Dante's Inferno cultivation excellence and quality showcase",
-      },
-      {
-        src: "/cultivars/dantes-inferno/wide_grow_room_2.jpeg",
-        alt: "Dante's Inferno growing environment",
-      },
-      {
-        src: "/cultivars/dantes-inferno/wide_grow_room_3.jpeg",
-        alt: "Professional grow room showcasing Dante's Inferno cultivation",
-      },
-      {
         src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.11.jpeg",
         alt: "Dante's Inferno cannabis flower detail shot",
-      },
-      {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.22.jpeg",
-        alt: "Premium Dante's Inferno flower presentation",
       },
       {
         src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.35.jpeg",

@@ -91,28 +91,8 @@ export const galleryImages: GalleryImage[] = [
     category: "dantes-inferno",
   },
   {
-    src: "/cultivars/dantes-inferno/wide_close_up_flower_1.jpeg",
-    alt: "Wide-angle close-up of Dante's Inferno flower",
-    category: "dantes-inferno",
-  },
-  {
-    src: "/cultivars/dantes-inferno/wide_grow_room_2.jpeg",
-    alt: "Dante's Inferno growing environment",
-    category: "dantes-inferno",
-  },
-  {
-    src: "/cultivars/dantes-inferno/wide_grow_room_3.jpeg",
-    alt: "Professional grow room showcasing Dante's Inferno cultivation",
-    category: "dantes-inferno",
-  },
-  {
     src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.11.jpeg",
     alt: "Dante's Inferno cannabis flower detail shot",
-    category: "dantes-inferno",
-  },
-  {
-    src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.22.jpeg",
-    alt: "Premium Dante's Inferno flower presentation",
     category: "dantes-inferno",
   },
   {
