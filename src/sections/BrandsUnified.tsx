@@ -20,7 +20,7 @@ export default function BrandsUnified({ preview }: Props) {
     <section className="py-10 md:py-14 bg-(--surface-olive)">
       <div className="container mx-auto px-4">
         {/* Hero Section - Typography matched to MissionSection_1 */}
-        <div className="text-center mb-8 md:mb-10">
+        <div className="text-center mb-10">
           <Appear preview={preview}>
             <p
               className="text-sm mb-4 [color:color-mix(in_oklab,white_78%,transparent)]"
