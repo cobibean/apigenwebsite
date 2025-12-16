@@ -14,6 +14,7 @@ type ImageRow = {
   width: number | null;
   height: number | null;
   created_at: string;
+  previewUrl?: string;
 };
 
 type CarouselItemRow = {
@@ -26,6 +27,14 @@ type CarouselItemJoinRow = {
   id: string;
   sort_order: number;
   image: ImageRow | null;
+};
+
+type PendingUpload = {
+  id: string;
+  file: File;
+  altText: string;
+  previewUrl: string;
+  previewDims: { width: number; height: number } | null;
 };
 
 function encodeObjectPath(objectPath: string) {
@@ -44,6 +53,17 @@ function sanitizeObjectKeyPart(input: string) {
     .trim()
     .replace(/\s+/g, "-")
     .replace(/[^a-zA-Z0-9._-]/g, "");
+}
+
+const PENDING_PREFIX = "pending-";
+
+function createPendingId() {
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${PENDING_PREFIX}${Date.now()}-${suffix}`;
+}
+
+function isPendingId(id: string) {
+  return id.startsWith(PENDING_PREFIX);
 }
 
 async function getImageDimensions(file: File): Promise<{ width: number; height: number } | null> {
@@ -75,6 +95,8 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   const [error, setError] = useState<string | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [originalOrder, setOriginalOrder] = useState<string[]>([]);
+  const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
+  const [isSavingChanges, setIsSavingChanges] = useState(false);
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadAlt, setUploadAlt] = useState("");
@@ -87,6 +109,7 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     width?: number;
     height?: number;
   } | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   function ordersEqual(a: string[], b: string[]) {
     if (a.length !== b.length) return false;
@@ -152,14 +175,14 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   }, [carouselId]);
 
   useEffect(() => {
-    if (!hasUnsavedChanges) return;
+    if (!hasUnsavedChanges && pendingUploads.length === 0) return;
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = "";
     };
     window.addEventListener("beforeunload", onBeforeUnload);
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  }, [hasUnsavedChanges]);
+  }, [hasUnsavedChanges, pendingUploads.length]);
 
   useEffect(() => {
     let cancelled = false;
@@ -211,21 +234,80 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
   async function persistOrder(nextItems: CarouselItemRow[]) {
     if (!supabase) return;
+    const updates = nextItems
+      .map((it, idx) => ({ id: it.id, sort_order: idx }))
+      .filter(({ id }) => !isPendingId(id));
+    for (const { id, sort_order } of updates) {
+      const { error: updateErr } = await supabase.from("carousel_items").update({ sort_order }).eq("id", id);
+      if (updateErr) throw updateErr;
+    }
+    setItems(nextItems.map((it, idx) => ({ ...it, sort_order: idx })));
+    await loadAll();
+  }
+
+  async function uploadPendingImages(pendingList: PendingUpload[], snapshot: CarouselItemRow[]) {
+    if (!supabase) return;
+    if (!pendingList.length) return;
+    const bucket = "carousel-images";
+    for (const pendingItem of pendingList) {
+      const sortOrder = snapshot.findIndex((item) => item.id === pendingItem.id);
+      if (sortOrder < 0) continue;
+      const key = `${carouselSlug}/${Date.now()}-${sanitizeObjectKeyPart(pendingItem.file.name)}`;
+      const { error: uploadErr } = await supabase.storage.from(bucket).upload(key, pendingItem.file, {
+        contentType: pendingItem.file.type,
+        upsert: false,
+      });
+      if (uploadErr) throw uploadErr;
+
+      const insertPayload = {
+        bucket,
+        path: key,
+        alt_text: pendingItem.altText,
+        mime_type: pendingItem.file.type || null,
+        byte_size: pendingItem.file.size || null,
+        width: pendingItem.previewDims?.width ?? null,
+        height: pendingItem.previewDims?.height ?? null,
+      };
+
+      const { data: imgRow, error: imgErr } = await supabase
+        .from("images")
+        .insert(insertPayload)
+        .select("id")
+        .single();
+      if (imgErr) throw imgErr;
+
+      const { error: itemErr } = await supabase.from("carousel_items").insert({
+        carousel_id: carouselId,
+        image_id: imgRow.id,
+        sort_order: sortOrder,
+      });
+      if (itemErr) throw itemErr;
+    }
+  }
+
+  async function saveChanges() {
+    if (!supabase) return;
+    if (!hasUnsavedChanges && pendingUploads.length === 0) return;
+    const pendingSnapshot = [...pendingUploads];
+    const itemSnapshot = [...items];
     setMutating(true);
+    setIsSavingChanges(true);
     setError(null);
     try {
-      const updates = nextItems.map((it, idx) => ({ id: it.id, sort_order: idx }));
-      for (const { id, sort_order } of updates) {
-        const { error: updateErr } = await supabase.from("carousel_items").update({ sort_order }).eq("id", id);
-        if (updateErr) throw updateErr;
+      if (pendingSnapshot.length) {
+        await uploadPendingImages(pendingSnapshot, itemSnapshot);
       }
-      setItems(nextItems.map((it, idx) => ({ ...it, sort_order: idx })));
-      await loadAll();
+      await persistOrder(itemSnapshot);
+      if (pendingSnapshot.length) {
+        pendingSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
+        setPendingUploads([]);
+      }
     } catch (e: unknown) {
       console.error(e);
-      setError(e instanceof Error ? e.message : "Failed to reorder.");
+      setError(e instanceof Error ? e.message : "Failed to save changes.");
     } finally {
       setMutating(false);
+      setIsSavingChanges(false);
     }
   }
 
@@ -319,72 +401,59 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   }
 
   async function uploadAndAdd() {
-    if (!supabase) return;
-    if (hasUnsavedChanges) {
-      if (!confirm("You have unsaved order changes. Discard them and continue?")) return;
-      await loadAll();
-    }
+    setUploadError(null);
     if (!uploadFile) {
-      setError("Choose a file to upload.");
+      setUploadError("Choose a file to upload.");
       return;
     }
     const alt = uploadAlt.trim();
     if (alt.length < 8) {
-      setError("Alt text is required (min ~8 characters).");
+      setUploadError("Alt text is required (min ~8 characters).");
       return;
     }
 
-    setMutating(true);
     setError(null);
-    try {
-      const bucket = "carousel-images";
-      const key = `${carouselSlug}/${Date.now()}-${sanitizeObjectKeyPart(uploadFile.name)}`;
-      const dims = await getImageDimensions(uploadFile);
+    const pendingId = createPendingId();
+    const dims = await getImageDimensions(uploadFile);
+    const pendingPreviewUrl = URL.createObjectURL(uploadFile);
 
-      const { error: uploadErr } = await supabase.storage.from(bucket).upload(key, uploadFile, {
-        contentType: uploadFile.type,
-        upsert: false,
-      });
-      if (uploadErr) throw uploadErr;
-
-      const insertPayload: Partial<ImageRow> & { bucket: string; path: string; alt_text: string } = {
-        bucket,
-        path: key,
-        alt_text: alt,
-        mime_type: uploadFile.type || null,
-        byte_size: uploadFile.size || null,
-        width: dims?.width ?? null,
-        height: dims?.height ?? null,
+    setItems((prev) => {
+      const nextRow: CarouselItemRow = {
+        id: pendingId,
+        sort_order: prev.length,
+        image: {
+          id: pendingId,
+          bucket: "",
+          path: "",
+          alt_text: alt,
+          mime_type: uploadFile.type || null,
+          byte_size: uploadFile.size || null,
+          width: dims?.width ?? null,
+          height: dims?.height ?? null,
+          created_at: new Date().toISOString(),
+          previewUrl: pendingPreviewUrl,
+        },
       };
-
-      const { data: imgRow, error: imgErr } = await supabase
-        .from("images")
-        .insert(insertPayload)
-        .select("id")
-        .single();
-      if (imgErr) throw imgErr;
-
-      const { error: itemErr } = await supabase.from("carousel_items").insert({
-        carousel_id: carouselId,
-        image_id: imgRow.id,
-        sort_order: items.length,
-      });
-      if (itemErr) throw itemErr;
-
-      setUploadFile(null);
-      setUploadAlt("");
-      setUploadPreviewUrl((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return null;
-      });
-      setUploadPreviewDims(null);
-      await loadAll();
-    } catch (e: unknown) {
-      console.error(e);
-      setError(e instanceof Error ? e.message : "Upload failed.");
-    } finally {
-      setMutating(false);
-    }
+      return [...prev, nextRow];
+    });
+    setPendingUploads((prev) => [
+      ...prev,
+      {
+        id: pendingId,
+        file: uploadFile,
+        altText: alt,
+        previewUrl: pendingPreviewUrl,
+        previewDims: dims ?? null,
+      },
+    ]);
+    setUploadFile(null);
+    setUploadAlt("");
+    setUploadPreviewUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
+    setUploadPreviewDims(null);
+    setHasUnsavedChanges(true);
   }
 
   if (loading) {
@@ -419,7 +488,8 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
         <div className="mt-4 space-y-3">
           {items.map((it) => {
-            const src = buildPublicUrl(supabaseUrl, it.image.bucket, it.image.path);
+            const hasPublicSource = Boolean(it.image.bucket && it.image.path);
+            const src = it.image.previewUrl ?? (hasPublicSource ? buildPublicUrl(supabaseUrl, it.image.bucket, it.image.path) : "");
             return (
               <motion.div
                 key={it.id}
@@ -497,31 +567,50 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
         </div>
       </div>
 
-      {hasUnsavedChanges ? (
-        <div className="fixed inset-x-0 bottom-4 z-[1000] px-4">
-          <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 rounded-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur">
-            <div className="text-sm text-foreground">You have unsaved changes</div>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                disabled={mutating}
-                onClick={() => void loadAll()}
-                className="rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground disabled:opacity-50"
-              >
-                Discard
-              </button>
-              <button
-                type="button"
-                disabled={mutating}
-                onClick={() => void persistOrder(items)}
-                className="rounded-xl bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50"
-              >
-                Save order
-              </button>
+      {(() => {
+        const hasPendingChanges = hasUnsavedChanges || pendingUploads.length > 0;
+        if (!hasPendingChanges) return null;
+        const statusMessage = pendingUploads.length ? "New uploads staged" : "You have unsaved changes";
+        return (
+          <div className="fixed inset-x-0 bottom-4 z-[1000] px-4">
+            <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 rounded-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur">
+              <div className="text-sm text-foreground">{statusMessage}</div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={mutating}
+                  onClick={() => {
+                    const pendingSnapshot = [...pendingUploads];
+                    if (pendingSnapshot.length) {
+                      pendingSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
+                      setPendingUploads([]);
+                    }
+                    void loadAll();
+                  }}
+                  className="rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground disabled:opacity-50"
+                >
+                  Discard
+                </button>
+                <button
+                  type="button"
+                  disabled={mutating}
+                  onClick={() => void saveChanges()}
+                  className="rounded-xl bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+                >
+                  {isSavingChanges ? (
+                    <div className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.4em]">
+                      <span className="inline-block h-3 w-3 animate-spin rounded-full border border-primary-foreground border-t-transparent" />
+                      Updating to Database
+                    </div>
+                  ) : (
+                    "Save changes"
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        );
+      })()}
 
       <div className="rounded-2xl border border-border bg-card p-6">
         <h2 className="text-lg font-semibold text-foreground">Upload new image</h2>
@@ -542,32 +631,37 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
                   alt="Selected upload preview"
                   className="h-32 w-auto rounded-xl border border-border bg-background object-contain"
                 />
-                {uploadPreviewDims ? (
-                  <div className="text-xs text-secondary font-mono">
-                    {uploadPreviewDims.width}×{uploadPreviewDims.height}
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </label>
-          <label className="block text-sm text-foreground">
-            Alt text
-            <input
-              value={uploadAlt}
-              onChange={(e) => setUploadAlt(e.target.value)}
-              placeholder="e.g. Cadillac Rainbow premium cannabis flower close-up"
-              className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/40"
-            />
+              {uploadPreviewDims ? (
+                <div className="text-xs text-secondary font-mono">
+                  {uploadPreviewDims.width}×{uploadPreviewDims.height}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </label>
+        <label className="block text-sm text-foreground">
+          Alt text
+          <input
+            value={uploadAlt}
+            onChange={(e) => setUploadAlt(e.target.value)}
+            placeholder="e.g. Cadillac Rainbow premium cannabis flower close-up"
+            className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/40"
+          />
           <div className="mt-2 text-xs text-secondary">
             Tip: write what you’d say to someone who can’t see the image. Keep it descriptive and natural.
           </div>
-          </label>
+        </label>
+      </div>
+      {uploadError ? (
+        <div className="mt-2 rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-xs text-red-500">
+          {uploadError}
         </div>
+      ) : null}
         <button
           type="button"
           disabled={mutating || !uploadFile}
           onClick={() => void uploadAndAdd()}
-          className="mt-4 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+          className="mt-4 rounded-xl border border-border bg-primary/90 px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:border-primary focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:outline-none disabled:opacity-50"
         >
           Upload and add
         </button>
