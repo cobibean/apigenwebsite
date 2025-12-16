@@ -3,14 +3,15 @@ import ProductShowcase from "@/sections/ProductShowcase";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { cultivars, cultivarsContent } from "@/data/cultivars";
 import { galleryImages } from "@/data/gallery";
-import GlassEffect from "@/components/ui/liquid-glass";
+import { getCarouselImagesBySlugWithFallback } from "@/lib/carousels";
 
 export const metadata: Metadata = {
   title: cultivarsContent.pageTitle,
   description: cultivarsContent.pageDescription,
 };
 
-export default function CultivarsPage() {
+export default async function CultivarsPage() {
+  const images = await getCarouselImagesBySlugWithFallback("cultivars-main", galleryImages);
   return (
     <div className="relative isolate overflow-hidden bg-background text-foreground">
       {/* Viewport-fixed background washes */}
@@ -46,7 +47,7 @@ export default function CultivarsPage() {
       {/* Cultivar Carousel */}
       <div className="pt-4 pb-16 md:pt-16">
         <ProductCarousel3D
-          images={galleryImages}
+          images={images}
           autoPlay={true}
           autoPlayDelay={4000}
         />

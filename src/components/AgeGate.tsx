@@ -2,23 +2,32 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import Appear from "@/components/motion/Appear";
 
 const STORAGE_KEY = "apigen-age-verified";
 
 export default function AgeGate() {
+  const pathname = usePathname();
+  const isAdminRoute = pathname?.startsWith("/admin");
   const [needsGate, setNeedsGate] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    if (isAdminRoute) {
+      setNeedsGate(false);
+      setHydrated(true);
+      return;
+    }
     const stored = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
     if (stored !== "true") {
       setNeedsGate(true);
     }
     setHydrated(true);
-  }, []);
+  }, [isAdminRoute]);
 
   useEffect(() => {
+    if (isAdminRoute) return;
     if (!hydrated) return;
     const originalOverflow = document.documentElement.style.overflow;
     if (needsGate) {
@@ -29,7 +38,11 @@ export default function AgeGate() {
     return () => {
       document.documentElement.style.overflow = originalOverflow || "";
     };
-  }, [needsGate, hydrated]);
+  }, [isAdminRoute, needsGate, hydrated]);
+
+  if (isAdminRoute) {
+    return null;
+  }
 
   if (!hydrated || !needsGate) {
     return null;

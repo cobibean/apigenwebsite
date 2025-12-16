@@ -165,51 +165,51 @@ export const cultivars: Strain[] = [
         alt: "Premium Dante's Inferno reserve dried flower presentation",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.11.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-01.jpeg",
         alt: "Dante's Inferno cannabis flower detail shot",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.35.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-02.jpeg",
         alt: "Dante's Inferno quality showcase",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.17.47.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-03.jpeg",
         alt: "Detailed view of Dante's Inferno buds",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.05.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-04.jpeg",
         alt: "Dante's Inferno flower close examination",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.19.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-05.jpeg",
         alt: "Premium dried Dante's Inferno flower",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.35.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-06.jpeg",
         alt: "Dante's Inferno cultivation excellence",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.18.47.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-07.jpeg",
         alt: "High-quality Dante's Inferno flower",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.14.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-08.jpeg",
         alt: "Dante's Inferno premium reserve flower",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.26.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-09.jpeg",
         alt: "Detailed Dante's Inferno flower structure",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.37.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-10.jpeg",
         alt: "Dante's Inferno quality inspection",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.19.48.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-11.jpeg",
         alt: "Premium Dante's Inferno dried flower",
       },
       {
-        src: "/cultivars/dantes-inferno/WhatsApp Image 2025-10-23 at 12.20.09.jpeg",
+        src: "/cultivars/dantes-inferno/dantes-inferno-12.jpeg",
         alt: "Dante's Inferno flower excellence",
       },
     ],

@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { Strain } from "@/data/cultivars";
 import AppImage from "@/components/AppImage";
 import ProductCarousel3DLandscape from "@/components/ProductCarousel3DLandscape";
 import Appear from "@/components/motion/Appear";
+import { getCarouselImagesBySlugWithFallback } from "@/lib/carousels";
 
 interface ProductShowcaseProps {
   strain: Strain;
@@ -49,6 +50,7 @@ export default function ProductShowcase({
   cardBorderColor = "default",
 }: ProductShowcaseProps) {
   const isImageLeft = layoutDirection === "left";
+  const [supportingImages, setSupportingImages] = useState(strain.images.slice(0, 3));
 
   // Determine section background
   const sectionBg = sectionBgColor === "olive" ? "bg-[#545943]" : "bg-background";
@@ -63,6 +65,21 @@ export default function ProductShowcase({
   
   // Determine chemistry/terpenes card border
   const cardBorder = cardBorderColor === "copper" ? "border-[#AE5521]" : cardBorderColor === "black" ? "border-black" : "border-border";
+
+  useEffect(() => {
+    let cancelled = false;
+    const slug = `cultivar-${strain.id}-supporting`;
+
+    async function load() {
+      const images = await getCarouselImagesBySlugWithFallback(slug, strain.images.slice(0, 3));
+      if (!cancelled) setSupportingImages(images);
+    }
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [strain.id, strain.images]);
 
   return (
     <section
@@ -244,10 +261,10 @@ export default function ProductShowcase({
             </div>
 
             {/* Product Image Carousel - limited to 3 images per strain (task 8) */}
-            {!hideSupporting && strain.images.length > 0 && (
+            {!hideSupporting && supportingImages.length > 0 && (
               <div className="mt-12 md:mt-16">
                 <ProductCarousel3DLandscape
-                  images={strain.images.slice(0, 3)}
+                  images={supportingImages}
                   autoPlay={true}
                   autoPlayDelay={5000}
                   dotsSpacing="bottom-4"

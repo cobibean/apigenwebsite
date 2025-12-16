@@ -4,23 +4,19 @@ import MissionSection_1 from "@/sections/MissionSection_1";
 import AboutStory from "@/sections/AboutStory";
 import BrandsUnified from "@/sections/BrandsUnified";
 import { aboutContent } from "@/data/about";
-import ProductShowcase from "@/sections/ProductShowcase";
-import { cultivars } from "@/data/cultivars";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { galleryImages } from "@/data/gallery";
 import CTA from "@/sections/CTA";
 import { homeContent } from "@/data/home";
+import { getCarouselImagesBySlugWithFallback } from "@/lib/carousels";
 
 export const metadata: Metadata = {
   title: homeContent.metadata.title,
   description: homeContent.metadata.description,
 };
 
-export default function Home() {
-  // Get cultivars for showcases based on configured IDs
-  const showcaseCultivars = homeContent.productShowcases.productIds
-    .map(id => cultivars.find(p => p.id === id))
-    .filter(Boolean);
+export default async function Home() {
+  const imagesPromise = getCarouselImagesBySlugWithFallback("home-main", galleryImages);
 
   return (
     <>
@@ -61,7 +57,7 @@ export default function Home() {
 
       {/* ProductCarousel3D - Props passed explicitly (visual editor pattern) */}
       <ProductCarousel3D
-        images={galleryImages}
+        images={await imagesPromise}
         autoPlay={true}
         autoPlayDelay={4000}
         dotsSpacing="bottom-6"

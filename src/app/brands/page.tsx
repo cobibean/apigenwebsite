@@ -4,6 +4,7 @@ import MissionBrandSection from "@/sections/MissionBrandSection";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
 import { brands } from "@/data/brands";
 import { galleryImages } from "@/data/gallery";
+import { getCarouselImagesBySlugWithFallback } from "@/lib/carousels";
 
 export const metadata: Metadata = {
   title: "Brands | Apigen",
@@ -11,8 +12,9 @@ export const metadata: Metadata = {
     "Discover Cannada Craft and Mission, Apigen's premium dried flower brands crafted in British Columbia for global export partners and local retail markets.",
 };
 
-export default function BrandsPage() {
+export default async function BrandsPage() {
   const [primaryBrand, ...otherBrands] = brands;
+  const images = await getCarouselImagesBySlugWithFallback("brands-main", galleryImages);
 
   return (
     <div className="hero-bleed relative isolate min-h-screen overflow-hidden bg-background text-foreground">
@@ -36,7 +38,7 @@ export default function BrandsPage() {
       ))}
       <div className="pt-8 pb-16 md:pt-12 md:pb-20">
         <ProductCarousel3D
-          images={galleryImages}
+          images={images}
           autoPlay
           autoPlayDelay={4000}
           dotsSpacing="bottom-6"
