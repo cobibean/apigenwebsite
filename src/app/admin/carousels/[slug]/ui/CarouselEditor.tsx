@@ -37,6 +37,12 @@ type PendingUpload = {
   previewDims: { width: number; height: number } | null;
 };
 
+type PendingUploadResult = {
+  pendingId: string;
+  carouselItemId: string;
+  imageId: string;
+};
+
 function encodeObjectPath(objectPath: string) {
   return objectPath
     .split("/")
@@ -246,12 +252,15 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   }
 
   async function uploadPendingImages(pendingList: PendingUpload[], snapshot: CarouselItemRow[]) {
-    if (!supabase) return;
-    if (!pendingList.length) return;
+    if (!supabase) return [];
+    if (!pendingList.length) return [];
     const bucket = "carousel-images";
-    for (const pendingItem of pendingList) {
-      const sortOrder = snapshot.findIndex((item) => item.id === pendingItem.id);
-      if (sortOrder < 0) continue;
+    const existingCount = snapshot.filter((item) => !isPendingId(item.id)).length;
+    const result: PendingUploadResult[] = [];
+
+    for (let idx = 0; idx < pendingList.length; idx++) {
+      const pendingItem = pendingList[idx];
+      const sortOrder = existingCount + idx;
       const key = `${carouselSlug}/${Date.now()}-${sanitizeObjectKeyPart(pendingItem.file.name)}`;
       const { error: uploadErr } = await supabase.storage.from(bucket).upload(key, pendingItem.file, {
         contentType: pendingItem.file.type,
@@ -274,15 +283,33 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
         .insert(insertPayload)
         .select("id")
         .single();
-      if (imgErr) throw imgErr;
+      if (imgErr || !imgRow?.id) {
+        throw imgErr || new Error("Failed to insert image record.");
+      }
 
-      const { error: itemErr } = await supabase.from("carousel_items").insert({
-        carousel_id: carouselId,
-        image_id: imgRow.id,
-        sort_order: sortOrder,
-      });
+      const { data: itemRow, error: itemErr } = await supabase
+        .from("carousel_items")
+        .insert({
+          carousel_id: carouselId,
+          image_id: imgRow.id,
+          sort_order: sortOrder,
+        })
+        .select("id")
+        .single();
       if (itemErr) throw itemErr;
+
+      if (!itemRow?.id) {
+        throw new Error("Failed to insert carousel item row.");
+      }
+
+      result.push({
+        pendingId: pendingItem.id,
+        carouselItemId: itemRow.id,
+        imageId: imgRow.id,
+      });
     }
+
+    return result;
   }
 
   async function saveChanges() {
@@ -294,10 +321,20 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     setIsSavingChanges(true);
     setError(null);
     try {
+      let resolvedSnapshot = itemSnapshot;
       if (pendingSnapshot.length) {
-        await uploadPendingImages(pendingSnapshot, itemSnapshot);
+        const uploadResults = await uploadPendingImages(pendingSnapshot, itemSnapshot);
+        if (uploadResults.length) {
+          const uploadMap = new Map(uploadResults.map((res) => [res.pendingId, res.carouselItemId]));
+          resolvedSnapshot = itemSnapshot.map((item) => {
+            if (!isPendingId(item.id)) return item;
+            const resolvedId = uploadMap.get(item.id);
+            if (!resolvedId) return item;
+            return { ...item, id: resolvedId };
+          });
+        }
       }
-      await persistOrder(itemSnapshot);
+      await persistOrder(resolvedSnapshot);
       if (pendingSnapshot.length) {
         pendingSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
         setPendingUploads([]);
