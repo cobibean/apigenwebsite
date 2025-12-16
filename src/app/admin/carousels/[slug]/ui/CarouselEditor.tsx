@@ -198,6 +198,17 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [previewImage]);
 
+  useEffect(() => {
+    if (!showLibrary) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowLibrary(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showLibrary]);
+
   async function persistOrder(nextItems: CarouselItemRow[]) {
     if (!supabase) return;
     setMutating(true);
@@ -399,10 +410,10 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
           <h2 className="text-lg font-semibold text-foreground">Images in carousel</h2>
           <button
             type="button"
-            onClick={() => setShowLibrary((v) => !v)}
+            onClick={() => setShowLibrary(true)}
             className="rounded-xl border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-card"
           >
-            {showLibrary ? "Close library" : "Add existing"}
+            Add existing
           </button>
         </div>
 
@@ -562,56 +573,80 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
         </button>
       </div>
 
+      <div className="mt-4 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setShowLibrary(true)}
+          className="rounded-xl border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-card"
+        >
+          Add existing from library
+        </button>
+      </div>
+
       {showLibrary ? (
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-lg font-semibold text-foreground">Image library</h2>
-            <button
-              type="button"
-              onClick={() => setShowLibrary(false)}
-              className="rounded-xl border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-card"
-            >
-              Close
-            </button>
-          </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {library.map((img) => {
-              const src = buildPublicUrl(supabaseUrl, img.bucket, img.path);
-              const inCarousel = items.some((it) => it.image.id === img.id);
-              return (
-                <motion.div
-                  key={img.id}
-                  layout
-                  transition={{ type: "spring", stiffness: 520, damping: 42, mass: 0.9 }}
-                  className="rounded-2xl border border-border bg-background p-3"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={src}
-                    alt={img.alt_text}
-                    className="h-28 w-full rounded-xl object-cover border border-border bg-card cursor-pointer"
-                    loading="lazy"
-                    onClick={() =>
-                      setPreviewImage({
-                        src,
-                        alt: img.alt_text,
-                        width: img.width ?? undefined,
-                        height: img.height ?? undefined,
-                      })
-                    }
-                  />
-                  <div className="mt-2 text-xs text-secondary line-clamp-2">{img.alt_text}</div>
-                  <button
-                    type="button"
-                    disabled={mutating || inCarousel}
-                    onClick={() => void addExisting(img.id)}
-                    className="mt-3 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-50"
-                  >
-                    {inCarousel ? "Already in carousel" : "Add to carousel"}
-                  </button>
-                </motion.div>
-              );
-            })}
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[9000] flex items-center justify-center px-4 py-6"
+        >
+          <div
+            className="absolute inset-0 bg-white/90 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.currentTarget === e.target) setShowLibrary(false);
+            }}
+          />
+          <div className="relative w-full max-w-5xl space-y-4 overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-2xl">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-lg font-semibold text-foreground">Image library</h2>
+              <button
+                type="button"
+                onClick={() => setShowLibrary(false)}
+                className="rounded-xl border border-border bg-background px-4 py-2 text-sm text-foreground hover:bg-card"
+              >
+                Close
+              </button>
+            </div>
+            <div className="max-h-[70vh] overflow-y-auto">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {library.map((img) => {
+                  const src = buildPublicUrl(supabaseUrl, img.bucket, img.path);
+                  const inCarousel = items.some((it) => it.image.id === img.id);
+                  return (
+                    <motion.div
+                      key={img.id}
+                      layout
+                      transition={{ type: "spring", stiffness: 520, damping: 42, mass: 0.9 }}
+                      className="rounded-2xl border border-border bg-background p-3"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt={img.alt_text}
+                        className="h-28 w-full rounded-xl object-cover border border-border bg-card cursor-pointer"
+                        loading="lazy"
+                        onClick={() =>
+                          setPreviewImage({
+                            src,
+                            alt: img.alt_text,
+                            width: img.width ?? undefined,
+                            height: img.height ?? undefined,
+                          })
+                        }
+                      />
+                      <div className="mt-2 text-xs text-secondary line-clamp-2">{img.alt_text}</div>
+                      <button
+                        type="button"
+                        disabled={mutating || inCarousel}
+                        onClick={() => void addExisting(img.id)}
+                        className="mt-3 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-50"
+                      >
+                        {inCarousel ? "Already in carousel" : "Add to carousel"}
+                      </button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       ) : null}
