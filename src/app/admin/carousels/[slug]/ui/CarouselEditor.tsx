@@ -43,6 +43,11 @@ type PendingUploadResult = {
   imageId: string;
 };
 
+type PendingExisting = {
+  pendingId: string;
+  image: ImageRow;
+};
+
 function encodeObjectPath(objectPath: string) {
   return objectPath
     .split("/")
@@ -102,6 +107,7 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [originalOrder, setOriginalOrder] = useState<string[]>([]);
   const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
+  const [pendingExisting, setPendingExisting] = useState<PendingExisting[]>([]);
   const [isSavingChanges, setIsSavingChanges] = useState(false);
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -167,6 +173,8 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
       if (libError) throw libError;
       setLibrary((libData as ImageRow[]) || []);
+      setPendingUploads([]);
+      setPendingExisting([]);
     } catch (e: unknown) {
       console.error(e);
       setError(e instanceof Error ? e.message : "Failed to load carousel data.");
@@ -181,7 +189,7 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   }, [carouselId]);
 
   useEffect(() => {
-    if (!hasUnsavedChanges && pendingUploads.length === 0) return;
+    if (!hasUnsavedChanges && pendingUploads.length === 0 && pendingExisting.length === 0) return;
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = "";
@@ -312,32 +320,68 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     return result;
   }
 
+  async function insertPendingExisting(pendingList: PendingExisting[]) {
+    if (!supabase) return [];
+    if (!pendingList.length) return [];
+    const result: PendingUploadResult[] = [];
+
+    for (const pendingItem of pendingList) {
+      const { data: itemRow, error: itemErr } = await supabase
+        .from("carousel_items")
+        .insert({
+          carousel_id: carouselId,
+          image_id: pendingItem.image.id,
+          sort_order: 0,
+        })
+        .select("id")
+        .single();
+      if (itemErr || !itemRow?.id) {
+        throw itemErr || new Error("Failed to insert carousel item row.");
+      }
+      result.push({
+        pendingId: pendingItem.pendingId,
+        carouselItemId: itemRow.id,
+        imageId: pendingItem.image.id,
+      });
+    }
+
+    return result;
+  }
+
   async function saveChanges() {
     if (!supabase) return;
-    if (!hasUnsavedChanges && pendingUploads.length === 0) return;
-    const pendingSnapshot = [...pendingUploads];
+    if (!hasUnsavedChanges && pendingUploads.length === 0 && pendingExisting.length === 0) return;
+    const pendingUploadSnapshot = [...pendingUploads];
+    const pendingExistingSnapshot = [...pendingExisting];
     const itemSnapshot = [...items];
     setMutating(true);
     setIsSavingChanges(true);
     setError(null);
     try {
       let resolvedSnapshot = itemSnapshot;
-      if (pendingSnapshot.length) {
-        const uploadResults = await uploadPendingImages(pendingSnapshot, itemSnapshot);
-        if (uploadResults.length) {
-          const uploadMap = new Map(uploadResults.map((res) => [res.pendingId, res.carouselItemId]));
-          resolvedSnapshot = itemSnapshot.map((item) => {
-            if (!isPendingId(item.id)) return item;
-            const resolvedId = uploadMap.get(item.id);
-            if (!resolvedId) return item;
-            return { ...item, id: resolvedId };
-          });
-        }
+      const uploadResults = pendingUploadSnapshot.length
+        ? await uploadPendingImages(pendingUploadSnapshot, itemSnapshot)
+        : [];
+      const existingResults = pendingExistingSnapshot.length
+        ? await insertPendingExisting(pendingExistingSnapshot)
+        : [];
+      const allResults = [...uploadResults, ...existingResults];
+      if (allResults.length) {
+        const uploadMap = new Map(allResults.map((res) => [res.pendingId, res.carouselItemId]));
+        resolvedSnapshot = itemSnapshot.map((item) => {
+          if (!isPendingId(item.id)) return item;
+          const resolvedId = uploadMap.get(item.id);
+          if (!resolvedId) return item;
+          return { ...item, id: resolvedId };
+        });
       }
       await persistOrder(resolvedSnapshot);
-      if (pendingSnapshot.length) {
-        pendingSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
+      if (pendingUploadSnapshot.length) {
+        pendingUploadSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
         setPendingUploads([]);
+      }
+      if (pendingExistingSnapshot.length) {
+        setPendingExisting([]);
       }
     } catch (e: unknown) {
       console.error(e);
@@ -411,30 +455,22 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     }
   }
 
-  async function addExisting(imageId: string) {
-    if (!supabase) return;
+  async function addExisting(image: ImageRow) {
     if (hasUnsavedChanges) {
       if (!confirm("You have unsaved order changes. Discard them and continue?")) return;
+      pendingUploads.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
+      setPendingUploads([]);
+      setPendingExisting([]);
       await loadAll();
     }
-    setMutating(true);
-    setError(null);
-    try {
-      const sortOrder = items.length;
-      const { error: insErr } = await supabase.from("carousel_items").insert({
-        carousel_id: carouselId,
-        image_id: imageId,
-        sort_order: sortOrder,
-      });
-      if (insErr) throw insErr;
-      await loadAll();
-      setShowLibrary(false);
-    } catch (e: unknown) {
-      console.error(e);
-      setError(e instanceof Error ? e.message : "Failed to add image to carousel.");
-    } finally {
-      setMutating(false);
-    }
+    const pendingId = createPendingId();
+    setItems((prev) => [
+      ...prev,
+      { id: pendingId, sort_order: prev.length, image },
+    ]);
+    setPendingExisting((prev) => [...prev, { pendingId, image }]);
+    setHasUnsavedChanges(true);
+    setShowLibrary(false);
   }
 
   async function uploadAndAdd() {
@@ -605,9 +641,14 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
       </div>
 
       {(() => {
-        const hasPendingChanges = hasUnsavedChanges || pendingUploads.length > 0;
+        const hasPendingChanges =
+          hasUnsavedChanges || pendingUploads.length > 0 || pendingExisting.length > 0;
         if (!hasPendingChanges) return null;
-        const statusMessage = pendingUploads.length ? "New uploads staged" : "You have unsaved changes";
+        const statusMessage = pendingUploads.length
+          ? "New uploads staged"
+          : pendingExisting.length
+          ? "New library images staged"
+          : "You have unsaved changes";
         return (
           <div className="fixed inset-x-0 bottom-4 z-[1000] px-4">
             <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 rounded-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur">
@@ -621,6 +662,9 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
                     if (pendingSnapshot.length) {
                       pendingSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
                       setPendingUploads([]);
+                    }
+                    if (pendingExisting.length) {
+                      setPendingExisting([]);
                     }
                     void loadAll();
                   }}
@@ -765,12 +809,12 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
                         }
                       />
                       <div className="mt-2 text-xs text-secondary line-clamp-2">{img.alt_text}</div>
-                      <button
-                        type="button"
-                        disabled={mutating || inCarousel}
-                        onClick={() => void addExisting(img.id)}
-                        className="mt-3 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-50"
-                      >
+                    <button
+                      type="button"
+                      disabled={mutating || inCarousel}
+                      onClick={() => void addExisting(img)}
+                      className="mt-3 w-full rounded-xl border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-50"
+                    >
                         {inCarousel ? "Already in carousel" : "Add to carousel"}
                       </button>
                     </motion.div>
