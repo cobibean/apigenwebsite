@@ -72,23 +72,22 @@ export default function UnusedImagesClient() {
   }, []);
 
   async function deletePermanently(img: ImageRow) {
-    if (!supabase) return;
     if (!confirm("Permanently delete this image file and record? This cannot be undone.")) return;
     setMutating(true);
     setError(null);
     try {
-      const { data: stillRef } = await supabase.from("carousel_items").select("id").eq("image_id", img.id).limit(1);
-      if (stillRef && stillRef.length > 0) {
-        setError("Cannot delete: this image is still referenced by a carousel.");
-        return;
+      const response = await fetch("/api/admin/images/unused/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageId: img.id }),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const message = payload?.error || response.statusText || "Failed to delete.";
+        throw new Error(message);
       }
-
-      const { error: storageErr } = await supabase.storage.from(img.bucket).remove([img.path]);
-      if (storageErr) throw storageErr;
-
-      const { error: dbErr } = await supabase.from("images").delete().eq("id", img.id);
-      if (dbErr) throw dbErr;
-
       setUnused((prev) => prev.filter((x) => x.id !== img.id));
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to delete.");
