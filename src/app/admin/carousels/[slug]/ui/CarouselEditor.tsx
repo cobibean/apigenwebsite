@@ -108,6 +108,7 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   const [originalOrder, setOriginalOrder] = useState<string[]>([]);
   const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
   const [pendingExisting, setPendingExisting] = useState<PendingExisting[]>([]);
+  const [pendingRemovals, setPendingRemovals] = useState<string[]>([]);
   const [isSavingChanges, setIsSavingChanges] = useState(false);
 
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -175,6 +176,7 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
       setLibrary((libData as ImageRow[]) || []);
       setPendingUploads([]);
       setPendingExisting([]);
+      setPendingRemovals([]);
     } catch (e: unknown) {
       console.error(e);
       setError(e instanceof Error ? e.message : "Failed to load carousel data.");
@@ -189,14 +191,14 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
   }, [carouselId]);
 
   useEffect(() => {
-    if (!hasUnsavedChanges && pendingUploads.length === 0 && pendingExisting.length === 0) return;
+    if (!hasUnsavedChanges && pendingUploads.length === 0 && pendingExisting.length === 0 && pendingRemovals.length === 0) return;
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = "";
     };
     window.addEventListener("beforeunload", onBeforeUnload);
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  }, [hasUnsavedChanges, pendingUploads.length]);
+  }, [hasUnsavedChanges, pendingUploads.length, pendingRemovals.length]);
 
   useEffect(() => {
     let cancelled = false;
@@ -350,14 +352,25 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
   async function saveChanges() {
     if (!supabase) return;
-    if (!hasUnsavedChanges && pendingUploads.length === 0 && pendingExisting.length === 0) return;
+    if (!hasUnsavedChanges && pendingUploads.length === 0 && pendingExisting.length === 0 && pendingRemovals.length === 0) return;
     const pendingUploadSnapshot = [...pendingUploads];
     const pendingExistingSnapshot = [...pendingExisting];
+    const pendingRemovalSnapshot = [...pendingRemovals];
     const itemSnapshot = [...items];
     setMutating(true);
     setIsSavingChanges(true);
     setError(null);
     try {
+      // 1) Delete removed items first
+      for (const itemId of pendingRemovalSnapshot) {
+        const { error: delErr } = await supabase.from("carousel_items").delete().eq("id", itemId);
+        if (delErr) throw delErr;
+      }
+      if (pendingRemovalSnapshot.length) {
+        setPendingRemovals([]);
+      }
+
+      // 2) Upload new images
       let resolvedSnapshot = itemSnapshot;
       const uploadResults = pendingUploadSnapshot.length
         ? await uploadPendingImages(pendingUploadSnapshot, itemSnapshot)
@@ -375,6 +388,8 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
           return { ...item, id: resolvedId };
         });
       }
+
+      // 3) Persist order
       await persistOrder(resolvedSnapshot);
       if (pendingUploadSnapshot.length) {
         pendingUploadSnapshot.forEach((pending) => URL.revokeObjectURL(pending.previewUrl));
@@ -407,28 +422,23 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     setHasUnsavedChanges(!ordersEqual(nextOrder, originalOrder));
   }
 
-  async function removeFromCarousel(itemId: string) {
-    if (!supabase) return;
-    if (!confirm("Remove this image from this carousel? (The image stays in the library.)")) return;
-    setMutating(true);
-    setError(null);
-    try {
-      const { error: delErr } = await supabase.from("carousel_items").delete().eq("id", itemId);
-      if (delErr) throw delErr;
-      const next = items.filter((i) => i.id !== itemId).map((it, idx) => ({ ...it, sort_order: idx }));
-      setItems(next);
-      setOriginalOrder(next.map((it) => it.id));
-      setHasUnsavedChanges(false);
-      const updates = next.map((it, idx) => ({ id: it.id, sort_order: idx }));
-      if (updates.length) {
-        await supabase.from("carousel_items").upsert(updates, { onConflict: "id" });
-      }
-    } catch (e: unknown) {
-      console.error(e);
-      setError(e instanceof Error ? e.message : "Failed to remove.");
-    } finally {
-      setMutating(false);
+  function removeFromCarousel(itemId: string) {
+    // If it's a pending upload/existing, just remove from local state + pending lists
+    if (isPendingId(itemId)) {
+      setItems((prev) => prev.filter((i) => i.id !== itemId));
+      setPendingUploads((prev) => {
+        const found = prev.find((p) => p.id === itemId);
+        if (found) URL.revokeObjectURL(found.previewUrl);
+        return prev.filter((p) => p.id !== itemId);
+      });
+      setPendingExisting((prev) => prev.filter((p) => p.pendingId !== itemId));
+      return;
     }
+
+    // Otherwise, stage the removal for save
+    setItems((prev) => prev.filter((i) => i.id !== itemId));
+    setPendingRemovals((prev) => [...prev, itemId]);
+    setHasUnsavedChanges(true);
   }
 
   async function updateAltText(imageId: string, altText: string) {
@@ -642,9 +652,11 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
       {(() => {
         const hasPendingChanges =
-          hasUnsavedChanges || pendingUploads.length > 0 || pendingExisting.length > 0;
+          hasUnsavedChanges || pendingUploads.length > 0 || pendingExisting.length > 0 || pendingRemovals.length > 0;
         if (!hasPendingChanges) return null;
-        const statusMessage = pendingUploads.length
+        const statusMessage = pendingRemovals.length
+          ? `${pendingRemovals.length} image${pendingRemovals.length > 1 ? "s" : ""} staged for removal`
+          : pendingUploads.length
           ? "New uploads staged"
           : pendingExisting.length
           ? "New library images staged"
@@ -665,6 +677,9 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
                     }
                     if (pendingExisting.length) {
                       setPendingExisting([]);
+                    }
+                    if (pendingRemovals.length) {
+                      setPendingRemovals([]);
                     }
                     void loadAll();
                   }}
