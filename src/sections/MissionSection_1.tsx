@@ -31,7 +31,7 @@ export default function MissionSection_1({
       style={styling?.backgroundClass ? undefined : { background: "var(--surface-olive)" }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* LEFT: Eyebrow + Tagline */}
           <Appear preview={preview}>
             <div>
@@ -50,25 +50,27 @@ export default function MissionSection_1({
               >
                 {taglinePrimary}
               </h2>
-              <div
-                className={`uppercase mt-3 whitespace-normal md:whitespace-pre-line ${mutedHeadlineClass}`}
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.01em",
-                  lineHeight: 0.86,
-                  fontSize: "clamp(26px, 4.8vw, 60px)",
-                }}
-              >
-                {taglineSecondary}
-              </div>
+              {taglineSecondary && (
+                <div
+                  className={`uppercase mt-4 md:mt-5 whitespace-normal md:whitespace-pre-line ${mutedHeadlineClass}`}
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 800,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 0.86,
+                    fontSize: "clamp(26px, 4.8vw, 60px)",
+                  }}
+                >
+                  {taglineSecondary}
+                </div>
+              )}
             </div>
           </Appear>
 
           {/* RIGHT: Lead + Body + CTA */}
           <Appear preview={preview}>
             <div className="h-full flex flex-col md:mt-6">
-              <AppearStack preview={preview} className="space-y-4">
+              <AppearStack preview={preview} className="space-y-5 md:space-y-6">
                 <p className={`text-base md:text-lg font-semibold ${textClass}`}>{lead}</p>
                 <p className={`text-base md:text-lg leading-relaxed ${subTextClass}`}>{body}</p>
                 <div className="pt-2 mt-auto">

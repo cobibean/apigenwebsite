@@ -75,10 +75,10 @@ export const homeContent: HomeContent = {
   },
   mission: {
     eyebrow: "Our Mission",
-    taglinePrimary: "TO SET A NEW INDUSTRY\nSTANDARD WITH",
-    taglineSecondary: "PREMIUM MEDICINAL\nCANNABIS FLOWER",
-    lead: "We're not just providing exceptional medication. We're pioneers of quality, transparency, and patient‑centric treatments.",
-    body: "Uncompromising pharmaceutical‑grade quality is not just a goal for us — it's embedded in our DNA and the standards we set for ourselves and for the industry. Our commitment goes beyond profits — we're for doing what’s right by the plant, our patients, and the planet.",
+    taglinePrimary: "TO SET A NEW GLOBAL STANDARD FOR",
+    taglineSecondary: "PREMIUM, CLINICAL-GRADE CANNABIS FLOWER FOR MEDICAL AND ADULT USE.",
+    lead: "We are not simply a cannabis cultivator. We are a standards-driven company building a new benchmark for how premium flower is grown, tested, and released into both medical and adult-use markets.",
+    body: "Every cultivar we produce is developed under pharmaceutical-grade processes, rigorous quality systems, and export-level compliance — ensuring that the same uncompromising standard reaches both patients and adult-use consumers.\n\nOur commitment extends beyond profitability. We exist to do what is right by the plant, the people who rely on it, and the future of responsible cannabis worldwide.",
     cta: { label: "About Apigen", href: "/about" },
     styling: {
       backgroundClass: "bg-[var(--surface-olive)]"
