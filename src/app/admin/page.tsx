@@ -25,18 +25,28 @@ export default async function AdminDashboardPage() {
     <div>
       <div className="flex items-end justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-semibold text-primary font-sans">Carousels</h1>
+          <h1 className="text-2xl font-semibold text-primary font-sans">Admin Dashboard</h1>
           <p className="mt-2 text-sm text-secondary font-body">
-            Manage images, alt text, and ordering for each carousel.
+            Manage carousels, content, and images.
           </p>
         </div>
-        <Link
-          href="/admin/images/unused"
-          className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-background"
-        >
-          Unused images
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/content"
+            className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-background"
+          >
+            Edit Content
+          </Link>
+          <Link
+            href="/admin/images/unused"
+            className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-background"
+          >
+            Unused images
+          </Link>
+        </div>
       </div>
+
+      <h2 className="mt-8 text-lg font-semibold text-primary font-sans">Carousels</h2>
 
       {error ? (
         <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">

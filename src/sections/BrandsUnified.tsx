@@ -172,15 +172,14 @@ function BrandFlipCard({ brand }: { brand: Brand }) {
               />
             </video>
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-white">
-              <AppImage
-                src={brand.logo}
-                alt={`${brand.name} wordmark`}
-                width={1024}
-                height={1024}
-                className="h-full w-full max-w-[320px] object-contain drop-shadow-[0_24px_52px_rgba(18,30,22,0.18)]"
-              />
-            </div>
+            <AppImage
+              src="/brands/cannadacraftcard.png"
+              alt={`${brand.name} brand image`}
+              width={1024}
+              height={1024}
+              className="absolute inset-0 h-full w-full rounded-[24px] object-cover"
+              style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+            />
           )}
           <div className="pointer-events-none absolute inset-0 rounded-[24px] border border-black/10" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/40 via-black/15 to-transparent" aria-hidden="true" />
