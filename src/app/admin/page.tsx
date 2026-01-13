@@ -18,15 +18,13 @@ export default async function AdminDashboardPage() {
   }
 
   // Fetch counts for overview
-  const [carouselsRes, contentRes, imagesRes] = await Promise.all([
+  const [carouselsRes, contentRes] = await Promise.all([
     supabase.from("carousels").select("id,slug,label").order("label"),
     supabase.from("content_blocks").select("slug", { count: "exact", head: true }),
-    supabase.from("images").select("id", { count: "exact", head: true }),
   ]);
 
   const carousels = (carouselsRes.data as CarouselRow[]) || [];
   const contentCount = contentRes.count ?? 0;
-  const imageCount = imagesRes.count ?? 0;
 
   return (
     <div>
@@ -39,7 +37,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-4 mb-8">
         <div className="rounded-xl border border-border bg-card p-4">
           <div className="text-2xl font-semibold text-foreground">{carousels.length}</div>
           <div className="text-xs text-secondary mt-1">Carousels</div>
@@ -47,10 +45,6 @@ export default async function AdminDashboardPage() {
         <div className="rounded-xl border border-border bg-card p-4">
           <div className="text-2xl font-semibold text-foreground">{contentCount}</div>
           <div className="text-xs text-secondary mt-1">Content Blocks</div>
-        </div>
-        <div className="rounded-xl border border-border bg-card p-4">
-          <div className="text-2xl font-semibold text-foreground">{imageCount}</div>
-          <div className="text-xs text-secondary mt-1">Images</div>
         </div>
       </div>
 
@@ -95,27 +89,6 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="mt-4 text-xs text-secondary">
             {contentCount} content block{contentCount !== 1 ? "s" : ""}
-          </div>
-        </Link>
-
-        {/* Images */}
-        <Link
-          href="/admin/images/unused"
-          className="group rounded-2xl border border-border bg-card p-6 hover:bg-background transition-colors"
-        >
-          <div className="flex items-start justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-foreground font-sans">Image Library</h2>
-              <p className="mt-1 text-sm text-secondary font-body">
-                View and manage unused images.
-              </p>
-            </div>
-            <svg className="w-5 h-5 text-secondary group-hover:text-foreground transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-          <div className="mt-4 text-xs text-secondary">
-            {imageCount} total image{imageCount !== 1 ? "s" : ""}
           </div>
         </Link>
       </div>

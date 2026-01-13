@@ -101,6 +101,8 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
   const [items, setItems] = useState<CarouselItemRow[]>([]);
   const [library, setLibrary] = useState<ImageRow[]>([]);
+  const [unusedImages, setUnusedImages] = useState<ImageRow[]>([]);
+  const [showUnused, setShowUnused] = useState(false);
   const [loading, setLoading] = useState(true);
   const [mutating, setMutating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -174,6 +176,20 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
 
       if (libError) throw libError;
       setLibrary((libData as ImageRow[]) || []);
+
+      // Calculate unused images (not in ANY carousel)
+      const { data: allCarouselItems, error: allItemsErr } = await supabase
+        .from("carousel_items")
+        .select("image_id")
+        .limit(2000);
+      if (allItemsErr) throw allItemsErr;
+
+      const usedImageIds = new Set<string>(
+        ((allCarouselItems || []) as { image_id: string }[]).map((r) => r.image_id)
+      );
+      const unused = ((libData as ImageRow[]) || []).filter((img) => !usedImageIds.has(img.id));
+      setUnusedImages(unused);
+
       setPendingUploads([]);
       setPendingExisting([]);
       setPendingRemovals([]);
@@ -460,6 +476,29 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
     } catch (e: unknown) {
       console.error(e);
       setError(e instanceof Error ? e.message : "Failed to update alt text.");
+    } finally {
+      setMutating(false);
+    }
+  }
+
+  async function deleteUnusedImage(img: ImageRow) {
+    if (!confirm("Permanently delete this image file and record? This cannot be undone.")) return;
+    setMutating(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/admin/images/unused/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageId: img.id }),
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload?.error || response.statusText || "Failed to delete.");
+      }
+      setUnusedImages((prev) => prev.filter((x) => x.id !== img.id));
+      setLibrary((prev) => prev.filter((x) => x.id !== img.id));
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Failed to delete.");
     } finally {
       setMutating(false);
     }
@@ -840,6 +879,90 @@ export default function CarouselEditor({ carouselId, carouselSlug }: { carouselI
           </div>
         </div>
       ) : null}
+
+      {/* Unused Images Section */}
+      <div className="rounded-2xl border border-border bg-card">
+        <button
+          type="button"
+          onClick={() => setShowUnused((prev) => !prev)}
+          className="flex w-full items-center justify-between p-6 text-left"
+        >
+          <div>
+            <h2 className="text-lg font-semibold text-foreground">Unused Images</h2>
+            <p className="mt-1 text-sm text-secondary">
+              Images not used by any carousel. You can delete them permanently.
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="rounded-full bg-secondary/20 px-2.5 py-0.5 text-xs font-medium text-secondary">
+              {unusedImages.length}
+            </span>
+            <svg
+              className={`h-5 w-5 text-secondary transition-transform ${showUnused ? "rotate-180" : ""}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </button>
+
+        {showUnused ? (
+          <div className="border-t border-border p-6">
+            {unusedImages.length === 0 ? (
+              <div className="text-sm text-secondary">No unused images.</div>
+            ) : (
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {unusedImages.map((img) => {
+                  const src = buildPublicUrl(supabaseUrl, img.bucket, img.path);
+                  return (
+                    <div key={img.id} className="rounded-2xl border border-border bg-background p-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt={img.alt_text}
+                        className="h-28 w-full rounded-xl object-cover border border-border bg-card cursor-pointer"
+                        loading="lazy"
+                        onClick={() =>
+                          setPreviewImage({
+                            src,
+                            alt: img.alt_text,
+                            width: img.width ?? undefined,
+                            height: img.height ?? undefined,
+                          })
+                        }
+                      />
+                      <div className="mt-2 text-xs text-secondary line-clamp-2">{img.alt_text}</div>
+                      <div className="mt-1 text-[0.65rem] text-secondary/70 font-mono break-all line-clamp-1">
+                        {img.path}
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <button
+                          type="button"
+                          disabled={mutating}
+                          onClick={() => void addExisting(img)}
+                          className="flex-1 rounded-xl border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-50"
+                        >
+                          Add to carousel
+                        </button>
+                        <button
+                          type="button"
+                          disabled={mutating}
+                          onClick={() => void deleteUnusedImage(img)}
+                          className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-500 hover:bg-red-500/20 disabled:opacity-50"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ) : null}
+      </div>
 
       {previewImage ? (
         <div
