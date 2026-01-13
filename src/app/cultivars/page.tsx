@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+
+// Force dynamic rendering to fetch fresh CMS content on each request
+export const dynamic = "force-dynamic";
+
 import ProductShowcase from "@/sections/ProductShowcase";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
-import { cultivars, cultivarsContent } from "@/data/cultivars";
+import { cultivars, cultivarsContent, type Strain } from "@/data/cultivars";
 import { galleryImages } from "@/data/gallery";
 import { getCarouselImagesBySlugWithFallback } from "@/lib/carousels";
+import { getPageContent, c } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: cultivarsContent.pageTitle,
@@ -11,7 +16,28 @@ export const metadata: Metadata = {
 };
 
 export default async function CultivarsPage() {
-  const images = await getCarouselImagesBySlugWithFallback("cultivars-main", galleryImages);
+  // Fetch carousel images and CMS content in parallel
+  const [images, content] = await Promise.all([
+    getCarouselImagesBySlugWithFallback("cultivars-main", galleryImages),
+    getPageContent("cultivars"),
+  ]);
+
+  // Merge CMS content with static fallbacks for each cultivar
+  const mergedCultivars: Strain[] = cultivars.map((strain) => ({
+    ...strain,
+    title: c(content, `${strain.id}.title`, strain.title),
+    eyebrow: strain.eyebrow ? c(content, `${strain.id}.eyebrow`, strain.eyebrow) : undefined,
+    provenance: strain.provenance ? c(content, `${strain.id}.provenance`, strain.provenance) : undefined,
+    growersNote: strain.growersNote ? c(content, `${strain.id}.growersNote`, strain.growersNote) : undefined,
+    cure: strain.cure ? c(content, `${strain.id}.cure`, strain.cure) : undefined,
+    trim: strain.trim ? c(content, `${strain.id}.trim`, strain.trim) : undefined,
+    tasting: {
+      nose: c(content, `${strain.id}.tasting.nose`, strain.tasting.nose.join("\n")).split("\n"),
+      palate: c(content, `${strain.id}.tasting.palate`, strain.tasting.palate.join("\n")).split("\n"),
+      finish: c(content, `${strain.id}.tasting.finish`, strain.tasting.finish.join("\n")).split("\n"),
+    },
+  }));
+
   return (
     <div className="relative isolate overflow-hidden bg-background text-foreground">
       {/* Viewport-fixed background washes */}
@@ -22,7 +48,7 @@ export default async function CultivarsPage() {
       </div>
 
       {/* Cultivar showcase sections */}
-      {cultivars.map((strain, idx) => (
+      {mergedCultivars.map((strain, idx) => (
         <ProductShowcase 
           key={strain.id} 
           strain={strain} 

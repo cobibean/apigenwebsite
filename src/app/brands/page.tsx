@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
+
+// Force dynamic rendering to fetch fresh CMS content on each request
+export const dynamic = "force-dynamic";
+
 import CraftBrandSection from "@/sections/CraftBrandSection";
 import MissionBrandSection from "@/sections/MissionBrandSection";
 import ProductCarousel3D from "@/components/ProductCarousel3D";
-import { brands } from "@/data/brands";
+import { brands, type Brand } from "@/data/brands";
 import { galleryImages } from "@/data/gallery";
 import { getCarouselImagesBySlugWithFallback } from "@/lib/carousels";
+import { getPageContent, c } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Brands | Apigen",
@@ -13,8 +18,29 @@ export const metadata: Metadata = {
 };
 
 export default async function BrandsPage() {
-  const [primaryBrand, ...otherBrands] = brands;
-  const images = await getCarouselImagesBySlugWithFallback("brands-main", galleryImages);
+  // Fetch carousel images and CMS content in parallel
+  const [images, content] = await Promise.all([
+    getCarouselImagesBySlugWithFallback("brands-main", galleryImages),
+    getPageContent("brands"),
+  ]);
+
+  // Merge CMS content with static fallbacks for each brand
+  const mergedBrands: Brand[] = brands.map((brand) => ({
+    ...brand,
+    name: c(content, `${brand.id}.name`, brand.name),
+    heading: c(content, `${brand.id}.heading`, brand.heading),
+    body: c(content, `${brand.id}.body`, brand.body.join("\n\n")).split("\n\n"),
+    attributes: brand.attributes.map((attr, idx) => ({
+      label: c(content, `${brand.id}.attributes.${idx}.label`, attr.label),
+      value: c(content, `${brand.id}.attributes.${idx}.value`, attr.value),
+    })),
+    highlights: brand.highlights.map((hl, idx) => ({
+      title: c(content, `${brand.id}.highlights.${idx}.title`, hl.title),
+      description: c(content, `${brand.id}.highlights.${idx}.description`, hl.description),
+    })),
+  }));
+
+  const [primaryBrand, ...otherBrands] = mergedBrands;
 
   return (
     <div className="hero-bleed relative isolate min-h-screen overflow-hidden bg-background text-foreground">
