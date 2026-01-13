@@ -26,6 +26,38 @@ export async function getContent(slug: string, fallback: string): Promise<string
 }
 
 /**
+ * Fetch all content for a page prefix and return a lookup map
+ * Example: getPageContent("home") fetches all "home.*" slugs
+ */
+export async function getPageContent(prefix: string): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  const supabase = createSupabasePublicClient();
+  if (!supabase) return map;
+
+  const { data, error } = await supabase
+    .from("content_blocks")
+    .select("slug, content")
+    .like("slug", `${prefix}.%`);
+
+  if (error || !data) return map;
+
+  for (const row of data) {
+    // Store with full slug and also without prefix for convenience
+    map.set(row.slug, row.content);
+    map.set(row.slug.replace(`${prefix}.`, ""), row.content);
+  }
+
+  return map;
+}
+
+/**
+ * Helper to get content from map with fallback
+ */
+export function c(map: Map<string, string>, key: string, fallback: string): string {
+  return map.get(key) ?? fallback;
+}
+
+/**
  * Fetch multiple content blocks by slugs with fallbacks
  * More efficient than multiple getContent calls
  */
