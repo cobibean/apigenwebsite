@@ -2,7 +2,6 @@ import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type CarouselRow = { id: string; slug: string; name: string };
-type ContentBlockRow = { slug: string };
 
 export default async function AdminDashboardPage() {
   const supabase = await createSupabaseServerClient();
@@ -35,7 +34,7 @@ export default async function AdminDashboardPage() {
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-primary font-sans">Admin Dashboard</h1>
         <p className="mt-2 text-sm text-secondary font-body">
-          Manage your site's carousels, content, and images.
+          Manage your site&apos;s carousels, content, and images.
         </p>
       </div>
 
