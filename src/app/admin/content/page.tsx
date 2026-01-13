@@ -9,6 +9,14 @@ type ContentBlockRow = {
   updated_at: string;
 };
 
+// Human-readable page names
+const pageLabels: Record<string, string> = {
+  home: "Home Page",
+  about: "About Page",
+  brands: "Brands Page",
+  cultivars: "Cultivars Page",
+};
+
 // Group slugs by page/section for organization
 function groupByPage(blocks: ContentBlockRow[]) {
   const groups: Record<string, ContentBlockRow[]> = {};
@@ -20,6 +28,10 @@ function groupByPage(blocks: ContentBlockRow[]) {
   }
   
   return groups;
+}
+
+function getPageLabel(page: string): string {
+  return pageLabels[page] || `${page.charAt(0).toUpperCase() + page.slice(1)} Page`;
 }
 
 export default async function AdminContentPage() {
@@ -78,8 +90,8 @@ export default async function AdminContentPage() {
         <div className="mt-6 space-y-8">
           {pageNames.map((page) => (
             <div key={page}>
-              <h2 className="text-lg font-semibold text-primary font-sans capitalize mb-3">
-                {page} Page
+              <h2 className="text-lg font-semibold text-primary font-sans mb-3">
+                {getPageLabel(page)}
               </h2>
               <div className="space-y-2">
                 {grouped[page].map((block) => (

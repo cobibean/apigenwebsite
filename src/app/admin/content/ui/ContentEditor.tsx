@@ -11,6 +11,85 @@ type ContentBlock = {
   updated_at: string;
 };
 
+// Human-readable labels for common field names
+const fieldLabels: Record<string, string> = {
+  title: "Title",
+  content: "Content",
+  body: "Body Text",
+  heading: "Heading",
+  name: "Name",
+  copy: "Copy",
+  label: "Label",
+  value: "Value",
+  description: "Description",
+  eyebrow: "Eyebrow",
+  subtitle: "Subtitle",
+  lead: "Lead Text",
+  ctaLabel: "Button Text",
+  growersNote: "Grower's Note",
+  provenance: "Provenance",
+  cure: "Cure Method",
+  trim: "Trim Style",
+  nose: "Nose",
+  palate: "Palate",
+  finish: "Finish",
+  taglinePrimary: "Primary Tagline",
+  taglineSecondary: "Secondary Tagline",
+};
+
+// Convert slug to human-readable label
+function slugToLabel(slug: string): string {
+  const parts = slug.split(".");
+  if (parts.length < 2) return slug;
+  
+  // Remove the page prefix (first part)
+  const relevantParts = parts.slice(1);
+  
+  // Build readable label
+  const labels: string[] = [];
+  
+  for (let i = 0; i < relevantParts.length; i++) {
+    const part = relevantParts[i];
+    
+    // Handle numeric indices (0, 1, 2 → #1, #2, #3)
+    if (/^\d+$/.test(part)) {
+      const num = parseInt(part, 10) + 1;
+      labels.push(`#${num}`);
+      continue;
+    }
+    
+    // Handle known field names
+    if (fieldLabels[part]) {
+      labels.push(fieldLabels[part]);
+      continue;
+    }
+    
+    // Handle kebab-case brand/cultivar names
+    if (part.includes("-")) {
+      const readable = part
+        .split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+      labels.push(readable);
+      continue;
+    }
+    
+    // Handle camelCase
+    if (/[a-z][A-Z]/.test(part)) {
+      const readable = part
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/^./, c => c.toUpperCase());
+      labels.push(readable);
+      continue;
+    }
+    
+    // Default: capitalize first letter
+    labels.push(part.charAt(0).toUpperCase() + part.slice(1));
+  }
+  
+  return labels.join(" → ");
+}
+
 export default function ContentEditor({ block }: { block: ContentBlock }) {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [content, setContent] = useState(block.content);
@@ -53,8 +132,7 @@ export default function ContentEditor({ block }: { block: ContentBlock }) {
   }
 
   // Parse slug for display
-  const slugParts = block.slug.split(".");
-  const label = slugParts.slice(1).join(" → ") || block.slug;
+  const label = slugToLabel(block.slug);
 
   return (
     <div className="rounded-xl border border-border bg-card overflow-hidden">
