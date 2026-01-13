@@ -68,6 +68,20 @@ export default async function Home() {
     })),
   };
 
+  // Merge Brands section content from CMS
+  const brandsContent = {
+    eyebrow: c(homeContentCMS, "brands.eyebrow", "APIGEN BRANDS"),
+    title: c(homeContentCMS, "brands.title", "Premium Brands"),
+    subtitle: c(homeContentCMS, "brands.subtitle", "Crafted in Canada"),
+    ctaLabel: c(homeContentCMS, "brands.ctaLabel", "Explore All Brands"),
+    missionHeading: c(homeContentCMS, "brands.mission.heading", "From Mission to Your Hands"),
+    missionBody: c(homeContentCMS, "brands.mission.body", "MISSION grows small-batch flower rooted in Mission, BC—heritage craftsmanship for today's discerning retailers."),
+    cannadaCraftHeading: c(homeContentCMS, "brands.cannada-craft.heading", "Cannada Craft – From Craft to Clinic."),
+  };
+
+  // Carousel CTA button
+  const carouselCtaLabel = c(homeContentCMS, "carousel.ctaLabel", "See Our Cultivars");
+
   return (
     <>
       <Hero
@@ -87,7 +101,7 @@ export default async function Home() {
       />
       <MissionSection_1 content={missionContent} />
       <AboutStory content={aboutContentMerged} />
-      <BrandsUnified />
+      <BrandsUnified content={brandsContent} />
 
       {/* Data-driven Product Showcase Cards - TEMPORARILY COMMENTED OUT */}
       {/* {showcaseCultivars.map((strain, idx) => {
@@ -112,7 +126,7 @@ export default async function Home() {
         autoPlayDelay={4000}
         dotsSpacing="bottom-6"
         ctaButton={{
-          label: "See Our Cultivars",
+          label: carouselCtaLabel,
           href: "/cultivars",
           variant: "olive",
         }}

@@ -6,11 +6,33 @@ import Appear from "@/components/motion/Appear";
 import { buttonClass, cn } from "@/lib/utils";
 import type { Brand } from "@/data/brands";
 
-type Props = {
-  preview?: boolean;
+type BrandsContent = {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  missionHeading?: string;
+  missionBody?: string;
+  cannadaCraftHeading?: string;
 };
 
-export default function BrandsUnified({ preview }: Props) {
+type Props = {
+  preview?: boolean;
+  content?: BrandsContent;
+};
+
+const defaultContent: BrandsContent = {
+  eyebrow: "APIGEN BRANDS",
+  title: "Premium Brands",
+  subtitle: "Crafted in Canada",
+  ctaLabel: "Explore All Brands",
+  missionHeading: "From Mission to Your Hands",
+  missionBody: "MISSION grows small-batch flower rooted in Mission, BC—heritage craftsmanship for today's discerning retailers.",
+  cannadaCraftHeading: "Cannada Craft – From Craft to Clinic.",
+};
+
+export default function BrandsUnified({ preview, content = defaultContent }: Props) {
+  const mergedContent = { ...defaultContent, ...content };
   const featuredBrands = [
     { id: "mission" as const, delay: 0 },
     { id: "cannada-craft" as const, delay: 0.05 },
@@ -26,7 +48,7 @@ export default function BrandsUnified({ preview }: Props) {
               className="text-sm mb-4 [color:color-mix(in_oklab,white_78%,transparent)]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              APIGEN BRANDS
+              {mergedContent.eyebrow}
             </p>
           </Appear>
           <Appear preview={preview}>
@@ -40,7 +62,7 @@ export default function BrandsUnified({ preview }: Props) {
                 fontSize: "clamp(26px, 4.8vw, 56px)",
               }}
             >
-              Premium Brands
+              {mergedContent.title}
             </h2>
           </Appear>
           <Appear preview={preview}>
@@ -54,7 +76,7 @@ export default function BrandsUnified({ preview }: Props) {
                 fontSize: "clamp(26px, 4.8vw, 56px)",
               }}
             >
-              Crafted in Canada
+              {mergedContent.subtitle}
             </p>
           </Appear>
         </div>
@@ -67,7 +89,12 @@ export default function BrandsUnified({ preview }: Props) {
 
             return (
               <Appear key={id} preview={preview} delay={delay} className="w-full">
-                <BrandFlipCard brand={brand} />
+                <BrandFlipCard 
+                  brand={brand} 
+                  missionHeading={mergedContent.missionHeading}
+                  missionBody={mergedContent.missionBody}
+                  cannadaCraftHeading={mergedContent.cannadaCraftHeading}
+                />
               </Appear>
             );
           })}
@@ -77,7 +104,7 @@ export default function BrandsUnified({ preview }: Props) {
         <div className="text-center pt-10 md:pt-12">
           <Appear preview={preview}>
             <AppLink href="/brands" className={buttonClass({ variant: "olive", size: "lg" })}>
-              Explore All Brands
+              {mergedContent.ctaLabel}
             </AppLink>
           </Appear>
         </div>
@@ -86,7 +113,14 @@ export default function BrandsUnified({ preview }: Props) {
   );
 }
 
-function BrandFlipCard({ brand }: { brand: Brand }) {
+type BrandFlipCardProps = {
+  brand: Brand;
+  missionHeading?: string;
+  missionBody?: string;
+  cannadaCraftHeading?: string;
+};
+
+function BrandFlipCard({ brand, missionHeading, missionBody, cannadaCraftHeading }: BrandFlipCardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
 
@@ -104,12 +138,12 @@ function BrandFlipCard({ brand }: { brand: Brand }) {
 
   const displayHeading =
     brand.id === "mission"
-      ? "From Mission to Your Hands"
-      : "Cannada Craft – From Craft to Clinic.";
+      ? (missionHeading || "From Mission to Your Hands")
+      : (cannadaCraftHeading || "Cannada Craft – From Craft to Clinic.");
 
   const displayBody =
     brand.id === "mission"
-      ? "MISSION grows small-batch flower rooted in Mission, BC—heritage craftsmanship for today's discerning retailers."
+      ? (missionBody || "MISSION grows small-batch flower rooted in Mission, BC—heritage craftsmanship for today's discerning retailers.")
       : brand.body[0];
 
   // Mobile: click toggles; Desktop: hover controls
