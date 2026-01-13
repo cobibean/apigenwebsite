@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-type CarouselRow = { id: string; slug: string; name: string; description: string | null };
+type CarouselRow = { id: string; slug: string; label: string };
 
 export default async function AdminCarouselsPage() {
   const supabase = await createSupabaseServerClient();
@@ -19,8 +19,8 @@ export default async function AdminCarouselsPage() {
 
   const { data: carousels, error } = await supabase
     .from("carousels")
-    .select("id,slug,name,description")
-    .order("name", { ascending: true });
+    .select("id,slug,label")
+    .order("label", { ascending: true });
 
   // Get item counts for each carousel
   const carouselIds = (carousels || []).map((c: CarouselRow) => c.id);
@@ -68,10 +68,7 @@ export default async function AdminCarouselsPage() {
             className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4 hover:bg-background transition-colors"
           >
             <div>
-              <div className="text-sm font-semibold text-foreground">{c.name || c.slug}</div>
-              {c.description && (
-                <div className="mt-0.5 text-xs text-secondary">{c.description}</div>
-              )}
+              <div className="text-sm font-semibold text-foreground">{c.label || c.slug}</div>
               <div className="mt-1 text-xs text-secondary font-mono">{c.slug}</div>
             </div>
             <div className="flex items-center gap-3">

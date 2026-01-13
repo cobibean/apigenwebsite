@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-type CarouselRow = { id: string; slug: string; name: string };
+type CarouselRow = { id: string; slug: string; label: string };
 
 export default async function AdminDashboardPage() {
   const supabase = await createSupabaseServerClient();
@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
 
   // Fetch counts for overview
   const [carouselsRes, contentRes, imagesRes] = await Promise.all([
-    supabase.from("carousels").select("id,slug,name").order("name"),
+    supabase.from("carousels").select("id,slug,label").order("label"),
     supabase.from("content_blocks").select("slug", { count: "exact", head: true }),
     supabase.from("images").select("id", { count: "exact", head: true }),
   ]);
@@ -130,7 +130,7 @@ export default async function AdminDashboardPage() {
               href={`/admin/carousels/${encodeURIComponent(c.slug)}`}
               className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 hover:bg-background text-sm"
             >
-              <span className="text-foreground">{c.name || c.slug}</span>
+              <span className="text-foreground">{c.label || c.slug}</span>
               <span className="text-xs text-secondary font-mono">{c.slug}</span>
             </Link>
           ))}
