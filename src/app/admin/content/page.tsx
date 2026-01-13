@@ -46,19 +46,22 @@ export default async function AdminContentPage() {
 
   return (
     <div>
-      <div className="flex items-end justify-between gap-6">
+      {/* Header with back link */}
+      <div className="flex items-center gap-4 mb-6">
+        <a
+          href="/admin"
+          className="text-secondary hover:text-foreground transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
         <div>
           <h1 className="text-2xl font-semibold text-primary font-sans">Content</h1>
-          <p className="mt-2 text-sm text-secondary font-body">
+          <p className="mt-1 text-sm text-secondary font-body">
             Edit text and copy across the site.
           </p>
         </div>
-        <a
-          href="/admin"
-          className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-background"
-        >
-          ← Back to Admin
-        </a>
       </div>
 
       {error ? (
