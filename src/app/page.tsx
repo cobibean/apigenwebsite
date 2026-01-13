@@ -22,38 +22,50 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Fetch carousel images and CMS content in parallel
-  const [images, content] = await Promise.all([
+  const [images, homeContentCMS, aboutContentCMS] = await Promise.all([
     getCarouselImagesBySlugWithFallback("home-main", galleryImages),
     getPageContent("home"),
+    getPageContent("about"),
   ]);
 
   // Merge CMS content with static fallbacks
   const heroContent = {
     ...homeContent.hero,
-    eyebrow: c(content, "hero.eyebrow", homeContent.hero.eyebrow),
-    subtitle: c(content, "hero.subtitle", homeContent.hero.subtitle),
-    title: c(content, "hero.title", homeContent.hero.title),
-    copy: c(content, "hero.copy", homeContent.hero.copy),
-    ctaLabel: c(content, "hero.ctaLabel", homeContent.hero.ctaLabel),
+    eyebrow: c(homeContentCMS, "hero.eyebrow", homeContent.hero.eyebrow),
+    subtitle: c(homeContentCMS, "hero.subtitle", homeContent.hero.subtitle),
+    title: c(homeContentCMS, "hero.title", homeContent.hero.title),
+    copy: c(homeContentCMS, "hero.copy", homeContent.hero.copy),
+    ctaLabel: c(homeContentCMS, "hero.ctaLabel", homeContent.hero.ctaLabel),
   };
 
   const missionContent = {
     ...homeContent.mission,
-    eyebrow: c(content, "mission.eyebrow", homeContent.mission.eyebrow),
-    taglinePrimary: c(content, "mission.taglinePrimary", homeContent.mission.taglinePrimary),
-    taglineSecondary: c(content, "mission.taglineSecondary", homeContent.mission.taglineSecondary),
-    lead: c(content, "mission.lead", homeContent.mission.lead),
-    body: c(content, "mission.body", homeContent.mission.body),
+    eyebrow: c(homeContentCMS, "mission.eyebrow", homeContent.mission.eyebrow),
+    taglinePrimary: c(homeContentCMS, "mission.taglinePrimary", homeContent.mission.taglinePrimary),
+    taglineSecondary: c(homeContentCMS, "mission.taglineSecondary", homeContent.mission.taglineSecondary),
+    lead: c(homeContentCMS, "mission.lead", homeContent.mission.lead),
+    body: c(homeContentCMS, "mission.body", homeContent.mission.body),
     cta: {
       ...homeContent.mission.cta,
-      label: c(content, "mission.ctaLabel", homeContent.mission.cta.label),
+      label: c(homeContentCMS, "mission.ctaLabel", homeContent.mission.cta.label),
     },
   };
 
   const ctaContent = {
     ...homeContent.cta,
-    title: c(content, "cta.title", homeContent.cta.title),
-    label: c(content, "cta.label", homeContent.cta.label),
+    title: c(homeContentCMS, "cta.title", homeContent.cta.title),
+    label: c(homeContentCMS, "cta.label", homeContent.cta.label),
+  };
+
+  // Merge About content from CMS with static fallback
+  const aboutContentMerged = {
+    ...aboutContent,
+    title: c(aboutContentCMS, "title", aboutContent.title),
+    cards: aboutContent.cards.map((card, idx) => ({
+      ...card,
+      title: c(aboutContentCMS, `cards.${idx}.title`, card.title),
+      content: c(aboutContentCMS, `cards.${idx}.content`, card.content),
+    })),
   };
 
   return (
@@ -74,7 +86,7 @@ export default async function Home() {
         mobileCtaGap="40px"
       />
       <MissionSection_1 content={missionContent} />
-      <AboutStory content={aboutContent} />
+      <AboutStory content={aboutContentMerged} />
       <BrandsUnified />
 
       {/* Data-driven Product Showcase Cards - TEMPORARILY COMMENTED OUT */}
