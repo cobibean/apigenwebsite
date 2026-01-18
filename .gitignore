@@ -58,3 +58,8 @@ docs/plans/buildplan.md
 
 # contact form submissions (keep directory, ignore data file)
 /data/submissions.json
+
+# temp files and brand-cards TV recording page (local only, not for production)
+/temp/
+/src/app/brand-cards/
+/public/brand-cards/

@@ -243,17 +243,18 @@ export default function ProductShowcase({
                   isImageLeft ? "md:order-1" : "md:order-2"
                 }`}
               >
-                <div
+              <div
                   className={`relative overflow-hidden ${SPACING.imageRadius} border border-border bg-card shadow-lg aspect-[5/4]`}
                 >
-                  {strain.images[0] && (
+                {strain.images[0] && (
                     <AppImage
                       src={strain.images[0].src}
                       alt={strain.images[0].alt}
-                      width={800}
-                      height={640}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       priority={strain.images[0].priority}
-                      className="w-full h-full object-cover"
+                      className={strain.images[0].objectFit === 'contain' ? 'object-contain' : 'object-cover'}
+                      style={{ objectPosition: strain.images[0].objectPosition || 'center' }}
                     />
                   )}
                 </div>

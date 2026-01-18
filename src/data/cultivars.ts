@@ -19,7 +19,7 @@ export type Strain = {
   cure?: string;
   trim?: string;
   moistureAw?: number;
-  images: { src: string; alt: string; priority?: boolean }[];
+  images: { src: string; alt: string; priority?: boolean; objectPosition?: string; objectFit?: "cover" | "contain" }[];
   availability?: string;
   coaUrl?: string;
 };
@@ -132,9 +132,14 @@ export const cultivars: Strain[] = [
     trim: "Hand-trimmed",
     images: [
       {
+        src: "/cultivars/dantes-inferno/dantes-inferno-03.jpeg",
+        alt: "Dante's Inferno cannabis flower under LED grow lights showcasing dense bud structure and trichome coverage",
+        priority: true,
+        objectPosition: "center 2%",
+      },
+      {
         src: "/cultivars/dantes-inferno/hero.jpg",
         alt: "Dante's Inferno premium cannabis flower showcasing dark stone fruit, cocoa husk, and anise characteristics",
-        priority: true,
       },
       {
         src: "/cultivars/dantes-inferno/Dante1.jpeg",
@@ -171,10 +176,6 @@ export const cultivars: Strain[] = [
       {
         src: "/cultivars/dantes-inferno/dantes-inferno-02.jpeg",
         alt: "Dante's Inferno quality showcase",
-      },
-      {
-        src: "/cultivars/dantes-inferno/dantes-inferno-03.jpeg",
-        alt: "Detailed view of Dante's Inferno buds",
       },
       {
         src: "/cultivars/dantes-inferno/dantes-inferno-04.jpeg",

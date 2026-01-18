@@ -55,6 +55,12 @@ export const galleryImages: GalleryImage[] = [
 
   // Dante's Inferno images
   {
+    src: "/cultivars/dantes-inferno/dantes-inferno-03.jpeg",
+    alt: "Dante's Inferno cannabis flower under LED grow lights showcasing dense bud structure and trichome coverage",
+    category: "dantes-inferno",
+    priority: true,
+  },
+  {
     src: "/cultivars/dantes-inferno/Dante1.jpeg",
     alt: "Dante's Inferno premium dried cannabis flower",
     category: "dantes-inferno",
@@ -98,11 +104,6 @@ export const galleryImages: GalleryImage[] = [
   {
     src: "/cultivars/dantes-inferno/dantes-inferno-02.jpeg",
     alt: "Dante's Inferno quality showcase",
-    category: "dantes-inferno",
-  },
-  {
-    src: "/cultivars/dantes-inferno/dantes-inferno-03.jpeg",
-    alt: "Detailed view of Dante's Inferno buds",
     category: "dantes-inferno",
   },
   {
