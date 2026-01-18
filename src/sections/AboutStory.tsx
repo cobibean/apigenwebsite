@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Card from "@/components/Card";
 import AppearStack from "@/components/motion/AppearStack";
 import HeroWordmarkAnimated from "@/sections/HeroWordmarkAnimated";
 import { Root as VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useInView } from "framer-motion";
 
 import type { AboutContent } from "@/data/about";
 
@@ -13,19 +12,27 @@ type AboutStoryProps = {
   preview?: boolean;
 };
 
+// Shared styles for the wordmark positioning
+const wordmarkStyles = {
+  display: "inline-block",
+  verticalAlign: "baseline",
+  transform: "translateY(var(--wordmark-inline-offset))",
+  "--wordmark-inline-offset": "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
+} as React.CSSProperties;
+
 export default function AboutStory({ content, preview }: AboutStoryProps) {
   const { title, cards } = content;
   const cardsRef = useRef<HTMLDivElement | null>(null);
-  const cardsInView = useInView(cardsRef, { once: true, margin: "-10% 0px -10% 0px" });
-  const [shouldAnimateWordmark, setShouldAnimateWordmark] = useState(false);
 
-  useEffect(() => {
-    if (cardsInView) {
-      setShouldAnimateWordmark(true);
-    }
-  }, [cardsInView]);
   return (
     <section className="relative bg-[var(--bg)]">
+      {/* Preload the SVG for faster animation startup */}
+      <link
+        rel="preload"
+        href="/hero/herotext/APIGEN_hero_text_COPPER.svg"
+        as="fetch"
+        crossOrigin="anonymous"
+      />
       <div
         className="pointer-events-none absolute left-[5%] top-[12%] h-32 w-32 rounded-full bg-[radial-gradient(circle_at_center,_rgba(174,85,33,0.25)_0%,_rgba(250,250,250,0)_70%)] blur-2xl md:left-[8%]"
         aria-hidden="true"
@@ -41,33 +48,12 @@ export default function AboutStory({ content, preview }: AboutStoryProps) {
               <>
                 {"The "}
                 <span className="inline-flex h-[1.02em] items-end leading-none align-baseline px-[0.18em] sm:px-[0.24em]">
-                  {shouldAnimateWordmark ? (
-                    <HeroWordmarkAnimated
-                      key="animated"
-                      src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
-                      alt="Apigen"
-                      className="inline-block align-baseline h-full w-auto"
-                      style={{
-                        display: "inline-block",
-                        verticalAlign: "baseline",
-                        transform: "translateY(var(--wordmark-inline-offset))",
-                        "--wordmark-inline-offset": "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
-                      } as React.CSSProperties}
-                    />
-                  ) : (
-                    <img
-                      src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
-                      alt=""
-                      aria-hidden="true"
-                      className="inline-block align-baseline h-full w-auto"
-                      style={{
-                        display: "inline-block",
-                        verticalAlign: "baseline",
-                        transform: "translateY(var(--wordmark-inline-offset))",
-                        "--wordmark-inline-offset": "clamp(-0.06em, -0.055em + 0.006vw, -0.03em)",
-                      } as React.CSSProperties}
-                    />
-                  )}
+                  <HeroWordmarkAnimated
+                    src="/hero/herotext/APIGEN_hero_text_COPPER.svg"
+                    alt="Apigen"
+                    className="inline-block align-baseline h-full w-auto"
+                    style={wordmarkStyles}
+                  />
                   <VisuallyHidden>Apigen</VisuallyHidden>
                 </span>
                 {" Story"}
