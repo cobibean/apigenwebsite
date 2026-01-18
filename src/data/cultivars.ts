@@ -135,7 +135,7 @@ export const cultivars: Strain[] = [
         src: "/cultivars/dantes-inferno/dantes-inferno-03.jpeg",
         alt: "Dante's Inferno cannabis flower under LED grow lights showcasing dense bud structure and trichome coverage",
         priority: true,
-        objectPosition: "center 2%",
+        objectPosition: "center 13%",
       },
       {
         src: "/cultivars/dantes-inferno/hero.jpg",
