@@ -30,12 +30,12 @@ const SPACING = {
   // space under header card before tasting notes
   headerBelow: "mb-4 md:mb-14 lg:mb-10",
   gridGap: "gap-y-6 gap-x-5 md:gap-x-10 md:gap-y-10 lg:gap-x-14 lg:gap-y-14",
-  gridAlign: "items-start",
+  gridAlign: "items-stretch",
   contentVerticalOffset: "mt-0",
   // keep gap consistent on desktop
   contentGap: "gap-4 md:gap-7 lg:gap-7",
   // align image stack without extra top nudges on mobile
-  imageVerticalOffset: "mt-0 md:mt-4 lg:mt-6",
+  imageVerticalOffset: "",
   imageRadius: "rounded-2xl",
 } as const;
 
@@ -238,21 +238,21 @@ export default function ProductShowcase({
                 </div>
               </div>
 
-              {/* Image Column */}
+              {/* Image Column - relative wrapper that stretches to match content, image centered inside */}
               <div
                 className={`order-2 ${SPACING.imageVerticalOffset} ${
                   isImageLeft ? "md:order-1" : "md:order-2"
-                }`}
+                } relative flex justify-center`}
               >
               <div
-                  className={`relative overflow-hidden ${SPACING.imageRadius} border border-border bg-card shadow-lg aspect-[5/4]`}
+                  className={`md:absolute md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 relative overflow-hidden ${SPACING.imageRadius} border border-border bg-card shadow-lg w-[300px] h-[400px] md:w-[380px] md:h-[507px]`}
                 >
                 {strain.images[0] && (
                     <AppImage
                       src={strain.images[0].src}
                       alt={strain.images[0].alt}
                       fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="320px"
                       priority={strain.images[0].priority}
                       className={strain.images[0].objectFit === 'contain' ? 'object-contain' : 'object-cover'}
                       style={{ objectPosition: strain.images[0].objectPosition || 'center' }}
