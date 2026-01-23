@@ -30,6 +30,8 @@ interface ProductCarousel3DLandscapeProps {
   // Component defaults are for standalone/Storybook use only.
   dotsSpacing?: string; // Distance from carousel bottom to dots (e.g., "bottom-6", "bottom-8")
   buttonSpacing?: string; // Distance from carousel to button (e.g., "pt-8", "pt-12", "48px", "var(--spacing-xl)")
+  // Orientation: "landscape" (default) for wide cards, "portrait" for tall cards
+  orientation?: "landscape" | "portrait";
 }
 
 // Spacing constants for easy adjustment
@@ -38,7 +40,7 @@ interface ProductCarousel3DLandscapeProps {
 // - cardWidth/cardHeight: Controls individual card dimensions
 //
 // Note: Dots and button spacing are now controlled via props (dotsSpacing, buttonSpacing)
-const SPACING = {
+const SPACING_LANDSCAPE = {
   // Container dimensions - shorter for landscape
   containerMinHeight: "min-h-[300px] md:min-h-[400px]",
   containerMaxWidth: "max-w-7xl",
@@ -48,10 +50,28 @@ const SPACING = {
   cardWidth: "w-80 md:w-[480px]",
   cardHeight: "h-[240px] md:h-[320px]",
   cardBorderRadius: "rounded-[20px]",
+  // Image dimensions for Next.js Image optimization
+  imageWidth: 480,
+  imageHeight: 320,
+} as const;
+
+const SPACING_PORTRAIT = {
+  // Container dimensions - taller for portrait
+  containerMinHeight: "min-h-[380px] md:min-h-[500px]",
+  containerMaxWidth: "max-w-7xl",
+
+  // Card dimensions and positioning - portrait orientation (3:4 ratio)
+  // Taller cards for portrait images like 1200x1600
+  cardWidth: "w-[240px] md:w-[320px]",
+  cardHeight: "h-[320px] md:h-[427px]",
+  cardBorderRadius: "rounded-[20px]",
+  // Image dimensions for Next.js Image optimization (3:4 ratio)
+  imageWidth: 320,
+  imageHeight: 427,
 } as const;
 
 /**
- * ProductCarousel3DLandscape - Landscape 3D carousel component with optional CTA button
+ * ProductCarousel3DLandscape - 3D carousel component with landscape or portrait orientation
  *
  * Visual Editor Pattern:
  * - Visual editors (Builder.io, etc.) should pass all props explicitly
@@ -59,13 +79,21 @@ const SPACING = {
  * - Props are designed to be easily mapped from visual editor UI controls
  *
  * @example
- * // Visual editor usage - always pass props explicitly
+ * // Landscape mode (default) - wider cards
  * <ProductCarousel3DLandscape
  *   images={images}
  *   autoPlay={true}
  *   dotsSpacing="bottom-6"
  *   buttonSpacing="48px"
  *   ctaButton={{ label: "See Cultivars", href: "/cultivars", variant: "olive" }}
+ * />
+ *
+ * @example
+ * // Portrait mode - taller cards (3:4 ratio)
+ * <ProductCarousel3DLandscape
+ *   images={images}
+ *   orientation="portrait"
+ *   autoPlay={true}
  * />
  */
 export default function ProductCarousel3DLandscape({
@@ -76,7 +104,10 @@ export default function ProductCarousel3DLandscape({
   ctaButton,
   dotsSpacing = "bottom-4", // Closer spacing for landscape
   buttonSpacing = "32px", // Closer spacing for landscape
+  orientation = "landscape",
 }: ProductCarousel3DLandscapeProps) {
+  // Select spacing config based on orientation
+  const SPACING = orientation === "portrait" ? SPACING_PORTRAIT : SPACING_LANDSCAPE;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [isMobile, setIsMobile] = useState(false);
@@ -361,8 +392,8 @@ export default function ProductCarousel3DLandscape({
                     <AppImage
                       src={image.src}
                       alt={image.alt}
-                      width={480}
-                      height={320}
+                      width={SPACING.imageWidth}
+                      height={SPACING.imageHeight}
                       className="w-full h-full object-cover"
                       priority={image.priority || index === 0}
                     />

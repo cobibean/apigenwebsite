@@ -50,7 +50,8 @@ export default function ProductShowcase({
   cardBorderColor = "default",
 }: ProductShowcaseProps) {
   const isImageLeft = layoutDirection === "left";
-  const [supportingImages, setSupportingImages] = useState(strain.images.slice(0, 3));
+  // Use images 1-3 (not 0) because images[0] is the main hero image
+  const [supportingImages, setSupportingImages] = useState(strain.images.slice(1, 4));
 
   // Determine section background
   const sectionBg = sectionBgColor === "olive" ? "bg-[#545943]" : "bg-background";
@@ -71,7 +72,7 @@ export default function ProductShowcase({
     const slug = `cultivar-${strain.id}-supporting`;
 
     async function load() {
-      const images = await getCarouselImagesBySlugWithFallback(slug, strain.images.slice(0, 3));
+      const images = await getCarouselImagesBySlugWithFallback(slug, strain.images.slice(1, 4));
       if (!cancelled) setSupportingImages(images);
     }
 
@@ -268,6 +269,7 @@ export default function ProductShowcase({
                   images={supportingImages}
                   autoPlay={true}
                   autoPlayDelay={5000}
+                  orientation="portrait"
                   dotsSpacing="bottom-4"
                   buttonSpacing="16px"
                 />

@@ -104,7 +104,8 @@ function carouselSeedPlan(): Record<string, string[]> {
 
   for (const strain of cultivars) {
     const supportingSlug = `cultivar-${strain.id}-supporting`;
-    plan[supportingSlug] = strain.images.slice(0, 3).map((img) => normalizeSrc(img.src));
+    // Use images 1-3 (not 0) because images[0] is the main hero image
+    plan[supportingSlug] = strain.images.slice(1, 4).map((img) => normalizeSrc(img.src));
   }
 
   return plan;

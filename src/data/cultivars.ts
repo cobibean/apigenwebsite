@@ -71,12 +71,16 @@ export const cultivars: Strain[] = [
         priority: true,
       },
       {
-        src: "/cultivars/cadillac-rainbow/2.jpeg",
-        alt: "Close-up detail of Cadillac Rainbow trichomes and crystal structure",
+        src: "/cultivars/cadillac-rainbow/hero-carousel/CR1.jpeg",
+        alt: "Cadillac Rainbow hero carousel image 1",
       },
       {
-        src: "/cultivars/cadillac-rainbow/3.jpeg",
-        alt: "Cadillac Rainbow flower highlighting hand-trim precision and quality",
+        src: "/cultivars/cadillac-rainbow/hero-carousel/CR2.jpeg",
+        alt: "Cadillac Rainbow hero carousel image 2",
+      },
+      {
+        src: "/cultivars/cadillac-rainbow/hero-carousel/CR3.jpeg",
+        alt: "Cadillac Rainbow hero carousel image 3",
       },
       {
         src: "/cultivars/cadillac-rainbow/4.jpeg",
@@ -138,12 +142,16 @@ export const cultivars: Strain[] = [
         objectPosition: "center 13%",
       },
       {
-        src: "/cultivars/dantes-inferno/hero.jpg",
-        alt: "Dante's Inferno premium cannabis flower showcasing dark stone fruit, cocoa husk, and anise characteristics",
+        src: "/cultivars/dantes-inferno/hero-carousel/D1.jpeg",
+        alt: "Dante's Inferno hero carousel image 1",
       },
       {
-        src: "/cultivars/dantes-inferno/Dante1.jpeg",
-        alt: "Close-up detail of Dante's Inferno trichomes and crystal structure",
+        src: "/cultivars/dantes-inferno/hero-carousel/D2.jpeg",
+        alt: "Dante's Inferno hero carousel image 2",
+      },
+      {
+        src: "/cultivars/dantes-inferno/hero-carousel/D3.jpeg",
+        alt: "Dante's Inferno hero carousel image 3",
       },
       {
         src: "/cultivars/dantes-inferno/detail-1.jpg",
