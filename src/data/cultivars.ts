@@ -66,8 +66,8 @@ export const cultivars: Strain[] = [
     trim: "Hand-trimmed",
     images: [
       {
-        src: "/cultivars/cadillac-rainbow/1.jpeg",
-        alt: "Cadillac Rainbow premium cannabis flower showcasing dense structure and vibrant color",
+        src: "/cultivars/cadillac-rainbow/hero-carousel/CR3.jpeg",
+        alt: "Cadillac Rainbow cannabis flower under LED grow lights showcasing dense bud structure",
         priority: true,
       },
       {
@@ -79,8 +79,8 @@ export const cultivars: Strain[] = [
         alt: "Cadillac Rainbow hero carousel image 2",
       },
       {
-        src: "/cultivars/cadillac-rainbow/hero-carousel/CR3.jpeg",
-        alt: "Cadillac Rainbow hero carousel image 3",
+        src: "/cultivars/cadillac-rainbow/1.jpeg",
+        alt: "Cadillac Rainbow premium cannabis flower showcasing dense structure and vibrant color",
       },
       {
         src: "/cultivars/cadillac-rainbow/4.jpeg",
