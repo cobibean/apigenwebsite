@@ -63,10 +63,10 @@ export default function CraftBrandSection({ brand, preview }: CraftBrandSectionP
 
         <div className="relative mt-6 flex items-center justify-center lg:mt-0">
           <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,rgb(174_85_33_/_0.25),transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
-          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-xl backdrop-blur-xl md:max-w-[380px] md:p-10 ${
+          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border shadow-xl backdrop-blur-xl md:max-w-[380px] ${
             brand.id === 'mission'
-              ? 'bg-[#0d0c0c] border-[#0d0c0c]'
-              : 'border-border bg-card'
+              ? 'bg-[#0d0c0c] border-[#0d0c0c] p-8 md:p-10'
+              : 'border-border bg-card overflow-hidden'
           }`}>
             {brand.id === 'mission' ? (
               <>
@@ -86,24 +86,17 @@ export default function CraftBrandSection({ brand, preview }: CraftBrandSectionP
                   priority
                   className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 />
+                <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />
               </>
             ) : (
-              <div className="pt-8">
-                <AppImage
-                  src={brand.logo}
-                  alt={`${brand.name} wordmark`}
-                  width={1024}
-                  height={1024}
-                  priority
-                  className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_rgba(0_0_0_/_0.18)] md:max-w-[260px]"
-                />
-              </div>
-            )}
-            {brand.id !== 'mission' && (
-              <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,rgb(174_85_33_/_0.6),transparent),_transparent)]" aria-hidden="true" />
-            )}
-            {brand.id === 'mission' && (
-              <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />
+              <AppImage
+                src="/brands/cannadacraftcard.png"
+                alt={`${brand.name} brand image`}
+                width={1024}
+                height={1024}
+                priority
+                className="absolute inset-0 h-full w-full rounded-[32px] object-cover"
+              />
             )}
           </div>
         </div>
