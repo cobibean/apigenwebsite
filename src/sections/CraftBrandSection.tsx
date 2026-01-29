@@ -62,41 +62,37 @@ export default function CraftBrandSection({ brand, preview }: CraftBrandSectionP
         </div>
 
         <div className="relative mt-6 flex items-center justify-center lg:mt-0">
-          <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,rgb(174_85_33_/_0.25),transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
-          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border shadow-xl backdrop-blur-xl md:max-w-[380px] ${
-            brand.id === 'mission'
-              ? 'bg-[#0d0c0c] border-[#0d0c0c] p-8 md:p-10'
-              : 'border-border bg-card overflow-hidden'
-          }`}>
-            {brand.id === 'mission' ? (
-              <>
-                <AppImage
-                  src="/brands/mission_black_bg.jpeg"
-                  alt={`${brand.name} wordmark`}
-                  width={1024}
-                  height={1024}
-                  priority
-                  className="w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
-                />
+          <div
+            className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,rgb(174_85_33_/_0.25),transparent)_0%,_transparent_60%)] blur-2xl"
+            aria-hidden="true"
+          />
+          <div className="relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center overflow-hidden rounded-[24px] shadow-[0_28px_64px_rgba(24,32,20,0.18)] md:max-w-[380px]">
+            {brand.id === "mission" ? (
+              <div className="absolute inset-0 overflow-hidden rounded-[24px]">
                 <AppImage
                   src="/brands/mission_no_bg.jpeg"
                   alt={`${brand.name} wordmark`}
                   width={1024}
                   height={1024}
                   priority
-                  className="absolute inset-0 w-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  className="absolute inset-0 h-full w-full rounded-[24px] object-cover"
                 />
-                <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />
-              </>
+              </div>
             ) : (
-              <AppImage
-                src="/brands/cannadacraftcard.png"
-                alt={`${brand.name} brand image`}
-                width={1024}
-                height={1024}
-                priority
-                className="absolute inset-0 h-full w-full rounded-[32px] object-cover"
-              />
+              <div className="absolute inset-0 overflow-hidden rounded-[24px] border border-(--border)/35 bg-black/5">
+                <AppImage
+                  src="/brands/cannadacraftcard.png"
+                  alt={`${brand.name} brand image`}
+                  width={1024}
+                  height={1024}
+                  priority
+                  className="absolute inset-0 h-full w-full rounded-[24px] object-cover"
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-[24px] border border-black/10"
+                  aria-hidden="true"
+                />
+              </div>
             )}
           </div>
         </div>

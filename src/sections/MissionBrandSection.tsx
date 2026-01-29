@@ -38,30 +38,35 @@ export default function MissionBrandSection({ brand, preview }: MissionBrandSect
         </div>
 
         <div className="relative mt-6 flex items-center justify-center lg:mt-0">
-          <div className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,rgb(174_85_33_/_0.25),transparent)_0%,_transparent_60%)] blur-2xl" aria-hidden="true" />
-          <div className={`relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center rounded-[32px] border p-8 shadow-xl backdrop-blur-xl md:max-w-[380px] md:p-10 transition-colors duration-300 ${
-            brand.id === 'mission'
-              ? 'bg-[#0d0c0c] border-[#0d0c0c] hover:bg-white group'
-              : 'border-border bg-card'
-          }`}>
-            {brand.id === 'mission' ? (
-              <video
-                className="w-full h-full object-cover rounded-[24px] absolute inset-0"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              >
-                <source src="/hero/videos/forestloop1.mp4" type="video/mp4" />
-                <AppImage
-                  src="/brands/mission_black_bg.jpeg"
-                  alt={`${brand.name} wordmark`}
-                  width={1024}
-                  height={1024}
-                  className="w-full h-full object-cover rounded-[24px]"
+          <div
+            className="absolute inset-0 scale-110 rounded-[36px] bg-[linear-gradient(160deg,_color-mix(in_oklab,rgb(174_85_33_/_0.25),transparent)_0%,_transparent_60%)] blur-2xl"
+            aria-hidden="true"
+          />
+          <div className="relative flex w-full max-w-[320px] aspect-square flex-col items-center justify-center overflow-hidden rounded-[24px] shadow-[0_28px_64px_rgba(24,32,20,0.18)] md:max-w-[380px]">
+            {brand.id === "mission" ? (
+              <div className="absolute inset-0 overflow-hidden rounded-[24px] border border-(--border)/35 bg-black/5">
+                <video
+                  className="absolute inset-0 h-full w-full rounded-[24px] object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                >
+                  <source src="/hero/videos/forestloop1.mp4" type="video/mp4" />
+                  <AppImage
+                    src="/brands/mission_black_bg.jpeg"
+                    alt={`${brand.name} wordmark`}
+                    width={1024}
+                    height={1024}
+                    className="h-full w-full rounded-[24px] object-cover"
+                  />
+                </video>
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-[24px] border border-black/10"
+                  aria-hidden="true"
                 />
-              </video>
+              </div>
             ) : (
               <AppImage
                 src={brand.logo}
@@ -71,12 +76,13 @@ export default function MissionBrandSection({ brand, preview }: MissionBrandSect
                 className="w-full max-w-[200px] object-contain drop-shadow-[0_20px_45px_rgba(0_0_0_/_0.18)] md:max-w-[260px]"
               />
             )}
-            {brand.id !== 'mission' && (
-              <div className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,rgb(174_85_33_/_0.6),transparent),_transparent)]" aria-hidden="true" />
+            {brand.id !== "mission" && (
+              <div
+                className="mt-8 h-px w-20 bg-[linear-gradient(to_right,_transparent,_color-mix(in_oklab,rgb(174_85_33_/_0.6),transparent),_transparent)]"
+                aria-hidden="true"
+              />
             )}
-            {brand.id === 'mission' && (
-              <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />
-            )}
+            {brand.id === "mission" && <div className="mt-8 h-px w-20 opacity-0" aria-hidden="true" />}
           </div>
         </div>
       </div>
